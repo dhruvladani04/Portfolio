@@ -30,10 +30,33 @@ export default function Contact() {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setStatus('Sending...');
-    // The form will be submitted by Netlify's form handling
-    // We keep this handler for the loading state
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString(),
+      });
+      
+      if (response.ok) {
+        setStatus('Message sent successfully! 🎉');
+        // Reset form
+        form.reset();
+        // Clear status after 5 seconds
+        setTimeout(() => setStatus(null), 5000);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('Failed to send message. Please try again.');
+    }
   };
 
   return (
@@ -102,8 +125,9 @@ export default function Contact() {
             name="contact"
             method="POST"
             data-netlify="true"
-            netlify-honeypot="bot-field"
+            data-netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
+            action="/form"
             className="space-y-6"
           >
             {/* The `form-name` is used by Netlify to identify the form */}
