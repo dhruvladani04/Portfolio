@@ -20,7 +20,7 @@ export default function Hero() {
           I build AI-enabled products & web apps.
         </h1>
         <p className="text-lg text-slate-300 max-w-xl">
-          Computer Engineering student focused on AI/ML, product-minded engineering and building polished, production-ready user experiences.
+          Computer Engineering student passionate about data, AI/ML, and full-stack development with MERN and Django, blending problem-solving, data-driven insights, and product strategy to build impactful, scalable solutions. 
           (Open to tech & product roles.)
         </p>
 
@@ -86,18 +86,41 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      <motion.div
-        initial={{ scale: 0.98, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="mx-auto"
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0, rotate: -2 }}
+        animate={{ 
+          scale: 1, 
+          opacity: 1, 
+          rotate: 0,
+          transition: { 
+            duration: 0.8,
+            ease: [0.2, 0.8, 0.2, 1]
+          }
+        }}
+        whileHover={{ 
+          y: -5,
+          transition: { 
+            duration: 0.3,
+            ease: "easeOut"
+          }
+        }}
+        className="flex items-center justify-center w-full h-full p-4 relative group"
       >
-        <div className="w-72 h-72 rounded-2xl overflow-hidden glass border p-2 mx-auto">
-          <img
-            src="/avatar.jpg"
-            alt="Dhruv avatar"
-            className="w-full h-full object-cover"
-          />
+        <div className="relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-accent/30 via-purple-500/30 to-blue-500/30 rounded-2xl blur opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:duration-500"></div>
+          <div className="relative w-88 h-88 md:w-[28rem] md:h-[28rem] rounded-2xl overflow-hidden glass border-2 border-accent/20 p-1.5 transform transition-all duration-300 group-hover:scale-[1.02] group-hover:border-accent/40">
+            <motion.img
+              src="/avatar.jpg"
+              alt="Dhruv avatar"
+              className="w-full h-full object-cover rounded-xl"
+              initial={{ scale: 1 }}
+              whileHover={{ 
+                scale: 1.15,
+                transition: { duration: 0.5 }
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
         </div>
       </motion.div>
     </div>

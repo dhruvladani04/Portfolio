@@ -6,7 +6,8 @@ export const experience = [
     timeframe: 'May 2025 – August 2025',
     bullets: [
       'Collaborated on integrating Generative AI and LLMs into product workflows.',
-      'Built prototypes to demonstrate agentic AI features and evaluated feasibility.'
+      'Built prototypes to demonstrate agentic AI features and evaluated feasibility.',
+      'Worked on ML and recommendation system projects',
     ]
   },
   {
@@ -16,7 +17,8 @@ export const experience = [
     timeframe: 'Oct 2024 – Dec 2024',
     bullets: [
       'Managed alpha phase of a healthcare management app',
-      'Built a Flutter app from scratch and worked on low-level design'
+      'Built a Flutter app from scratch and worked on low-level design',
+      'Designed the app UI using Figma',
     ]
   }
 ]

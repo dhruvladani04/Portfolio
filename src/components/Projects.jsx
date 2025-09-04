@@ -7,33 +7,37 @@ export default function Projects() {
   return (
     <div>
       <h2 className="text-3xl font-bold mb-6">Projects</h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        {projects.map(p => (
-          <motion.div
+      <div className="space-y-4">
+        {projects.map((p, index) => (
+          <motion.div 
             key={p.id}
-            className="glass rounded-xl p-6"
+            className="glass rounded-xl p-5"
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
           >
-            <div className="flex justify-between items-start">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
               <div>
                 <h3 className="text-xl font-semibold">{p.title}</h3>
-                <p className="text-sm text-slate-400">{p.timeframe}</p>
+                <p className="text-slate-400">{p.timeframe}</p>
               </div>
             </div>
 
             <p className="mt-3 text-slate-200">{p.summary}</p>
 
-            <ul className="mt-3 list-disc pl-5 text-slate-300">
+            <ul className="mt-4 space-y-2 pl-5">
               {p.bullets.map((b, i) => (
-                <li key={i}>{b}</li>
+                <li key={i} className="relative before:content-['•'] before:absolute before:-left-5 before:text-accent pl-2 text-slate-300">
+                  {b}
+                </li>
               ))}
             </ul>
 
             <div className="mt-4 flex flex-wrap gap-2">
               {p.tech.map(t => (
-                <span key={t} className="px-3 py-1 text-sm rounded-full glass">{t}</span>
+                <span key={t} className="px-3 py-1 text-xs rounded-full bg-slate-800/50">
+                  {t}
+                </span>
               ))}
             </div>
 

@@ -23,14 +23,14 @@ function MainContent() {
         <section id="about" className="pt-20">
           <About />
         </section>
-        <section id="education" className="pt-20">
-          <Education />
-        </section>
         <section id="projects" className="pt-20">
           <Projects />
         </section>
         <section id="experience" className="pt-20">
           <Experience />
+        </section>
+        <section id="education" className="pt-20">
+          <Education />
         </section>
         <section id="skills" className="pt-20">
           <Skills />

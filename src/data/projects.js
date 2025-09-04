@@ -1,32 +1,56 @@
-// Projects displayed on the portfolio. Edit as required.
+// Projects displayed on the portfolio with detailed information from READMEs
 
 export const projects = [
   {
     id: 'smart-job-prep',
     title: 'Smart Job Prep Assistant',
     timeframe: 'May 2025',
-    summary:
-      'AI-driven resume tool that analyzes job descriptions to generate prioritized bullet rewrites, STAR stories, and keyword insights — reduces first-draft time by ~35%.',
+    summary: 'A comprehensive job preparation tool that helps users optimize their resume bullet points using AI-powered suggestions based on job descriptions.',
     bullets: [
-      'NLP for bullet rewriting & keyword extraction',
-      'STAR method generator and resume analytics using Gemini LLM',
-      'Secure, responsive UI and integration with ATS-friendly formatting'
+      'AI-powered resume rewriting with tailored suggestions based on job descriptions',
+      'STAR method integration for crafting compelling work experience stories',
+      'Keyword analysis to identify and highlight important terms from job postings',
+      'Interactive and responsive UI with smooth animations using Framer Motion',
+      'Secure user authentication with JWT and data persistence'
     ],
-    tech: ['React', 'Node.js', 'NLP', 'MongoDB','Gemini'],
-    link: 'https://github.com/dhruvladani04/smart-job-prep-assistant'
+    tech: [
+      'React.js', 'Node.js', 'Express', 'MongoDB', 
+      'Google Gemini API', 'Tailwind CSS', 'Framer Motion',
+      'JWT', 'Zod'
+    ],
+    link: 'https://github.com/dhruvladani04/smart-job-prep-assistant',
+    features: [
+      'AI-Powered Resume Rewriting',
+      'STAR Method Integration',
+      'Keyword Analysis',
+      'Interactive UI',
+      'Responsive Design',
+      'Secure Authentication'
+    ]
   },
   {
     id: 'mental-fitness-journal',
     title: 'Mental Fitness Journal',
     timeframe: 'June 2025',
-    summary:
-      'Full-stack journaling app with secure auth, CRUD entries, and AI emotion analysis visualising mood trends.',
+    summary: 'A full-stack journaling application designed to help users track their mental health and personal growth journey.',
     bullets: [
-      'Emotion analysis with a gemini LLM based agent',
-      'Visualized mood trends & responsive UI',
-      'Secure auth & data privacy'
+      'Complete CRUD operations for journal entries with rich text support',
+      'Mood tracking with visual analytics using Chart.js',
+      'AI-powered emotion analysis of journal entries',
+      'Secure JWT authentication system',
+      'Responsive design that works across all devices'
     ],
-    tech: ['React', 'Node.js', 'AI', 'Gemini','MongoDB'],
-    link: '#'
+    tech: [
+      'React', 'Material-UI', 'Chart.js', 'Node.js',
+      'Express', 'MongoDB', 'Mongoose', 'JWT'
+    ],
+    features: [
+      'User Authentication',
+      'Journal Entry Management',
+      'Mood Tracking',
+      'Data Visualization',
+      'Responsive Design',
+      'Secure Data Storage'
+    ]
   }
 ]
