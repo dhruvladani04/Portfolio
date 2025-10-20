@@ -52,6 +52,31 @@ export const projects = [
     ]
   },
   {
+    id: 'mental-fitness-journal',
+    title: 'Mental Fitness Journal',
+    timeframe: 'June 2025',
+    summary: 'A full-stack journaling application designed to help users track their mental health and personal growth journey.',
+    bullets: [
+      'Complete CRUD operations for journal entries with rich text support',
+      'Mood tracking with visual analytics using Chart.js',
+      'AI-powered emotion analysis of journal entries',
+      'Secure JWT authentication system',
+      'Responsive design that works across all devices'
+    ],
+    tech: [
+      'React', 'Material-UI', 'Chart.js', 'Node.js',
+      'Express', 'MongoDB', 'Mongoose', 'JWT'
+    ],
+    features: [
+      'User Authentication',
+      'Journal Entry Management',
+      'Mood Tracking',
+      'Data Visualization',
+      'Responsive Design',
+      'Secure Data Storage'
+    ]
+  },
+  {
     id: 'smart-job-prep',
     title: 'Smart Job Prep Assistant',
     timeframe: 'May 2025',
@@ -76,31 +101,6 @@ export const projects = [
       'Interactive UI',
       'Responsive Design',
       'Secure Authentication'
-    ]
-  },
-  {
-    id: 'mental-fitness-journal',
-    title: 'Mental Fitness Journal',
-    timeframe: 'June 2025',
-    summary: 'A full-stack journaling application designed to help users track their mental health and personal growth journey.',
-    bullets: [
-      'Complete CRUD operations for journal entries with rich text support',
-      'Mood tracking with visual analytics using Chart.js',
-      'AI-powered emotion analysis of journal entries',
-      'Secure JWT authentication system',
-      'Responsive design that works across all devices'
-    ],
-    tech: [
-      'React', 'Material-UI', 'Chart.js', 'Node.js',
-      'Express', 'MongoDB', 'Mongoose', 'JWT'
-    ],
-    features: [
-      'User Authentication',
-      'Journal Entry Management',
-      'Mood Tracking',
-      'Data Visualization',
-      'Responsive Design',
-      'Secure Data Storage'
     ]
   }
 ]
