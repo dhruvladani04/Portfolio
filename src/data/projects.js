@@ -2,8 +2,8 @@
 
 export const projects = [
   {
-    id: 'mental-ai-assistant',
-    title: 'Mental AI Assistant',
+    id: 'medical-ai-assistant',
+    title: 'Medical AI Assistant',
     timeframe: 'September 2025',
     summary: 'An AI-powered health assistant that analyzes medical reports, answers health-related questions, and summarizes web articles using Google Gemini and Tavily API.',
     bullets: [
