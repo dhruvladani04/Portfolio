@@ -35,7 +35,8 @@ const achievements = [
     title: 'Research Paper: API Access Behavior Analysis',
     description: 'Presented at 2nd International Conference on AI and Machine Learning (AIMV 2025). Research on using ML to enhance API security through behavior analysis.',
     icon: '🔍',
-    date: '2025'
+    date: '2025',
+    link: 'https://ieeexplore.ieee.org/document/11225867'
   },
   {
     id: 6,
@@ -49,14 +50,14 @@ const achievements = [
 
 export default function Achievements() {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="mb-12"
     >
       <h2 className="text-3xl font-bold mb-8">Achievements</h2>
-      
+
       <div className="grid md:grid-cols-2 gap-6">
         {achievements.map((achievement, index) => (
           <motion.div
@@ -78,9 +79,9 @@ export default function Achievements() {
                 <p className="text-slate-300">
                   {achievement.description}
                   {achievement.link && (
-                    <a 
-                      href={achievement.link} 
-                      target="_blank" 
+                    <a
+                      href={achievement.link}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="ml-2 text-accent hover:underline inline-flex items-center"
                     >
