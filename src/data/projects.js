@@ -2,6 +2,106 @@
 
 export const projects = [
   {
+    id: 'agile-sprint-guardian',
+    title: 'Agile Sprint Guardian',
+    timeframe: 'December 2025',
+    summary: 'A multi-agent AI system acting as a virtual Agile squad, collaborating to refine feature requests into comprehensive, estimated tickets.',
+    bullets: [
+      'Orchestrates a team of specialized AI agents (Product Owner, Tech Lead, SecOps, QA)',
+      'Automated generic ticket refinement into detailed technical specifications',
+      'Security-first approach with dedicated risk analysis and mitigation strategies',
+      'Seamless JIRA integration for exporting refined tickets',
+      'Powered by CrewAI and Gemini 2.5 Flash for intelligent collaboration'
+    ],
+    tech: [
+      'Python', 'FastAPI', 'React', 'CrewAI',
+      'Google Gemini 2.5 Flash', 'JavaScript'
+    ],
+    link: 'https://github.com/dhruvladani04/Agile-Sprint-Guardian',
+    features: [
+      'Multi-agent Collaboration',
+      'Automated Ticket Refinement',
+      'JIRA Integration',
+      'SecOps Risk Analysis',
+      'Role-based Agents'
+    ]
+  },
+  {
+    id: 'bugvision-ai',
+    title: 'BugVision AI',
+    timeframe: 'December 2025',
+    summary: 'An intelligent debugging assistant that uses multimodal AI to analyze screen recordings and code for rapid root cause identification.',
+    bullets: [
+      'Multimodal analysis correlating MP4/WEBM screen recordings with component code',
+      'Smart Code Editor for on-the-fly code inspection and patching',
+      '"Sherlock Mode" interactive chat for deep-dive debugging and queries',
+      'Identifies visual anomalies and traces them back to logic errors',
+      'Awarded Google DeepMind Competition Entry'
+    ],
+    tech: [
+      'TypeScript', 'React', 'Vite', 'Prismjs',
+      'Gemini 3 Pro', 'Gemini 2.5 Flash'
+    ],
+    link: 'https://github.com/dhruvladani04/BugVision-AI',
+    features: [
+      'Multimodal Analysis',
+      'Smart Code Editor',
+      'Sherlock Mode Chat',
+      'Root Cause Identification',
+      'Visual Bug Tracing'
+    ]
+  },
+  {
+    id: 'nexus-ai',
+    title: 'Nexus AI',
+    timeframe: 'December 2025',
+    summary: 'A production-grade, modular RAG application with intelligent query routing and multi-source data ingestion.',
+    bullets: [
+      'Smart routing system distinguishing between Resume, Technical, and Web queries',
+      'Ingests data from PDFs, YouTube videos, and general web pages',
+      'Planner Agent generates structured learning plans with multi-source references',
+      'Powered by MongoDB Vector Search and LangGraph for orchestration',
+      'Robust architecture for handling complex information retrieval tasks'
+    ],
+    tech: [
+      'Python', 'Streamlit', 'MongoDB Vector Search', 'LangGraph',
+      'Gemini 2.5 Flash', 'yt-dlp'
+    ],
+    link: 'https://github.com/dhruvladani04/nexus-ai',
+    features: [
+      'Smart Query Routing',
+      'Multi-source Ingestion',
+      'Planner Agent',
+      'Vector Search',
+      'LangGraph Orchestration'
+    ]
+  },
+  {
+    id: 'predictive-maintenance-dashboard',
+    title: 'Predictive Maintenance Dashboard',
+    timeframe: 'October 2025',
+    summary: 'A complete, end-to-end machine learning web application that predicts machine failure in real-time by simulating IoT sensor data.',
+    bullets: [
+      'Simulates live IoT sensor data (temperature, vibration, etc.) for real-time analysis',
+      'Uses LightGBM classification model to predict "HEALTHY" vs "FAILURE IMMINENT" states',
+      'Dynamic web dashboard for visualizing live data streams and model predictions',
+      'Comprehensive ML pipeline covering data engineering, EDA, training, and evaluation',
+      'Automated event logging system for auditing critical failures'
+    ],
+    tech: [
+      'Python', 'Flask', 'LightGBM', 'Tailwind CSS', 'Chart.js',
+      'Pandas', 'Scikit-learn'
+    ],
+    link: 'https://github.com/dhruvladani04/Predictive-Maintenance-Dashboard',
+    features: [
+      'Real-time Data Simulation',
+      'End-to-End ML Pipeline',
+      'LightGBM Classifier',
+      'Dynamic Web Dashboard',
+      'Event Logging'
+    ]
+  },
+  {
     id: 'medical-ai-assistant',
     title: 'Medical AI Assistant',
     timeframe: 'September 2025',
@@ -101,106 +201,6 @@ export const projects = [
       'Interactive UI',
       'Responsive Design',
       'Secure Authentication'
-    ]
-  },
-  {
-    id: 'predictive-maintenance-dashboard',
-    title: 'Predictive Maintenance Dashboard',
-    timeframe: 'October 2025',
-    summary: 'A complete, end-to-end machine learning web application that predicts machine failure in real-time by simulating IoT sensor data.',
-    bullets: [
-      'Simulates live IoT sensor data (temperature, vibration, etc.) for real-time analysis',
-      'Uses LightGBM classification model to predict "HEALTHY" vs "FAILURE IMMINENT" states',
-      'Dynamic web dashboard for visualizing live data streams and model predictions',
-      'Comprehensive ML pipeline covering data engineering, EDA, training, and evaluation',
-      'Automated event logging system for auditing critical failures'
-    ],
-    tech: [
-      'Python', 'Flask', 'LightGBM', 'Tailwind CSS', 'Chart.js',
-      'Pandas', 'Scikit-learn'
-    ],
-    link: 'https://github.com/dhruvladani04/Predictive-Maintenance-Dashboard',
-    features: [
-      'Real-time Data Simulation',
-      'End-to-End ML Pipeline',
-      'LightGBM Classifier',
-      'Dynamic Web Dashboard',
-      'Event Logging'
-    ]
-  },
-  {
-    id: 'agile-sprint-guardian',
-    title: 'Agile Sprint Guardian',
-    timeframe: 'December 2025',
-    summary: 'A multi-agent AI system acting as a virtual Agile squad, collaborating to refine feature requests into comprehensive, estimated tickets.',
-    bullets: [
-      'Orchestrates a team of specialized AI agents (Product Owner, Tech Lead, SecOps, QA)',
-      'Automated generic ticket refinement into detailed technical specifications',
-      'Security-first approach with dedicated risk analysis and mitigation strategies',
-      'Seamless JIRA integration for exporting refined tickets',
-      'Powered by CrewAI and Gemini 2.5 Flash for intelligent collaboration'
-    ],
-    tech: [
-      'Python', 'FastAPI', 'React', 'CrewAI',
-      'Google Gemini 2.5 Flash', 'JavaScript'
-    ],
-    link: 'https://github.com/dhruvladani04/Agile-Sprint-Guardian',
-    features: [
-      'Multi-agent Collaboration',
-      'Automated Ticket Refinement',
-      'JIRA Integration',
-      'SecOps Risk Analysis',
-      'Role-based Agents'
-    ]
-  },
-  {
-    id: 'bugvision-ai',
-    title: 'BugVision AI',
-    timeframe: 'December 2025',
-    summary: 'An intelligent debugging assistant that uses multimodal AI to analyze screen recordings and code for rapid root cause identification.',
-    bullets: [
-      'Multimodal analysis correlating MP4/WEBM screen recordings with component code',
-      'Smart Code Editor for on-the-fly code inspection and patching',
-      '"Sherlock Mode" interactive chat for deep-dive debugging and queries',
-      'Identifies visual anomalies and traces them back to logic errors',
-      'Awarded Google DeepMind Competition Entry'
-    ],
-    tech: [
-      'TypeScript', 'React', 'Vite', 'Prismjs',
-      'Gemini 3 Pro', 'Gemini 2.5 Flash'
-    ],
-    link: 'https://github.com/dhruvladani04/BugVision-AI',
-    features: [
-      'Multimodal Analysis',
-      'Smart Code Editor',
-      'Sherlock Mode Chat',
-      'Root Cause Identification',
-      'Visual Bug Tracing'
-    ]
-  },
-  {
-    id: 'nexus-ai',
-    title: 'Nexus AI',
-    timeframe: 'December 2025',
-    summary: 'A production-grade, modular RAG application with intelligent query routing and multi-source data ingestion.',
-    bullets: [
-      'Smart routing system distinguishing between Resume, Technical, and Web queries',
-      'Ingests data from PDFs, YouTube videos, and general web pages',
-      'Planner Agent generates structured learning plans with multi-source references',
-      'Powered by MongoDB Vector Search and LangGraph for orchestration',
-      'Robust architecture for handling complex information retrieval tasks'
-    ],
-    tech: [
-      'Python', 'Streamlit', 'MongoDB Vector Search', 'LangGraph',
-      'Gemini 2.5 Flash', 'yt-dlp'
-    ],
-    link: 'https://github.com/dhruvladani04/nexus-ai',
-    features: [
-      'Smart Query Routing',
-      'Multi-source Ingestion',
-      'Planner Agent',
-      'Vector Search',
-      'LangGraph Orchestration'
     ]
   }
 ]
