@@ -9,8 +9,8 @@ const TestPdf = () => {
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Direct Links</h2>
           <div className="space-y-2">
-            <p>Technical Resume: <a href="/resume-tech.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
-            <p>PM Resume: <a href="/resume-pm.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
+            <p>Technical Resume: <a href="/Dhruv_Ladani_Tech_Resume.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
+            <p>PM Resume: <a href="/Dhruv_Ladani_PM_Resume.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
           </div>
         </div>
         
@@ -19,7 +19,7 @@ const TestPdf = () => {
           <div className="space-y-2">
             <p>
               <a 
-                href="/resume-tech.pdf" 
+                href="/Dhruv_Ladani_Tech_Resume.pdf" 
                 download="Dhruv_Ladani_Tech_Resume.pdf"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
               >
@@ -28,7 +28,7 @@ const TestPdf = () => {
             </p>
             <p>
               <a 
-                href="/resume-pm.pdf" 
+                href="/Dhruv_Ladani_PM_Resume.pdf" 
                 download="Dhruv_Ladani_PM_Resume.pdf"
                 className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
               >
