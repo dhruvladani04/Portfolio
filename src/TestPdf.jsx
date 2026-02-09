@@ -9,8 +9,8 @@ const TestPdf = () => {
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Direct Links</h2>
           <div className="space-y-2">
-            <p>Technical Resume: <a href="/Dhruv_Ladani_Tech_Resume.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
-            <p>PM Resume: <a href="/Dhruv_Ladani_PM_Resume.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
+            <p>Technical Resume: <a href="/Dhruv_Ladani_Resume_Tech.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
+            <p>PM Resume: <a href="/Dhruv_Ladani_Resume_PM.pdf" className="text-blue-400 hover:underline">Open in browser</a></p>
           </div>
         </div>
         
@@ -19,8 +19,8 @@ const TestPdf = () => {
           <div className="space-y-2">
             <p>
               <a 
-                href="/Dhruv_Ladani_Tech_Resume.pdf" 
-                download="Dhruv_Ladani_Tech_Resume.pdf"
+                href="/Dhruv_Ladani_Resume_Tech.pdf" 
+                download="Dhruv_Ladani_Resume_Tech.pdf"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
               >
                 Download Tech Resume
@@ -28,8 +28,8 @@ const TestPdf = () => {
             </p>
             <p>
               <a 
-                href="/Dhruv_Ladani_PM_Resume.pdf" 
-                download="Dhruv_Ladani_PM_Resume.pdf"
+                href="/Dhruv_Ladani_Resume_PM.pdf" 
+                download="Dhruv_Ladani_Resume_PM.pdf"
                 className="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
               >
                 Download PM Resume
@@ -44,7 +44,7 @@ const TestPdf = () => {
             <div>
               <h3 className="font-medium mb-2">Technical Resume:</h3>
               <iframe 
-                src="/Dhruv_Ladani_Tech_Resume.pdf" 
+                src="/Dhruv_Ladani_Resume_Tech.pdf" 
                 className="w-full h-[500px] border border-gray-700 rounded"
                 title="Technical Resume"
               />
@@ -52,7 +52,7 @@ const TestPdf = () => {
             <div>
               <h3 className="font-medium mb-2">PM Resume:</h3>
               <iframe 
-                src="/Dhruv_Ladani_PM_Resume.pdf" 
+                src="/Dhruv_Ladani_Resume_PM.pdf" 
                 className="w-full h-[500px] border border-gray-700 rounded"
                 title="PM Resume"
               />

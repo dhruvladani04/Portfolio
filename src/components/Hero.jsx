@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 
 // Direct paths to resume files
-const resumeTech = '/resume-tech.pdf';
-const resumePM = '/resume-pm.pdf';
+const resumeTech = '/Dhruv_Ladani_Resume_Tech.pdf';
+const resumePM = '/Dhruv_Ladani_Resume_PM.pdf';
 
 export default function Hero() {
   return (
@@ -27,7 +27,7 @@ export default function Hero() {
         <div className="flex flex-wrap gap-4">
           <a
             href={resumeTech}
-            download="Dhruv_Ladani_Tech_Resume.pdf"
+            download="Dhruv_Ladani_Resume_Tech.pdf"
             className="px-4 py-2 rounded-md bg-primary hover:brightness-110 transition whitespace-nowrap"
           >
             Download Resume (Tech)
@@ -35,7 +35,7 @@ export default function Hero() {
 
           <a
             href={resumePM}
-            download="Dhruv_Ladani_PM_Resume.pdf"
+            download="Dhruv_Ladani_Resume_PM.pdf"
             className="px-4 py-2 rounded-md border border-slate-700 hover:bg-slate-800 transition whitespace-nowrap"
           >
             Download Resume (PM)
