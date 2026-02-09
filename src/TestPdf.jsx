@@ -44,7 +44,7 @@ const TestPdf = () => {
             <div>
               <h3 className="font-medium mb-2">Technical Resume:</h3>
               <iframe 
-                src="/resume-tech.pdf" 
+                src="/Dhruv_Ladani_Tech_Resume.pdf" 
                 className="w-full h-[500px] border border-gray-700 rounded"
                 title="Technical Resume"
               />
@@ -52,7 +52,7 @@ const TestPdf = () => {
             <div>
               <h3 className="font-medium mb-2">PM Resume:</h3>
               <iframe 
-                src="/resume-pm.pdf" 
+                src="/Dhruv_Ladani_PM_Resume.pdf" 
                 className="w-full h-[500px] border border-gray-700 rounded"
                 title="PM Resume"
               />
