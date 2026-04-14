@@ -2,6 +2,156 @@
 
 export const projects = [
   {
+    id: 'smart-job-tracker',
+    title: 'Smart Job Tracker',
+    timeframe: 'April 2026',
+    summary: 'An AI-powered job search pipeline with multi-source scraping, LLM-based candidate scoring, and feedback-driven calibration.',
+    bullets: [
+      'Aggregates 100+ job sources (LinkedIn, Indeed, etc.) via Apify API',
+      '9-factor weighted scoring rubric with LLM-based evaluation using Gemini',
+      'Feedback-driven calibration improving AI scoring accuracy (62% → 87% correlation)',
+      '3-tier deduplication system: URL → composite key → fuzzy match (~98% accuracy)',
+      'Dual output with CLI reports and FastAPI web dashboard'
+    ],
+    tech: [
+      'Python', 'FastAPI', 'Apify API', 'Google Gemini',
+      'SQLite', 'SQLAlchemy', 'Docker', 'asyncio'
+    ],
+    link: 'https://github.com/dhruvladani04/smart-job-tracker',
+    features: [
+      'Multi-source Aggregation',
+      'LLM-based Scoring',
+      'Feedback Calibration',
+      'Priority Ranking',
+      'CLI + Web Dashboard'
+    ]
+  },
+  {
+    id: 'edgesynth',
+    title: 'EdgeSynth',
+    timeframe: 'March 2026',
+    summary: 'An autonomous multi-agent pipeline that fabricates structurally sound, adversarially diverse datasets for stress-testing AI agents before production data exists.',
+    bullets: [
+      'Multi-agent DAG with Schema, Fabrication, Adversarial, and Validator agents',
+      'Generates adversarial scenarios: prompt injections, tool loops, boundary conditions',
+      'Bias-audited outputs with disparity analysis for fairness evaluation',
+      'LangSmith-tracked, versioned evaluation datasets with CI/CD integration',
+      'Accelerates dev cycles 10–20× with up to 80% infrastructure cost reduction'
+    ],
+    tech: [
+      'Python', 'LangGraph', 'LangChain', 'Gemini 2.5 Flash',
+      'LangSmith', 'Streamlit', 'Pandas'
+    ],
+    link: 'https://github.com/dhruvladani04/EdgeSynth',
+    features: [
+      'Multi-agent DAG Pipeline',
+      'Adversarial Data Generation',
+      'Bias Auditing',
+      'LangSmith Observability',
+      'No-LLM Fallback Mode'
+    ]
+  },
+  {
+    id: 'ai-pm-copilot',
+    title: 'AI PM Co-pilot',
+    timeframe: 'March 2026',
+    summary: 'A dynamic tool for managing probabilistic AI systems using background agents to automate synthesis, prototyping, and testing for Product Managers.',
+    bullets: [
+      'Three-phase workflow: Discovery Hub, Technical Drafting Studio, and Eval Dashboard',
+      'Synthetic dataset generation with 50 Commune transcripts for testing',
+      'LangGraph-powered graph persistence with shared state utilities',
+      'Dual UI: Streamlit for dashboards + Gradio for interactive drafting studio',
+      'Gemini integration via LangChain with timeout/fallback protections'
+    ],
+    tech: [
+      'Python', 'LangGraph', 'LangChain', 'Streamlit',
+      'Gradio', 'Gemini 2.5 Flash', 'NetworkX', 'Pandas'
+    ],
+    link: 'https://github.com/dhruvladani04/AI_PM-Co-pilot',
+    features: [
+      'Discovery Hub',
+      'Technical Drafting Studio',
+      'Eval & Governance Dashboard',
+      'Graph Visualization',
+      'LangSmith Telemetry'
+    ]
+  },
+  {
+    id: 'gateguru',
+    title: 'GateGuru',
+    timeframe: 'February 2026',
+    summary: 'An AI-powered, agentic study mentor for GATE CS/IT and DA aspirants with adaptive learning plans and proactive nudges.',
+    bullets: [
+      'LangGraph-based agentic orchestration with autonomous study plan generation',
+      'Supports 52-week adaptive study plans with real-time progress tracking',
+      'RAG-powered with pgvector for intelligent retrieval from GATE resources',
+      'Proactive nudge workflow to keep students on track with their preparation',
+      'Data ingested from official GATE Portal and GateOverflow resources'
+    ],
+    tech: [
+      'Python', 'FastAPI', 'LangGraph', 'Google Gemini 2.0 Flash',
+      'PostgreSQL', 'pgvector', 'Gemini Embeddings'
+    ],
+    link: 'https://github.com/dhruvladani04/GateGuru-',
+    features: [
+      'Agentic Study Planning',
+      'Adaptive Update Loop',
+      'Proactive Nudges',
+      'RAG with pgvector',
+      '52-Week Plans'
+    ]
+  },
+  {
+    id: 'recruitai-platform',
+    title: 'Recruit-AI Platform',
+    timeframe: 'February 2026',
+    summary: 'An agentic AI recruitment platform for SMBs that autonomously parses resumes, matches candidates against job descriptions, and ranks them by fit.',
+    bullets: [
+      'Agentic workflow for autonomous resume parsing and JD matching',
+      'Real-time analytics dashboard tracking Time-to-Hire and Screening Accuracy KPIs',
+      'User funnel analytics to identify and reduce drop-off rates',
+      'Semantic search for intelligent candidate-to-JD matching',
+      'Reduces manual screening time from 20+ hours/week for recruiters'
+    ],
+    tech: [
+      'React', 'TypeScript', 'Tailwind CSS', 'Supabase',
+      'OpenAI GPT-4o', 'Lovable'
+    ],
+    link: 'https://github.com/dhruvladani04/recruitaiplatform',
+    features: [
+      'Agentic Resume Parsing',
+      'Candidate Ranking',
+      'Analytics Dashboard',
+      'Semantic JD Matching',
+      'Retention Metrics'
+    ]
+  },
+  {
+    id: 'cp-report-automation',
+    title: 'AI Diary: Weekly Report Generator',
+    timeframe: 'January 2026',
+    summary: 'An AI-powered application that transforms rough daily logs and handwritten notes into formal, university-ready Weekly Progress Reports using Gemini Vision.',
+    bullets: [
+      'Gemini Vision reads handwritten diary photos and converts them to structured data',
+      'Analytics dashboard tracking productivity streaks and report readiness',
+      'Smart editor with calendar-based date selection and AI-generated draft review',
+      'One-click PDF export in exact university report format with auto-populated headers',
+      'Premium UI with full Dark Mode support and persistent theme preferences'
+    ],
+    tech: [
+      'Python', 'Streamlit', 'Google Gemini 3 Flash',
+      'Gemini Vision', 'PDF Generation'
+    ],
+    link: 'https://github.com/dhruvladani04/cp_report_automation',
+    features: [
+      'Visual Entry (Gemini Vision)',
+      'Analytics Dashboard',
+      'Smart Editor',
+      'One-Click PDF Export',
+      'Dark Mode'
+    ]
+  },
+  {
     id: 'agile-sprint-guardian',
     title: 'Agile Sprint Guardian',
     timeframe: 'December 2025',
@@ -124,6 +274,31 @@ export const projects = [
       'Web Article Summarization',
       'Multi-page Interface',
       'Secure Deployment'
+    ]
+  },
+  {
+    id: 'globetrotter',
+    title: 'GlobeTrotter',
+    timeframe: 'August 2025',
+    summary: 'A full-stack travel booking platform with admin content management, secure payments via Razorpay, and an AI-powered chatbot for travel advice.',
+    bullets: [
+      'Dynamic trip creation with blueprint-to-live two-stage lifecycle management',
+      'Secure OTP-based authentication with JWT sessions and email verification',
+      'Integrated Razorpay payment gateway for seamless online booking',
+      'AI-powered travel chatbot using Gemini AI and Tavily Search with source citations',
+      'Comprehensive admin dashboard for managing locations, hotels, and activities'
+    ],
+    tech: [
+      'Next.js', 'TypeScript', 'Prisma', 'PostgreSQL',
+      'Razorpay', 'Google Gemini API', 'Tavily API', 'JWT'
+    ],
+    link: 'https://github.com/dhruvladani04/GlobeTrotter',
+    features: [
+      'Admin Content Management',
+      'Dynamic Trip Creation',
+      'Secure Payments',
+      'AI Travel Chatbot',
+      'User Dashboard'
     ]
   },
   {
