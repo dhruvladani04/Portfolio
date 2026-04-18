@@ -1,102 +1,141 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { FaAward, FaBolt, FaCode, FaFileAlt, FaSearch, FaTrophy } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
+import SectionHeading from './SectionHeading';
+import { cardPop, staggerContainer, viewport } from '../utils/motion';
+
+const highlightStats = [
+  { label: 'CodeChef max rating', value: '2093' },
+  { label: 'Codeforces max rating', value: '1685' },
+  { label: 'Problems solved', value: '500+' },
+];
 
 const achievements = [
   {
     id: 1,
-    title: 'CodeChef 5★ Coder',
-    description: 'Achieved 5-star rating on CodeChef with a maximum rating of 2093',
-    icon: '🏆',
-    date: '2025'
+    title: 'CodeChef 5-star Coder',
+    description: 'Achieved a 5-star rating on CodeChef with a maximum rating of 2093.',
+    icon: FaTrophy,
+    date: '2025',
   },
   {
     id: 2,
-    title: 'CodeForces Expert',
-    description: 'Reached Expert rank (max rating 1685) on CodeForces',
-    icon: '⚡',
-    date: '2025'
+    title: 'Codeforces Expert',
+    description: 'Reached Expert rank on Codeforces with a maximum rating of 1685.',
+    icon: FaBolt,
+    date: '2025',
   },
   {
     id: 3,
     title: '500+ DSA Problems Solved',
-    description: 'Solved 500+ problems on LeetCode, Codechef, Codeforces with a focus on Data Structures and Algorithms and Competitive Programming',
-    icon: '💻',
-    date: '2025'
+    description: 'Solved 500+ problems across LeetCode, CodeChef, and Codeforces.',
+    icon: FaCode,
+    date: '2025',
   },
   {
     id: 4,
     title: 'Odoo Hackathon Finalist',
-    description: 'Our tema was selectedelected as a finalist in the Odoo Hackathon, showcasing expertise in Odoo development and business application solutions.',
-    icon: '🏅',
-    date: '2025'
+    description: 'Selected as a finalist for the Odoo Hackathon with a strong product and implementation approach.',
+    icon: FaAward,
+    date: '2025',
   },
   {
     id: 5,
     title: 'Research Paper: API Access Behavior Analysis',
-    description: 'Presented at 2nd International Conference on AI and Machine Learning (AIMV 2025). Research on using ML to enhance API security through behavior analysis.',
-    icon: '🔍',
+    description: 'Presented at AIMV 2025 on using machine learning to improve API security through behavior analysis.',
+    icon: FaSearch,
     date: '2025',
-    link: 'https://ieeexplore.ieee.org/document/11225867'
+    link: 'https://ieeexplore.ieee.org/document/11225867',
   },
   {
     id: 6,
     title: 'Research Paper: Advanced Water Quality Assessment',
-    description: 'Published in 8th International Conference on Computing, Communication, Control and Automation (ICCCBEA 2024). Focused on using integrated machine learning models for water quality classification.',
-    icon: '📄',
+    description: 'Published at ICCCBEA 2024 on integrated machine learning models for water quality classification.',
+    icon: FaFileAlt,
     date: '2024',
-    link: 'https://ieeexplore.ieee.org/document/10775218/'
+    link: 'https://ieeexplore.ieee.org/document/10775218/',
   },
 ];
 
 export default function Achievements() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="mb-12"
-    >
-      <h2 className="text-3xl font-bold mb-8">Achievements</h2>
+    <div className="space-y-6">
+      <SectionHeading
+        eyebrow="Achievements"
+        title="Signals of consistency, curiosity, and competitive drive."
+        description="These milestones reflect both technical growth and the kind of persistence I bring when a problem is worth solving well."
+      />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {achievements.map((achievement, index) => (
-          <motion.div
-            key={achievement.id}
-            className="glass rounded-xl p-6 hover:bg-slate-800/50 transition-colors"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <div className="flex items-start">
-              <span className="text-3xl mr-4">{achievement.icon}</span>
-              <div>
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold mb-1">{achievement.title}</h3>
-                  <span className="text-sm text-slate-400 bg-slate-800/50 px-2 py-1 rounded-full">
-                    {achievement.date}
-                  </span>
-                </div>
-                <p className="text-slate-300">
-                  {achievement.description}
-                  {achievement.link && (
-                    <a
-                      href={achievement.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-2 text-accent hover:underline inline-flex items-center"
-                    >
-                      <span>Read Paper</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  )}
-                </p>
+      <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+        <motion.div
+          className="panel panel-highlight p-6 md:p-8"
+          variants={cardPop}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        >
+          <p className="text-sm uppercase tracking-[0.22em] text-slate-400">At a glance</p>
+          <h3 className="mt-2 font-display text-3xl font-semibold text-white">
+            Performance, research, and execution.
+          </h3>
+          <p className="mt-4 text-base leading-7 text-slate-300">
+            I enjoy competing, publishing, and building because each sharpens a different side of
+            the same skill: solving difficult problems under real constraints.
+          </p>
+
+          <div className="mt-8 grid gap-3">
+            {highlightStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-[22px] border border-white/8 bg-white/[0.03] px-5 py-4"
+              >
+                <p className="text-sm uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
+                <p className="mt-2 font-display text-3xl font-semibold text-white">{stat.value}</p>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="grid gap-4 md:grid-cols-2"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        >
+          {achievements.map((achievement) => {
+            const Icon = achievement.icon;
+            return (
+              <motion.article key={achievement.id} variants={cardPop} className="panel panel-muted p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl text-[#7cf7d4]">
+                    <Icon />
+                  </span>
+                  <span className="tag">{achievement.date}</span>
+                </div>
+
+                <h3 className="mt-5 font-display text-2xl font-semibold text-white">
+                  {achievement.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-300">{achievement.description}</p>
+
+                {achievement.link && (
+                  <a
+                    href={achievement.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-inline mt-5"
+                  >
+                    Read paper
+                    <FiArrowUpRight />
+                  </a>
+                )}
+              </motion.article>
+            );
+          })}
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -1,113 +1,205 @@
-import React, { useState } from 'react'
-import { projects } from '../data/projects'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiArrowUpRight, FiExternalLink, FiX } from 'react-icons/fi';
+import SectionHeading from './SectionHeading';
+import { projects } from '../data/projects';
+import { cardPop, fadeUp, staggerContainer, viewport } from '../utils/motion';
 
-export default function Projects() {
-  const [showPopup, setShowPopup] = useState(false)
+function ProjectCard({ project, index, compact = false, onPreview }) {
+  const visibleBullets = project.bullets.slice(0, compact ? 2 : 3);
+  const visibleTech = project.tech.slice(0, compact ? 4 : 6);
+
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">Projects</h2>
-      <div className="space-y-4">
-        {projects.map((p, index) => (
-          <motion.div 
-            key={p.id}
-            className="glass rounded-xl p-5"
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
-          >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-              <div>
-                <h3 className="text-xl font-semibold">{p.title}</h3>
-                <p className="text-slate-400">{p.timeframe}</p>
-              </div>
-            </div>
+    <motion.article
+      variants={cardPop}
+      initial="hidden"
+      whileInView="show"
+      viewport={viewport}
+      className={`panel ${compact ? 'panel-muted' : 'panel-highlight'} project-card`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <span className="tag">{project.timeframe}</span>
+          <h3 className="mt-4 font-display text-2xl font-semibold text-white">
+            {project.title}
+          </h3>
+        </div>
+        <span className="text-sm uppercase tracking-[0.22em] text-slate-500">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
 
-            <p className="mt-3 text-slate-200">{p.summary}</p>
+      <p className="text-base leading-7 text-slate-300">{project.summary}</p>
 
-            <ul className="mt-4 space-y-2 pl-5">
-              {p.bullets.map((b, i) => (
-                <li key={i} className="relative before:content-['•'] before:absolute before:-left-5 before:text-accent pl-2 text-slate-300">
-                  {b}
-                </li>
-              ))}
-            </ul>
+      <ul className="feature-list">
+        {visibleBullets.map((bullet) => (
+          <li key={bullet} className="feature-item">
+            {bullet}
+          </li>
+        ))}
+      </ul>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              {p.tech.map(t => (
-                <span key={t} className="px-3 py-1 text-xs rounded-full bg-slate-800/50">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-4">
-              {p.id === 'mental-fitness-journal' ? (
-                <button
-                  onClick={() => setShowPopup(true)}
-                  className="text-accent hover:underline cursor-pointer"
-                >
-                  View Project
-                </button>
-              ) : (
-                <a 
-                  href={p.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  View Project
-                </a>
-              )}
-            </div>
-            
-            <AnimatePresence>
-              {showPopup && p.id === 'mental-fitness-journal' && (
-                <motion.div 
-                  className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setShowPopup(false)}
-                >
-                  <motion.div 
-                    className="bg-slate-800 rounded-xl p-6 max-w-md w-full mx-4 relative"
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <button 
-                      onClick={() => setShowPopup(false)}
-                      className="absolute top-4 right-4 text-slate-400 hover:text-white"
-                      aria-label="Close"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                    <h3 className="text-xl font-bold mb-2">Project Under Development</h3>
-                    <p className="text-slate-300 mb-4">
-                      The Mental Fitness Journal is currently undergoing improvements and touch-ups. I'm working hard to enhance the user experience and add new features.
-                    </p>
-                    <p className="text-slate-400 text-sm">
-                      Check back soon for updates, or feel free to reach out if you'd like to learn more about this project!
-                    </p>
-                    <div className="mt-6 flex justify-end">
-                      <button
-                        onClick={() => setShowPopup(false)}
-                        className="px-4 py-2 bg-accent text-black font-medium rounded-lg hover:bg-accent/90 transition-colors"
-                      >
-                        Got it!
-                      </button>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+      <div className="flex flex-wrap gap-2">
+        {visibleTech.map((tech) => (
+          <span key={tech} className="tag">
+            {tech}
+          </span>
         ))}
       </div>
+
+      {!compact && project.features?.length > 0 && (
+        <div className="grid gap-2 sm:grid-cols-2">
+          {project.features.slice(0, 4).map((feature) => (
+            <div
+              key={feature}
+              className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300"
+            >
+              {feature}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-auto flex items-center justify-between gap-4 pt-2">
+        {project.link ? (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noreferrer"
+            className="link-inline"
+          >
+            View project
+            <FiExternalLink />
+          </a>
+        ) : (
+          <button type="button" onClick={() => onPreview(project)} className="link-inline text-left">
+            View project
+            <FiArrowUpRight />
+          </button>
+        )}
+
+        <span className="text-sm text-slate-500">{project.tech.length} technologies</span>
+      </div>
+    </motion.article>
+  );
+}
+
+export default function Projects() {
+  const [previewProject, setPreviewProject] = useState(null);
+  const featuredProjects = projects.slice(0, 4);
+  const moreProjects = projects.slice(4);
+
+  return (
+    <div className="space-y-8">
+      <SectionHeading
+        eyebrow="Projects"
+        title="Selected work across agentic AI, product tooling, and full-stack systems."
+        description="A portfolio of experiments, polished applications, and ambitious prototypes built to solve real workflows rather than just demo isolated features."
+      />
+
+      <motion.div
+        className="grid gap-6 xl:grid-cols-2"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+      >
+        {featuredProjects.map((project, index) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            index={index}
+            onPreview={setPreviewProject}
+          />
+        ))}
+      </motion.div>
+
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewport}
+        className="space-y-4"
+      >
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <h3 className="font-display text-2xl font-semibold text-white">More builds and experiments</h3>
+          <p className="text-sm text-slate-400">From AI dashboards to learning tools and production apps.</p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {moreProjects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index + featuredProjects.length}
+              compact
+              onPreview={setPreviewProject}
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {previewProject && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#020511]/80 p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setPreviewProject(null)}
+          >
+            <motion.div
+              className="panel panel-highlight relative w-full max-w-xl p-8"
+              initial={{ opacity: 0, y: 18, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 18, scale: 0.96 }}
+              transition={{ duration: 0.25 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setPreviewProject(null)}
+                className="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-slate-300 transition hover:border-white/20"
+                aria-label="Close project preview"
+              >
+                <FiX size={20} />
+              </button>
+
+              <span className="tag">{previewProject.timeframe}</span>
+              <h3 className="mt-5 font-display text-3xl font-semibold text-white">
+                {previewProject.title}
+              </h3>
+              <p className="mt-4 text-base leading-7 text-slate-300">
+                This project is being refined before a public walkthrough goes live. If you want,
+                I&apos;m happy to share more context about the architecture, thinking, and direction
+                behind it.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {previewProject.tech.map((tech) => (
+                  <span key={tech} className="tag">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#contact" className="btn-primary" onClick={() => setPreviewProject(null)}>
+                  Ask about this project
+                  <FiArrowUpRight />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setPreviewProject(null)}
+                  className="btn-secondary"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-  )
+  );
 }
