@@ -466,7 +466,6 @@ a {
   }
 
   .orbit-card {
-    position: absolute;
     display: inline-flex;
     flex-direction: column;
     gap: 0.3rem;
