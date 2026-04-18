@@ -33,7 +33,7 @@ const focusTags = ['AI systems', 'Full-stack builds', 'Product-minded execution'
 
 export default function Hero() {
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <div className="grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] xl:grid-cols-[1fr_1fr]">
       <motion.div
         className="space-y-8"
         variants={staggerContainer}
@@ -146,7 +146,7 @@ export default function Hero() {
         />
 
         <motion.div
-          className="absolute left-6 top-6 z-20 hidden max-w-[14rem] md:flex"
+          className="absolute left-6 top-6 z-20 hidden max-w-[14rem] lg:flex"
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         >
@@ -159,7 +159,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-8 left-6 z-20 hidden max-w-[14rem] md:flex"
+          className="absolute bottom-40 left-6 z-20 hidden max-w-[14rem] lg:flex"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         >

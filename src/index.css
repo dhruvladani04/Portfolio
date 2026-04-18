@@ -591,3 +591,25 @@ a {
     padding: 0.75rem 0.85rem;
   }
 }
+
+@media (min-width: 1024px) {
+  .hero-visual {
+    min-height: 720px;
+    justify-content: flex-end;
+    padding: 2.25rem 2rem 2.75rem 2.75rem;
+  }
+
+  .hero-portrait {
+    width: min(100%, 405px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-visual {
+    min-height: 760px;
+  }
+
+  .hero-portrait {
+    width: min(100%, 440px);
+  }
+}
