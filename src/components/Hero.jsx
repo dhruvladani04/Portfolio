@@ -159,7 +159,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-40 left-6 z-20 hidden max-w-[14rem] lg:flex"
+          className="absolute bottom-8 left-6 z-20 hidden max-w-[14rem] lg:flex"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         >
