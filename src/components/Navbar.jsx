@@ -90,7 +90,7 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
           style={{ width: 'min(var(--max-width), calc(100% - 2rem))' }}
         >
           <div className={`nav-frame ${scrolled ? 'nav-scrolled' : ''}`}>
-            <a href="#home" className="flex items-center gap-3" onClick={closeMenu}>
+            <a href="#home" className="nav-brand flex items-center gap-3" onClick={closeMenu}>
               <span className="brand-mark">DL</span>
               <div className="hidden sm:block">
                 <p className="font-display text-base font-semibold">Dhruv Ladani</p>
@@ -100,7 +100,7 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
               </div>
             </a>
 
-            <div className="nav-links-shell hidden xl:flex items-center gap-1 px-2 py-1">
+            <div className="nav-links-shell hidden xl:flex items-center justify-center gap-1 px-2 py-1">
               {links.map((link) => (
                 <a
                   key={link.id}
@@ -112,8 +112,8 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
               ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              <a href="#contact" className="btn-secondary hidden md:inline-flex">
+            <div className="nav-actions flex items-center gap-2 md:gap-3">
+              <a href="#contact" className="btn-secondary hidden lg:inline-flex">
                 Let&apos;s talk
                 <FiArrowUpRight />
               </a>
@@ -128,7 +128,9 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
                 <span className="theme-toggle-glyph">
                   {isLightTheme ? <FiMoon size={16} /> : <FiSun size={16} />}
                 </span>
-                <span>{isLightTheme ? 'Dark mode' : 'Light mode'}</span>
+                <span className="hidden 2xl:inline">
+                  {isLightTheme ? 'Dark mode' : 'Light mode'}
+                </span>
               </button>
 
               <button
