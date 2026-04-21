@@ -80,7 +80,7 @@ export default function Skills() {
                     {group.title}
                   </h3>
                 </div>
-                <span className="accent-icon inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl">
+                <span className="accent-icon icon-shell inline-flex h-12 w-12 items-center justify-center rounded-2xl text-xl">
                   <Icon />
                 </span>
               </div>

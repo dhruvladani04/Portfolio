@@ -149,7 +149,7 @@ export default function Contact() {
                     className="contact-link"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="accent-icon inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg">
+                      <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg">
                         <Icon />
                       </span>
                       <div>

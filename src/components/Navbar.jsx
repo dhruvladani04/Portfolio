@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
-import { FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowUpRight, FiMoon, FiSun } from 'react-icons/fi';
 import { HiMenuAlt4, HiX } from 'react-icons/hi';
 
 const links = [
@@ -14,7 +14,7 @@ const links = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ theme = 'dark', onToggleTheme }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState('home');
@@ -70,6 +70,7 @@ export default function Navbar() {
   }, []);
 
   const closeMenu = () => setOpen(false);
+  const isLightTheme = theme === 'light';
 
   return (
     <>
@@ -99,7 +100,7 @@ export default function Navbar() {
               </div>
             </a>
 
-            <div className="hidden xl:flex items-center gap-1 rounded-full border border-white/5 bg-white/[0.02] px-2 py-1">
+            <div className="nav-links-shell hidden xl:flex items-center gap-1 px-2 py-1">
               {links.map((link) => (
                 <a
                   key={link.id}
@@ -119,7 +120,20 @@ export default function Navbar() {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white transition hover:border-white/20 xl:hidden"
+                className="theme-toggle hidden md:inline-flex"
+                onClick={onToggleTheme}
+                aria-label={`Switch to ${isLightTheme ? 'dark' : 'light'} mode`}
+                title={`Switch to ${isLightTheme ? 'dark' : 'light'} mode`}
+              >
+                <span className="theme-toggle-glyph">
+                  {isLightTheme ? <FiMoon size={16} /> : <FiSun size={16} />}
+                </span>
+                <span>{isLightTheme ? 'Dark mode' : 'Light mode'}</span>
+              </button>
+
+              <button
+                type="button"
+                className="icon-button inline-flex h-11 w-11 items-center justify-center rounded-full xl:hidden"
                 onClick={() => setOpen((current) => !current)}
                 aria-expanded={open}
                 aria-label="Toggle navigation menu"
@@ -144,21 +158,36 @@ export default function Navbar() {
                       key={link.id}
                       href={`#${link.id}`}
                       onClick={closeMenu}
-                      className={`rounded-2xl px-4 py-3 text-sm transition ${
+                      className={`mobile-nav-link rounded-2xl px-4 py-3 text-sm transition ${
                         activeId === link.id
-                          ? 'bg-white/[0.05] text-white'
-                          : 'text-slate-300 hover:bg-white/[0.03]'
+                          ? 'mobile-nav-link-active'
+                          : 'text-slate-300'
                       }`}
                     >
                       {link.label}
                     </a>
                   ))}
 
+                  <button
+                    type="button"
+                    onClick={onToggleTheme}
+                    className="theme-toggle theme-toggle-mobile"
+                    aria-label={`Switch to ${isLightTheme ? 'dark' : 'light'} mode`}
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="theme-toggle-glyph">
+                        {isLightTheme ? <FiMoon size={16} /> : <FiSun size={16} />}
+                      </span>
+                      <span>{isLightTheme ? 'Switch to dark mode' : 'Switch to light mode'}</span>
+                    </span>
+                    <FiArrowUpRight />
+                  </button>
+
                   <a
                     href="https://www.linkedin.com/in/dhruv-ladani-a65578252"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-2 inline-flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm text-slate-200"
+                    className="mobile-link-card mt-2 inline-flex items-center justify-between rounded-2xl px-4 py-3 text-sm"
                   >
                     LinkedIn
                     <FiArrowUpRight />

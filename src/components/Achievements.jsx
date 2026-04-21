@@ -86,10 +86,7 @@ export default function Achievements() {
 
           <div className="mt-8 grid gap-3">
             {highlightStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-[22px] border border-white/8 bg-white/[0.03] px-5 py-4"
-              >
+              <div key={stat.label} className="surface-card rounded-[22px] border px-5 py-4">
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
                 <p className="mt-2 font-display text-3xl font-semibold text-white">{stat.value}</p>
               </div>
@@ -109,7 +106,7 @@ export default function Achievements() {
             return (
               <motion.article key={achievement.id} variants={cardPop} className="panel panel-muted p-6">
                 <div className="flex items-start justify-between gap-4">
-                  <span className="accent-icon inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl">
+                  <span className="accent-icon icon-shell inline-flex h-12 w-12 items-center justify-center rounded-2xl text-xl">
                     <Icon />
                   </span>
                   <span className="tag">{achievement.date}</span>

@@ -50,10 +50,7 @@ function ProjectCard({ project, index, compact = false, onPreview }) {
       {!compact && project.features?.length > 0 && (
         <div className="grid gap-2 sm:grid-cols-2">
           {project.features.slice(0, 4).map((feature) => (
-            <div
-              key={feature}
-              className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-slate-300"
-            >
+            <div key={feature} className="surface-card rounded-2xl border px-4 py-3 text-sm text-slate-300">
               {feature}
             </div>
           ))}
@@ -142,7 +139,7 @@ export default function Projects() {
       <AnimatePresence>
         {previewProject && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#020511]/80 p-4 backdrop-blur-sm"
+            className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -159,7 +156,7 @@ export default function Projects() {
               <button
                 type="button"
                 onClick={() => setPreviewProject(null)}
-                className="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-slate-300 transition hover:border-white/20"
+                className="icon-button absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-300 transition"
                 aria-label="Close project preview"
               >
                 <FiX size={20} />

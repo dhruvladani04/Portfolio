@@ -111,7 +111,7 @@ export default function Hero() {
                 className="contact-link"
               >
                 <div className="flex items-center gap-3">
-                  <span className="accent-icon inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg">
+                  <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg">
                     <Icon />
                   </span>
                   <div>
@@ -136,13 +136,13 @@ export default function Hero() {
           className="floating-orb left-8 top-8 h-28 w-28"
           animate={{ y: [0, -14, 0], x: [0, 8, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'rgba(155, 125, 255, 0.22)' }}
+          style={{ background: 'var(--orb-two)' }}
         />
         <motion.div
           className="floating-orb bottom-10 right-8 h-36 w-36"
           animate={{ y: [0, 12, 0], x: [0, -10, 0] }}
           transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'rgba(60, 188, 255, 0.22)' }}
+          style={{ background: 'var(--orb-one)' }}
         />
 
         <motion.div
@@ -192,9 +192,9 @@ export default function Hero() {
             transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040916] via-transparent to-transparent" />
+          <div className="hero-image-overlay absolute inset-0" />
 
-          <div className="absolute inset-x-4 bottom-4 z-10 rounded-[26px] border border-white/10 bg-[rgba(6,12,28,0.72)] p-5 backdrop-blur-md">
+          <div className="hero-overlay-card absolute inset-x-4 bottom-4 z-10 rounded-[26px] border p-5 backdrop-blur-md">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Recent Themes</p>
@@ -202,7 +202,7 @@ export default function Hero() {
                   AI agents, dashboards, and product workflows
                 </p>
               </div>
-              <span className="accent-icon hidden rounded-full border border-white/10 bg-white/[0.04] p-3 sm:inline-flex">
+              <span className="accent-icon action-circle hidden rounded-full border p-3 sm:inline-flex">
                 <FiArrowDownRight size={22} />
               </span>
             </div>

@@ -56,7 +56,7 @@ export default function Education() {
               viewport={viewport}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="accent-icon inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.04] text-2xl">
+                <span className="accent-icon icon-shell inline-flex h-14 w-14 items-center justify-center rounded-2xl text-2xl">
                   <Icon />
                 </span>
                 <span className="tag">{item.score}</span>
