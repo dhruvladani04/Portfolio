@@ -109,7 +109,7 @@ export default function Achievements() {
             return (
               <motion.article key={achievement.id} variants={cardPop} className="panel panel-muted p-6">
                 <div className="flex items-start justify-between gap-4">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl text-[#7cf7d4]">
+                  <span className="accent-icon inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl">
                     <Icon />
                   </span>
                   <span className="tag">{achievement.date}</span>

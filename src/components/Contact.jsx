@@ -104,7 +104,7 @@ export default function Contact() {
 
   const statusClass =
     status?.type === 'success'
-      ? 'text-[#7cf7d4]'
+      ? 'text-[var(--accent-violet)]'
       : status?.type === 'error'
         ? 'text-[#ff9b9b]'
         : 'text-slate-400';
@@ -149,7 +149,7 @@ export default function Contact() {
                     className="contact-link"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg text-[#7cf7d4]">
+                      <span className="accent-icon inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg">
                         <Icon />
                       </span>
                       <div>

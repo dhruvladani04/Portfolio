@@ -131,7 +131,7 @@ export default function About() {
               const Icon = fact.icon;
               return (
                 <motion.div key={fact.label} variants={fadeUp} className="panel panel-muted p-5">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl text-[#7cf7d4]">
+                  <span className="accent-icon inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-xl">
                     <Icon />
                   </span>
                   <p className="mt-4 text-sm uppercase tracking-[0.22em] text-slate-400">

@@ -20,19 +20,19 @@ function BackgroundDecor() {
         className="floating-orb -left-24 top-8 h-72 w-72"
         animate={{ x: [0, 18, 0], y: [0, -12, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'rgba(71, 217, 255, 0.18)' }}
+        style={{ background: 'rgba(60, 188, 255, 0.2)' }}
       />
       <motion.div
         className="floating-orb right-[-7rem] top-48 h-80 w-80"
         animate={{ x: [0, -24, 0], y: [0, 18, 0], scale: [1.04, 1, 1.04] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'rgba(124, 247, 212, 0.14)' }}
+        style={{ background: 'rgba(155, 125, 255, 0.18)' }}
       />
       <motion.div
         className="floating-orb bottom-[-7rem] left-1/3 h-96 w-96"
         animate={{ x: [0, -10, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'rgba(255, 211, 122, 0.1)' }}
+        style={{ background: 'rgba(121, 118, 255, 0.14)' }}
       />
       <div className="app-noise" />
     </div>

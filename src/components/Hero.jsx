@@ -51,7 +51,7 @@ export default function Hero() {
           <p className="eyebrow">Dhruv Ladani</p>
           <h1 className="font-display text-balance text-5xl font-semibold leading-[0.95] sm:text-6xl lg:text-7xl">
             Building{' '}
-            <span className="bg-gradient-to-r from-[#7cf7d4] via-[#47d9ff] to-[#ffd37a] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#71efff] via-[#3cbcff] to-[#9b7dff] bg-clip-text text-transparent">
               AI-first products
             </span>{' '}
             with engineering depth and product taste.
@@ -111,7 +111,7 @@ export default function Hero() {
                 className="contact-link"
               >
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg text-[#7cf7d4]">
+                  <span className="accent-icon inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04] text-lg">
                     <Icon />
                   </span>
                   <div>
@@ -136,13 +136,13 @@ export default function Hero() {
           className="floating-orb left-8 top-8 h-28 w-28"
           animate={{ y: [0, -14, 0], x: [0, 8, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'rgba(124, 247, 212, 0.22)' }}
+          style={{ background: 'rgba(155, 125, 255, 0.22)' }}
         />
         <motion.div
           className="floating-orb bottom-10 right-8 h-36 w-36"
           animate={{ y: [0, 12, 0], x: [0, -10, 0] }}
           transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'rgba(71, 217, 255, 0.22)' }}
+          style={{ background: 'rgba(60, 188, 255, 0.22)' }}
         />
 
         <motion.div
@@ -202,7 +202,7 @@ export default function Hero() {
                   AI agents, dashboards, and product workflows
                 </p>
               </div>
-              <span className="hidden rounded-full border border-white/10 bg-white/[0.04] p-3 text-[#7cf7d4] sm:inline-flex">
+              <span className="accent-icon hidden rounded-full border border-white/10 bg-white/[0.04] p-3 sm:inline-flex">
                 <FiArrowDownRight size={22} />
               </span>
             </div>

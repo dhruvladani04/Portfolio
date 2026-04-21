@@ -74,7 +74,7 @@ export default function Navbar() {
   return (
     <>
       <motion.div
-        className="fixed left-0 top-0 z-50 h-[3px] w-full origin-left bg-gradient-to-r from-[#7cf7d4] via-[#47d9ff] to-[#ffd37a]"
+        className="fixed left-0 top-0 z-50 h-[3px] w-full origin-left bg-gradient-to-r from-[#71efff] via-[#3cbcff] to-[#9b7dff]"
         style={{ scaleX: progress }}
       />
 
