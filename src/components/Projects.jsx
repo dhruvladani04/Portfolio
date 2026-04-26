@@ -81,10 +81,11 @@ function ProjectCard({ project, index, compact = false, onPreview }) {
   );
 }
 
+const featuredProjects = projects.slice(0, 4);
+const moreProjects = projects.slice(4);
+
 export default function Projects() {
   const [previewProject, setPreviewProject] = useState(null);
-  const featuredProjects = projects.slice(0, 4);
-  const moreProjects = projects.slice(4);
 
   return (
     <div className="space-y-8">
