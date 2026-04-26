@@ -5,13 +5,13 @@ export const projects = [
     id: 'smart-job-tracker',
     title: 'Smart Job Tracker',
     timeframe: 'April 2026',
-    summary: 'An AI-powered job search pipeline with multi-source scraping, LLM-based candidate scoring, and feedback-driven calibration.',
+    summary: 'An AI-powered job search pipeline that automates lead generation and evaluation. It solves the fragmentation of job boards by aggregating sources, scoring leads via LLMs, and refining accuracy through feedback loops.',
     bullets: [
-      'Aggregates 100+ job sources (LinkedIn, Indeed, etc.) via Apify API',
-      '9-factor weighted scoring rubric with LLM-based evaluation using Gemini',
-      'Feedback-driven calibration improving AI scoring accuracy (62% -> 87% correlation)',
-      '3-tier deduplication system: URL -> composite key -> fuzzy match (~98% accuracy)',
-      'Dual output with CLI reports and FastAPI web dashboard'
+      'Aggregates 100+ job sources via Apify API. Product Impact: Centralizes fragmented job market data into a single, reliable source of truth.',
+      'Applies a 9-factor weighted scoring rubric evaluated by Gemini. Product Impact: Standardizes evaluation with objective, data-driven metrics.',
+      'Implements a feedback-driven calibration loop for AI scoring. Product Impact: Continuously improves system reliability, boosting scoring correlation from 62% to 87%.',
+      'Deploys a 3-tier deduplication system (URL, composite key, fuzzy match). Product Impact: Ensures high data integrity (~98% accuracy) for end-users.',
+      'Provides dual output options with CLI reports and a FastAPI dashboard. Product Impact: Accommodates diverse user preferences with flexible, accessible interfaces.'
     ],
     tech: [
       'Python', 'FastAPI', 'Apify API', 'Google Gemini',
@@ -30,13 +30,13 @@ export const projects = [
     id: 'edgesynth',
     title: 'EdgeSynth',
     timeframe: 'March 2026',
-    summary: 'An autonomous multi-agent pipeline that fabricates structurally sound, adversarially diverse datasets for stress-testing AI agents before production data exists.',
+    summary: 'An autonomous, Agent-First pipeline that fabricates structurally sound, adversarially diverse datasets for stress-testing AI models. Architected around the Antigravity philosophy, it uses a central Mission Control to orchestrate Task-Specific Agents for rigorous pre-production validation.',
     bullets: [
-      'Multi-agent DAG with Schema, Fabrication, Adversarial, and Validator agents',
-      'Generates adversarial scenarios: prompt injections, tool loops, boundary conditions',
-      'Bias-audited outputs with disparity analysis for fairness evaluation',
-      'LangSmith-tracked, versioned evaluation datasets with CI/CD integration',
-      'Accelerates dev cycles 10-20x with up to 80% infrastructure cost reduction'
+      'Orchestrates a Multi-agent DAG (Schema, Fabrication, Adversarial, Validator) via Mission Control. Product Impact: Establishes a scalable, autonomous pipeline for generating complex data structures.',
+      'Generates targeted adversarial scenarios including prompt injections and tool loops. Product Impact: Proactively mitigates security vulnerabilities and improves the robustness of downstream AI products.',
+      'Enforces bias-audited outputs with automated disparity analysis. Product Impact: Drives ethical AI product development by systematically evaluating and addressing fairness metrics.',
+      'Integrates LangSmith-tracked, versioned evaluation datasets into CI/CD pipelines. Product Impact: Creates reliable verification artifacts that standardize performance tracking and model governance.',
+      'Optimizes processing pipelines to accelerate development cycles by 10-20x. Product Impact: Dramatically reduces time-to-market and infrastructure costs, enabling faster product iterations.'
     ],
     tech: [
       'Python', 'LangGraph', 'LangChain', 'Gemini 2.5 Flash',
@@ -55,13 +55,13 @@ export const projects = [
     id: 'ai-pm-copilot',
     title: 'AI PM Co-pilot',
     timeframe: 'March 2026',
-    summary: 'A dynamic tool for managing probabilistic AI systems using background agents to automate synthesis, prototyping, and testing for Product Managers.',
+    summary: 'A dynamic utility designed for Product Managers to manage probabilistic AI systems. It leverages background agents to automate the synthesis, prototyping, and testing of new features.',
     bullets: [
-      'Three-phase workflow: Discovery Hub, Technical Drafting Studio, and Eval Dashboard',
-      'Synthetic dataset generation with 50 Commune transcripts for testing',
-      'LangGraph-powered graph persistence with shared state utilities',
-      'Dual UI: Streamlit for dashboards + Gradio for interactive drafting studio',
-      'Gemini integration via LangChain with timeout/fallback protections'
+      'Architects a three-phase workflow: Discovery Hub, Technical Drafting Studio, and Eval Dashboard. Product Impact: Streamlines the entire product lifecycle from ideation to evaluation.',
+      'Automates synthetic dataset generation using 50 Commune transcripts. Product Impact: Accelerates testing phases by providing immediate, relevant test data without manual collection.',
+      'Utilizes LangGraph-powered persistence with shared state utilities. Product Impact: Ensures consistent context and reliability across complex, multi-step AI workflows.',
+      'Develops a dual UI with Streamlit for dashboards and Gradio for interactive drafting. Product Impact: Optimizes the user experience by matching the right interface to the specific PM task.',
+      'Integrates Gemini via LangChain with timeout and fallback protections. Product Impact: Delivers a resilient product experience by gracefully handling API failures and latency.'
     ],
     tech: [
       'Python', 'LangGraph', 'LangChain', 'Streamlit',
@@ -80,13 +80,13 @@ export const projects = [
     id: 'gateguru',
     title: 'GateGuru',
     timeframe: 'February 2026',
-    summary: 'An AI-powered, agentic study mentor for GATE CS/IT and DA aspirants with adaptive learning plans and proactive nudges.',
+    summary: 'An adaptive, AI-powered study mentor for GATE aspirants that personalizes the learning journey through real-time adjustments and proactive nudges.',
     bullets: [
-      'LangGraph-based agentic orchestration with autonomous study plan generation',
-      'Supports 52-week adaptive study plans with real-time progress tracking',
-      'RAG-powered with pgvector for intelligent retrieval from GATE resources',
-      'Proactive nudge workflow to keep students on track with their preparation',
-      'Data ingested from official GATE Portal and GateOverflow resources'
+      'Engineers a LangGraph-based orchestration engine for autonomous study plan generation. Product Impact: Delivers highly personalized, adaptive learning paths for each user.',
+      'Supports comprehensive 52-week adaptive study plans with continuous progress tracking. Product Impact: Enhances user retention by dynamically adjusting to individual learning paces.',
+      'Implements a RAG pipeline with pgvector for intelligent resource retrieval. Product Impact: Ensures high-quality, relevant educational content is surfaced instantly to the user.',
+      'Designs a proactive nudge workflow based on behavioral triggers. Product Impact: Actively re-engages users and keeps them on track, boosting completion rates.',
+      'Ingests domain-specific data from official GATE Portals and GateOverflow. Product Impact: Builds user trust by anchoring AI responses in authoritative, accurate source material.'
     ],
     tech: [
       'Python', 'FastAPI', 'LangGraph', 'Google Gemini 2.0 Flash',
@@ -105,13 +105,13 @@ export const projects = [
     id: 'recruitai-platform',
     title: 'Recruit-AI Platform',
     timeframe: 'February 2026',
-    summary: 'An agentic AI recruitment platform for SMBs that autonomously parses resumes, matches candidates against job descriptions, and ranks them by fit.',
+    summary: 'An Agent-First recruitment platform for SMBs powered by Agentic Orchestration. The platform acts as a Mission Control, coordinating Task-Specific Agents to autonomously parse, evaluate, and rank candidate profiles against dynamic job requirements.',
     bullets: [
-      'Agentic workflow for autonomous resume parsing and JD matching',
-      'Real-time analytics dashboard tracking Time-to-Hire and Screening Accuracy KPIs',
-      'User funnel analytics to identify and reduce drop-off rates',
-      'Semantic search for intelligent candidate-to-JD matching',
-      'Reduces manual screening time from 20+ hours/week for recruiters'
+      'Implements an Agentic workflow for autonomous resume parsing and continuous semantic JD matching. Product Impact: Automates top-of-funnel screening, freeing recruiters to focus on strategic hiring initiatives.',
+      'Provides a real-time analytics dashboard tracking Time-to-Hire and Screening Accuracy. Product Impact: Empowers hiring managers with actionable KPIs to optimize the recruitment lifecycle.',
+      'Deploys user funnel analytics to actively monitor and reduce candidate drop-off rates. Product Impact: Enhances the applicant experience, improving overall candidate conversion and retention.',
+      'Utilizes advanced semantic search to intelligently match candidate capabilities with job descriptions. Product Impact: Increases the quality of hires by replacing rigid keyword matching with nuanced contextual evaluation.',
+      'Replaces manual evaluation processes with an autonomous ranking pipeline. Product Impact: Delivers immediate operational ROI by reducing manual screening time by 20+ hours per week.'
     ],
     tech: [
       'React', 'TypeScript', 'Tailwind CSS', 'Supabase',
@@ -130,13 +130,13 @@ export const projects = [
     id: 'cp-report-automation',
     title: 'AI Diary: Weekly Report Generator',
     timeframe: 'January 2026',
-    summary: 'An AI-powered application that transforms rough daily logs and handwritten notes into formal, university-ready Weekly Progress Reports using Gemini Vision.',
+    summary: 'An AI-powered productivity tool that transforms unstructured daily logs and handwritten notes into formal, structured Weekly Progress Reports for university compliance.',
     bullets: [
-      'Gemini Vision reads handwritten diary photos and converts them to structured data',
-      'Analytics dashboard tracking productivity streaks and report readiness',
-      'Smart editor with calendar-based date selection and AI-generated draft review',
-      'One-click PDF export in exact university report format with auto-populated headers',
-      'Premium UI with full Dark Mode support and persistent theme preferences'
+      'Leverages Gemini Vision to digitize and structure handwritten diary photos. Product Impact: Eliminates manual data entry, saving users significant administrative time.',
+      'Features an analytics dashboard tracking productivity streaks and report readiness. Product Impact: Gamifies the reporting process, encouraging consistent user engagement.',
+      'Incorporates a smart editor with AI-generated draft review capabilities. Product Impact: Ensures high-quality, professional outputs with minimal user friction.',
+      'Enables one-click PDF exports automatically formatted to university standards. Product Impact: Streamlines the final delivery process, reducing compliance overhead to zero.',
+      'Delivers a premium UI with persistent theme preferences and Dark Mode. Product Impact: Enhances overall user satisfaction and accessibility during extended usage.'
     ],
     tech: [
       'Python', 'Streamlit', 'Google Gemini 3 Flash',
@@ -155,13 +155,13 @@ export const projects = [
     id: 'agile-sprint-guardian',
     title: 'Agile Sprint Guardian',
     timeframe: 'December 2025',
-    summary: 'A multi-agent AI system acting as a virtual Agile squad, collaborating to refine feature requests into comprehensive, estimated tickets.',
+    summary: 'A multi-agent system that simulates an Agile squad to autonomously refine feature requests into comprehensive, estimated tickets, streamlining the product planning phase.',
     bullets: [
-      'Orchestrates a team of specialized AI agents (Product Owner, Tech Lead, SecOps, QA)',
-      'Automated generic ticket refinement into detailed technical specifications',
-      'Security-first approach with dedicated risk analysis and mitigation strategies',
-      'Seamless JIRA integration for exporting refined tickets',
-      'Powered by CrewAI and Gemini 2.5 Flash for intelligent collaboration'
+      'Orchestrates specialized AI agents (Product Owner, Tech Lead, SecOps, QA). Product Impact: Simulates cross-functional collaboration to produce well-rounded, thoroughly vetted tickets.',
+      'Automates the translation of generic requests into detailed technical specifications. Product Impact: Reduces ambiguity for engineering teams, leading to more accurate sprint planning.',
+      'Integrates a security-first approach with dedicated risk analysis agents. Product Impact: Proactively identifies and mitigates security risks before development begins.',
+      'Provides seamless JIRA integration for direct export of refined tickets. Product Impact: Integrates smoothly into existing enterprise workflows without disrupting current tools.',
+      'Powered by CrewAI and Gemini 2.5 Flash for intelligent, contextual collaboration. Product Impact: Ensures high-quality, context-aware outputs that rival human PM refinement.'
     ],
     tech: [
       'Python', 'FastAPI', 'React', 'CrewAI',
@@ -180,13 +180,13 @@ export const projects = [
     id: 'bugvision-ai',
     title: 'BugVision AI',
     timeframe: 'December 2025',
-    summary: 'An intelligent debugging assistant that uses multimodal AI to analyze screen recordings and code for rapid root cause identification.',
+    summary: 'An intelligent debugging assistant that leverages multimodal AI to accelerate root cause identification by analyzing screen recordings alongside source code.',
     bullets: [
-      'Multimodal analysis correlating MP4/WEBM screen recordings with component code',
-      'Smart Code Editor for on-the-fly code inspection and patching',
-      '"Sherlock Mode" interactive chat for deep-dive debugging and queries',
-      'Identifies visual anomalies and traces them back to logic errors',
-      'Awarded Google DeepMind Competition Entry'
+      'Correlates MP4/WEBM screen recordings with component code using multimodal analysis. Product Impact: Drastically reduces time-to-resolution for complex, visually-manifesting bugs.',
+      'Features a Smart Code Editor for on-the-fly code inspection and live patching. Product Impact: Creates a seamless, integrated debugging environment that keeps developers in flow.',
+      'Includes a "Sherlock Mode" interactive chat for deep-dive contextual queries. Product Impact: Empowers developers to intuitively explore complex codebases and edge cases.',
+      'Automatically identifies visual anomalies and traces them to underlying logic errors. Product Impact: Bridges the gap between QA observations and engineering fixes.',
+      'Recognized as an award-winning Google DeepMind Competition Entry. Product Impact: Validates the innovative approach and market potential of the solution.'
     ],
     tech: [
       'TypeScript', 'React', 'Vite', 'Prismjs',
@@ -205,13 +205,13 @@ export const projects = [
     id: 'nexus-ai',
     title: 'Nexus AI',
     timeframe: 'December 2025',
-    summary: 'A production-grade, modular RAG application with intelligent query routing and multi-source data ingestion.',
+    summary: 'A production-grade, modular RAG application designed to handle complex information retrieval across diverse data formats using intelligent query routing.',
     bullets: [
-      'Smart routing system distinguishing between Resume, Technical, and Web queries',
-      'Ingests data from PDFs, YouTube videos, and general web pages',
-      'Planner Agent generates structured learning plans with multi-source references',
-      'Powered by MongoDB Vector Search and LangGraph for orchestration',
-      'Robust architecture for handling complex information retrieval tasks'
+      'Deploys a smart routing system distinguishing between Resume, Technical, and Web queries. Product Impact: Ensures users receive highly accurate, context-appropriate responses instantly.',
+      'Ingests diverse data streams including PDFs, YouTube videos, and general web pages. Product Impact: Breaks down information silos, creating a unified, accessible knowledge base.',
+      'Utilizes a Planner Agent to generate structured learning plans with multi-source references. Product Impact: Transforms raw data into actionable, educational roadmaps for users.',
+      'Orchestrates workflows using MongoDB Vector Search and LangGraph. Product Impact: Delivers enterprise-grade scalability and reliability for complex retrieval tasks.',
+      'Maintains a robust architecture capable of handling ambiguous user inputs. Product Impact: Enhances user trust through consistent, high-quality performance in varied scenarios.'
     ],
     tech: [
       'Python', 'Streamlit', 'MongoDB Vector Search', 'LangGraph',
@@ -230,13 +230,13 @@ export const projects = [
     id: 'predictive-maintenance-dashboard',
     title: 'Predictive Maintenance Dashboard',
     timeframe: 'October 2025',
-    summary: 'A complete, end-to-end machine learning web application that predicts machine failure in real-time by simulating IoT sensor data.',
+    summary: 'An end-to-end machine learning application that predicts critical machine failures in real-time, enabling proactive intervention in industrial settings.',
     bullets: [
-      'Simulates live IoT sensor data (temperature, vibration, etc.) for real-time analysis',
-      'Uses LightGBM classification model to predict "HEALTHY" vs "FAILURE IMMINENT" states',
-      'Dynamic web dashboard for visualizing live data streams and model predictions',
-      'Comprehensive ML pipeline covering data engineering, EDA, training, and evaluation',
-      'Automated event logging system for auditing critical failures'
+      'Simulates live IoT sensor data (temperature, vibration) for real-time analysis. Product Impact: Proves the viability of the predictive model in dynamic, real-world conditions.',
+      'Deploys a LightGBM classification model to flag "FAILURE IMMINENT" states. Product Impact: Minimizes costly unplanned downtime through early warning detection.',
+      'Features a dynamic web dashboard for visualizing live data streams and predictions. Product Impact: Translates complex ML outputs into actionable insights for operational teams.',
+      'Encompasses a complete ML pipeline from data engineering to model evaluation. Product Impact: Ensures robust, reproducible, and easily maintainable AI infrastructure.',
+      'Integrates an automated event logging system for critical failures. Product Impact: Facilitates post-incident audits and continuous model improvement.'
     ],
     tech: [
       'Python', 'Flask', 'LightGBM', 'Tailwind CSS', 'Chart.js',
@@ -255,13 +255,13 @@ export const projects = [
     id: 'medical-ai-assistant',
     title: 'Medical AI Assistant',
     timeframe: 'September 2025',
-    summary: 'An AI-powered health assistant that analyzes medical reports, answers health-related questions, and summarizes web articles using Google Gemini and Tavily API.',
+    summary: 'An AI-powered health assistant that democratizes access to complex medical information by analyzing reports and summarizing dense web articles.',
     bullets: [
-      'Multi-page health assistant with interactive chat interface',
-      'Medical report analysis using Google Gemini AI',
-      'Web article summarization with Tavily API integration',
-      'Secure API key management with environment variables',
-      'Deployed on Streamlit Community Cloud'
+      'Provides a multi-page interactive chat interface for health-related queries. Product Impact: Offers users an intuitive, conversational way to navigate health information.',
+      'Analyzes technical medical reports using Google Gemini AI. Product Impact: Empowers patients by translating complex medical jargon into understandable insights.',
+      'Summarizes relevant web articles via Tavily API integration. Product Impact: Ensures users receive the most current, synthesized context for their health questions.',
+      'Implements secure API key management and environment variables. Product Impact: Guarantees data security and privacy compliance in a sensitive domain.',
+      'Deployed scalably on Streamlit Community Cloud. Product Impact: Achieves high availability with a lean, efficient deployment architecture.'
     ],
     tech: [
       'Python', 'Streamlit', 'Google Gemini API', 'Tavily API',
@@ -280,13 +280,13 @@ export const projects = [
     id: 'globetrotter',
     title: 'GlobeTrotter',
     timeframe: 'August 2025',
-    summary: 'A full-stack travel booking platform with admin content management, secure payments via Razorpay, and an AI-powered chatbot for travel advice.',
+    summary: 'A full-stack travel booking platform that streamlines the trip planning experience with dynamic content management, secure payments, and AI-driven advisory.',
     bullets: [
-      'Dynamic trip creation with blueprint-to-live two-stage lifecycle management',
-      'Secure OTP-based authentication with JWT sessions and email verification',
-      'Integrated Razorpay payment gateway for seamless online booking',
-      'AI-powered travel chatbot using Gemini AI and Tavily Search with source citations',
-      'Comprehensive admin dashboard for managing locations, hotels, and activities'
+      'Engineers a two-stage blueprint-to-live lifecycle for dynamic trip creation. Product Impact: Allows content managers to seamlessly draft, review, and publish new offerings.',
+      'Integrates an AI-powered travel chatbot with verified source citations. Product Impact: Elevates the user experience by providing personalized, trustworthy travel recommendations.',
+      'Implements secure OTP-based authentication with JWT sessions. Product Impact: Reduces login friction while maintaining robust user account security.',
+      'Embeds the Razorpay payment gateway for frictionless online booking. Product Impact: Drives revenue by ensuring a smooth, secure checkout experience for customers.',
+      'Delivers a comprehensive admin dashboard for holistic platform management. Product Impact: Empowers business operators to efficiently manage inventory and monitor platform health.'
     ],
     tech: [
       'Next.js', 'TypeScript', 'Prisma', 'PostgreSQL',
@@ -305,13 +305,13 @@ export const projects = [
     id: 'skill-sage-ai',
     title: 'Skill Sage AI Assistant',
     timeframe: 'July 2025',
-    summary: 'An intelligent learning companion that creates personalized development roadmaps based on your skills and goals.',
+    summary: 'An intelligent learning companion that accelerates professional development by creating personalized, actionable roadmaps based on user goals.',
     bullets: [
-      'Personalized skill assessment with tailored recommendations',
-      'Interactive learning roadmap with step-by-step guidance',
-      'Curated list of tutorials, documentation, and learning resources',
-      'Modern, responsive UI with smooth animations',
-      'Progress tracking to visualize learning journey'
+      'Conducts personalized skill assessments to generate tailored recommendations. Product Impact: Customizes the onboarding experience to immediately deliver relevant value.',
+      'Generates interactive learning roadmaps with step-by-step guidance. Product Impact: Reduces user overwhelm by breaking complex goals into manageable milestones.',
+      'Curates targeted tutorials, documentation, and external resources. Product Impact: Saves users hours of research time, keeping them focused on actual learning.',
+      'Features a modern, responsive UI with smooth interactive animations. Product Impact: Enhances user engagement and satisfaction through premium design aesthetics.',
+      'Incorporates visual progress tracking for the user\'s learning journey. Product Impact: Motivates users through clear visualizations of their advancement and achievements.'
     ],
     tech: [
       'HTML5', 'CSS3', 'JavaScript (ES6+)', 'Google Gemini API', 'Marked.js',
@@ -330,13 +330,13 @@ export const projects = [
     id: 'mental-fitness-journal',
     title: 'Mental Fitness Journal',
     timeframe: 'June 2025',
-    summary: 'A full-stack journaling application designed to help users track their mental health and personal growth journey.',
+    summary: 'A secure, full-stack journaling application that helps users cultivate self-awareness by tracking mental health trends and analyzing emotional states.',
     bullets: [
-      'Complete CRUD operations for journal entries with rich text support',
-      'Mood tracking with visual analytics using Chart.js',
-      'AI-powered emotion analysis of journal entries',
-      'Secure JWT authentication system',
-      'Responsive design that works across all devices'
+      'Provides complete CRUD functionality with rich text support for entries. Product Impact: Offers users a flexible, expressive environment for their daily reflections.',
+      'Integrates mood tracking with visual analytics via Chart.js. Product Impact: Empowers users to easily identify patterns and triggers in their mental well-being.',
+      'Leverages AI for automated emotion analysis of journal entries. Product Impact: Delivers deep, objective insights into the user\'s underlying emotional state over time.',
+      'Implements a secure JWT authentication system. Product Impact: Builds critical user trust by guaranteeing the privacy and security of highly personal data.',
+      'Ensures a fully responsive design across all devices. Product Impact: Increases daily active usage by allowing users to journal conveniently from anywhere.'
     ],
     tech: [
       'React', 'Material-UI', 'Chart.js', 'Node.js',
@@ -355,13 +355,13 @@ export const projects = [
     id: 'smart-job-prep',
     title: 'Smart Job Prep Assistant',
     timeframe: 'May 2025',
-    summary: 'A comprehensive job preparation tool that helps users optimize their resume bullet points using AI-powered suggestions based on job descriptions.',
+    summary: 'A comprehensive career optimization tool that maximizes candidate success by using AI to align resume bullet points directly with target job descriptions.',
     bullets: [
-      'AI-powered resume rewriting with tailored suggestions based on job descriptions',
-      'STAR method integration for crafting compelling work experience stories',
-      'Keyword analysis to identify and highlight important terms from job postings',
-      'Interactive and responsive UI with smooth animations using Framer Motion',
-      'Secure user authentication with JWT and data persistence'
+      'Powers resume rewriting with AI suggestions tailored to specific job postings. Product Impact: Drastically improves ATS pass rates and recruiter callback metrics.',
+      'Integrates the STAR method framework for crafting experience narratives. Product Impact: Guides users to produce consistently high-impact, results-oriented content.',
+      'Performs automated keyword analysis to highlight critical JD terminology. Product Impact: Ensures candidate profiles are perfectly aligned with employer expectations.',
+      'Features an interactive, responsive UI powered by Framer Motion. Product Impact: Delivers a seamless, engaging user experience during a typically stressful process.',
+      'Secures user sessions and data persistence with robust JWT authentication. Product Impact: Maintains the confidentiality of sensitive career and personal information.'
     ],
     tech: [
       'React.js', 'Node.js', 'Express', 'MongoDB',
@@ -378,4 +378,4 @@ export const projects = [
       'Secure Authentication'
     ]
   }
-]
+];

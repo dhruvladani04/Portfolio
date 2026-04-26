@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaAward, FaBolt, FaCode, FaFileAlt, FaSearch, FaTrophy } from 'react-icons/fa';
+import { useCodeforces } from '../utils/useCodeforces';
 import { FiArrowUpRight } from 'react-icons/fi';
 import SectionHeading from './SectionHeading';
 import { cardPop, staggerContainer, viewport } from '../utils/motion';
@@ -59,6 +60,27 @@ const achievements = [
 ];
 
 export default function Achievements() {
+  const { rating: cfRating, rank: cfRank } = useCodeforces('dhruvcodes04');
+
+  const dynamicHighlightStats = [
+    { label: 'CodeChef max rating', value: '2093' },
+    { label: 'Codeforces max rating', value: cfRating },
+    { label: 'Problems solved', value: '500+' },
+  ];
+
+  const dynamicAchievements = [
+    ...achievements.map(a => {
+      if (a.id === 2) {
+        return {
+          ...a,
+          title: `Codeforces ${cfRank}`,
+          description: `Reached ${cfRank} rank on Codeforces with a maximum rating of ${cfRating}.`
+        };
+      }
+      return a;
+    })
+  ];
+
   return (
     <div className="space-y-6">
       <SectionHeading
@@ -85,7 +107,7 @@ export default function Achievements() {
           </p>
 
           <div className="mt-8 grid gap-3">
-            {highlightStats.map((stat) => (
+            {dynamicHighlightStats.map((stat) => (
               <div key={stat.label} className="surface-card rounded-[22px] border px-5 py-4">
                 <p className="text-sm uppercase tracking-[0.2em] text-slate-400">{stat.label}</p>
                 <p className="mt-2 font-display text-3xl font-semibold text-white">{stat.value}</p>
@@ -101,7 +123,7 @@ export default function Achievements() {
           whileInView="show"
           viewport={viewport}
         >
-          {achievements.map((achievement) => {
+          {dynamicAchievements.map((achievement) => {
             const Icon = achievement.icon;
             return (
               <motion.article key={achievement.id} variants={cardPop} className="panel panel-muted p-6">

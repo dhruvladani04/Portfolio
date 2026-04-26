@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fi';
 import { SiCodeforces, SiCodechef, SiLeetcode } from 'react-icons/si';
 import { cardPop, fadeUp, staggerContainer } from '../utils/motion';
+import { useCodeforces } from '../utils/useCodeforces';
 
 const resumeTech = '/Dhruv_Ladani_Resume_Tech.pdf';
 const resumePM = '/Dhruv_Ladani_Resume_PM.pdf';
@@ -32,6 +33,8 @@ const profiles = [
 const focusTags = ['AI systems', 'Full-stack builds', 'Product-minded execution'];
 
 export default function Hero() {
+  const { rank: cfRank } = useCodeforces('dhruvcodes04');
+
   return (
     <div className="grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] xl:grid-cols-[1fr_1fr]">
       <motion.div
@@ -179,7 +182,7 @@ export default function Hero() {
           <div className="orbit-card">
             <span className="text-xs uppercase tracking-[0.22em] text-slate-400">Competitive Coding</span>
             <span className="font-display text-lg font-semibold text-white">CodeChef 5-star</span>
-            <span className="text-sm text-slate-400">Codeforces Expert</span>
+            <span className="text-sm text-slate-400">Codeforces {cfRank}</span>
           </div>
         </motion.div>
 
