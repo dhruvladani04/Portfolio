@@ -1,181 +1,260 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import {
+  FiArrowUpRight,
+  FiDownload,
+  FiGithub,
+  FiLinkedin,
+  FiMail,
+  FiPhone,
+} from 'react-icons/fi';
+import SectionHeading from './SectionHeading';
+import { cardPop, viewport } from '../utils/motion';
+
+const initialForm = {
+  name: '',
+  email: '',
+  message: '',
+};
+
+const contactLinks = [
+  {
+    label: 'Email',
+    value: 'dhruvladani04@gmail.com',
+    href: 'mailto:dhruvladani04@gmail.com',
+    icon: FiMail,
+  },
+  {
+    label: 'Phone',
+    value: '+91 94290 82869',
+    href: 'tel:+919429082869',
+    icon: FiPhone,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'Connect professionally',
+    href: 'https://www.linkedin.com/in/dhruv-ladani-a65578252',
+    icon: FiLinkedin,
+  },
+  {
+    label: 'GitHub',
+    value: 'Browse my repositories',
+    href: 'https://github.com/dhruvladani04',
+    icon: FiGithub,
+  },
+];
 
 export default function Contact() {
-  const [status, setStatus] = useState(null)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
+  const [status, setStatus] = useState(null);
+  const [formData, setFormData] = useState(initialForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
-
-  // This effect handles the Netlify Forms success/error messages
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('success') === 'true') {
-        setStatus('Message sent successfully! 🎉');
-        // Clear the URL parameters
-        window.history.replaceState({}, document.title, window.location.pathname);
-        setTimeout(() => setStatus(null), 5000);
-      }
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      setStatus({ type: 'success', message: 'Message sent successfully. Thanks for reaching out.' });
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('Sending...');
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
+  useEffect(() => {
+    if (!status || status.type === 'pending') {
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => setStatus(null), 5000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setStatus({ type: 'pending', message: 'Sending your message...' });
+
+    const payload = new FormData(event.target);
+
     try {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString(),
+        body: new URLSearchParams(payload).toString(),
       });
-      
-      if (response.ok) {
-        setStatus('Message sent successfully! 🎉');
-        // Reset form
-        form.reset();
-        // Clear status after 5 seconds
-        setTimeout(() => setStatus(null), 5000);
-      } else {
+
+      if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+
+      setFormData(initialForm);
+      setStatus({ type: 'success', message: 'Message sent successfully. I will get back to you soon.' });
     } catch (error) {
-      console.error('Error:', error);
-      setStatus('Failed to send message. Please try again.');
+      console.error('Error submitting contact form:', error);
+      setStatus({ type: 'error', message: 'Something went wrong. Please try again or email me directly.' });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const statusClass =
+    status?.type === 'success'
+      ? 'text-[var(--accent-violet)]'
+      : status?.type === 'error'
+        ? 'text-[#ff9b9b]'
+        : 'text-slate-400';
+
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="max-w-6xl mx-auto"
-    >
-      <h2 className="text-3xl font-bold mb-8">Get In Touch</h2>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="glass p-8 rounded-2xl">
-          <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
-          
+    <div className="space-y-6">
+      <SectionHeading
+        eyebrow="Contact"
+        title="Let&apos;s build something useful together."
+        description="If you have an opportunity, an idea, or just want to talk through a project, I&apos;m always happy to connect."
+      />
+
+      <div className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
+        <motion.div
+          className="panel panel-highlight p-7 md:p-8"
+          variants={cardPop}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        >
           <div className="space-y-6">
             <div>
-              <h4 className="text-sm uppercase text-accent mb-2">Email</h4>
-              <a 
-                href="mailto:dhruvladani04@gmail.com" 
-                className="text-lg hover:text-accent transition-colors"
-              >
-                dhruvladani04@gmail.com
-              </a>
+              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Best fit</p>
+              <h3 className="mt-2 font-display text-3xl font-semibold text-white">
+                AI product work, engineering roles, and ambitious side projects.
+              </h3>
+              <p className="mt-4 text-base leading-7 text-slate-300">
+                I enjoy conversations where thoughtful product direction meets solid execution.
+                If that sounds like your team or project, let&apos;s talk.
+              </p>
             </div>
-            
-            <div>
-              <h4 className="text-sm uppercase text-accent mb-2">Phone</h4>
-              <a 
-                href="tel:+919429082869" 
-                className="text-lg hover:text-accent transition-colors"
-              >
-                +91 94290 82869
-              </a>
+
+            <div className="grid gap-3">
+              {contactLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                    className="contact-link"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg">
+                        <Icon />
+                      </span>
+                      <div>
+                        <p className="font-semibold text-white">{item.label}</p>
+                        <p className="text-sm text-slate-400">{item.value}</p>
+                      </div>
+                    </div>
+                    <FiArrowUpRight className="text-slate-400" />
+                  </a>
+                );
+              })}
             </div>
-            
-            <div>
-              <h4 className="text-sm uppercase text-accent mb-2">Connect</h4>
-              <div className="flex space-x-4">
-                <a 
-                  href="https://www.linkedin.com/in/dhruv-ladani-a65578252" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-accent transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <span className="text-lg">LinkedIn</span>
-                </a>
-                <a 
-                  href="https://github.com/dhruvladani04" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-accent transition-colors"
-                  aria-label="GitHub"
-                >
-                  <span className="text-lg">GitHub</span>
-                </a>
-              </div>
+
+            <div className="soft-divider" />
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/Dhruv_Ladani_Resume_Tech.pdf"
+                download="Dhruv_Ladani_Resume_Tech.pdf"
+                className="btn-secondary"
+              >
+                Tech Resume
+                <FiDownload />
+              </a>
+              <a
+                href="/Dhruv_Ladani_Resume_PM.pdf"
+                download="Dhruv_Ladani_Resume_PM.pdf"
+                className="btn-secondary"
+              >
+                PM Resume
+                <FiDownload />
+              </a>
             </div>
           </div>
-        </div>
-        
-        <div className="glass p-8 rounded-2xl">
-          <h3 className="text-xl font-semibold mb-6">Send Me a Message</h3>
-          
-          <form 
+        </motion.div>
+
+        <motion.div
+          className="panel p-7 md:p-8"
+          variants={cardPop}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+        >
+          <div className="mb-6">
+            <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Send a message</p>
+            <h3 className="mt-2 font-display text-3xl font-semibold text-white">
+              Tell me what you&apos;re building.
+            </h3>
+          </div>
+
+          <form
             name="contact"
             method="POST"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             action="/form"
-            className="space-y-6"
+            className="space-y-5"
           >
-            {/* The `form-name` is used by Netlify to identify the form */}
             <input type="hidden" name="form-name" value="contact" />
-            
-            {/* Honeypot field to catch bots */}
+
             <div className="hidden">
-              <label>
-                Don't fill this out if you're human: <input name="bot-field" />
+              <label htmlFor="bot-field">
+                Do not fill this field
+                <input id="bot-field" name="bot-field" />
               </label>
             </div>
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-1">
-                Name <span className="text-accent">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                aria-required="true"
-                className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition"
-                placeholder="Your name"
-              />
+
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-200">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="form-field"
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="form-field"
+                  placeholder="you@example.com"
+                />
+              </div>
             </div>
-            
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-1">
-                Email <span className="text-accent">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                aria-required="true"
-                className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition"
-                placeholder="your.email@example.com"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-1">
-                Message <span className="text-accent">*</span>
+              <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-200">
+                Message
               </label>
               <textarea
                 id="message"
@@ -183,30 +262,27 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                aria-required="true"
-                rows="4"
-                className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition"
-                placeholder="Your message here..."
-              ></textarea>
+                rows="6"
+                className="form-field resize-none"
+                placeholder="Tell me a little about the opportunity, project, or idea."
+              />
             </div>
-            
-            <div className="flex items-center">
-              <button
-                type="submit"
-                className="px-6 py-2 bg-accent text-black font-medium rounded-lg hover:bg-accent/90 transition-colors"
-              >
-                Send Message
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button type="submit" className="btn-primary w-fit" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send message'}
+                <FiArrowUpRight />
               </button>
-              
+
               {status && (
-                <span className="ml-4 text-sm">
-                  {status}
-                </span>
+                <p className={`text-sm ${statusClass}`}>
+                  {status.message}
+                </p>
               )}
             </div>
           </form>
-        </div>
+        </motion.div>
       </div>
-    </motion.div>
-  )
+    </div>
+  );
 }

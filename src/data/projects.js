@@ -9,8 +9,8 @@ export const projects = [
     bullets: [
       'Aggregates 100+ job sources (LinkedIn, Indeed, etc.) via Apify API',
       '9-factor weighted scoring rubric with LLM-based evaluation using Gemini',
-      'Feedback-driven calibration improving AI scoring accuracy (62% → 87% correlation)',
-      '3-tier deduplication system: URL → composite key → fuzzy match (~98% accuracy)',
+      'Feedback-driven calibration improving AI scoring accuracy (62% -> 87% correlation)',
+      '3-tier deduplication system: URL -> composite key -> fuzzy match (~98% accuracy)',
       'Dual output with CLI reports and FastAPI web dashboard'
     ],
     tech: [
@@ -36,7 +36,7 @@ export const projects = [
       'Generates adversarial scenarios: prompt injections, tool loops, boundary conditions',
       'Bias-audited outputs with disparity analysis for fairness evaluation',
       'LangSmith-tracked, versioned evaluation datasets with CI/CD integration',
-      'Accelerates dev cycles 10–20× with up to 80% infrastructure cost reduction'
+      'Accelerates dev cycles 10-20x with up to 80% infrastructure cost reduction'
     ],
     tech: [
       'Python', 'LangGraph', 'LangChain', 'Gemini 2.5 Flash',

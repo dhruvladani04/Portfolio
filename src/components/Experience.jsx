@@ -1,40 +1,51 @@
-import React from 'react'
-import { experience } from '../data/experience'
-import { motion } from 'framer-motion'
+import React from 'react';
+import { motion } from 'framer-motion';
+import SectionHeading from './SectionHeading';
+import { experience } from '../data/experience';
+import { cardPop, viewport } from '../utils/motion';
 
 export default function Experience() {
   return (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">Experience</h2>
+    <div className="space-y-6">
+      <SectionHeading
+        eyebrow="Experience"
+        title="Hands-on roles where I moved from learning fast to shipping value."
+        description="Internships that strengthened my product intuition, software delivery discipline, and appetite for solving real user and business problems."
+      />
 
-      <div className="space-y-4">
-        {experience.map(e => (
-          <motion.div 
-            key={e.id} 
-            className="glass rounded-xl p-5" 
-            initial={{ y: 6, opacity: 0 }} 
-            animate={{ y: 0, opacity: 1 }}
+      <div className="timeline">
+        {experience.map((item) => (
+          <motion.article
+            key={item.id}
+            className="panel timeline-card p-6 md:p-8"
+            variants={cardPop}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewport}
           >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+            <span className="timeline-dot" />
+
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <h3 className="font-semibold text-lg">{e.company}</h3>
-                <p className="text-slate-400">{e.role}</p>
+                <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Role</p>
+                <h3 className="mt-2 font-display text-3xl font-semibold text-white">
+                  {item.role}
+                </h3>
+                <p className="mt-2 text-lg text-slate-300">{item.company}</p>
               </div>
-              <div className="text-sm text-slate-500 bg-slate-800/50 px-3 py-1 rounded-full">
-                {e.timeframe}
-              </div>
+              <span className="tag w-fit">{item.timeframe}</span>
             </div>
 
-            <ul className="mt-4 space-y-2 pl-5">
-              {e.bullets.map((b, i) => (
-                <li key={i} className="relative before:content-['•'] before:absolute before:-left-5 before:text-accent pl-2 text-slate-300">
-                  {b}
+            <ul className="feature-list mt-6">
+              {item.bullets.map((bullet) => (
+                <li key={bullet} className="feature-item">
+                  {bullet}
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </motion.article>
         ))}
       </div>
     </div>
-  )
+  );
 }
