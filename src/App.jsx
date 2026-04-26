@@ -12,21 +12,7 @@ import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import TestPdf from './TestPdf';
-
-const THEME_STORAGE_KEY = 'portfolio-theme';
-
-function getInitialTheme() {
-  if (typeof window === 'undefined') {
-    return 'dark';
-  }
-
-  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-  if (storedTheme === 'light' || storedTheme === 'dark') {
-    return storedTheme;
-  }
-
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
+import { THEME_STORAGE_KEY, getInitialTheme } from './utils/theme.mjs';
 
 function BackgroundDecor() {
   return (
