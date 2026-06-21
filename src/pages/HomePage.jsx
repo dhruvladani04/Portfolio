@@ -7,15 +7,15 @@ import { useCodeforces } from '../utils/useCodeforces';
 
 const stats = [
   { value: '9.34', label: 'CGPA', unit: '' },
-  { value: '15+', label: 'Projects', unit: '' },
+  { value: '15+', label: 'Projects', unit: 'built' },
   { value: '500+', label: 'Problems', unit: 'solved' },
-  { value: '6', label: 'Years', unit: 'coding' },
+  { value: '2026', label: 'Graduating', unit: '' },
 ];
 
 const capabilities = [
-  { title: 'AI Systems', desc: 'Building intelligent agents and LLM-powered tools', icon: FiCpu },
-  { title: 'Full-Stack', desc: 'End-to-end product engineering', icon: FiZap },
-  { title: 'Clean Architecture', desc: 'Scalable, maintainable codebases', icon: FiCode },
+  { title: 'AI & Machine Learning', desc: 'Building intelligent systems, LLM workflows, and AI-powered applications', icon: FiCpu },
+  { title: 'Full-Stack Development', desc: 'End-to-end product engineering from database to deployment', icon: FiZap },
+  { title: 'Competitive Programming', desc: '500+ DSA problems solved across platforms', icon: FiCode },
 ];
 
 export default function HomePage() {
@@ -34,7 +34,7 @@ export default function HomePage() {
         style={{ opacity }}
       >
         <motion.div
-          className="max-w-6xl mx-auto"
+          className="max-w-6xl mx-auto px-4 md:px-6"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -56,7 +56,7 @@ export default function HomePage() {
             </span>
             <span className="pill">
               <span className="pill-dot" />
-              Available for 2026 roles
+              Open to 2026 opportunities
             </span>
           </motion.div>
 
@@ -78,11 +78,10 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            A{' '}
-            <span style={{ color: 'var(--arc-blue)' }}>designer who engineers</span>
-            {' '}and a{' '}
-            <span style={{ color: 'var(--accent-gold)' }}>researcher who ships</span>
-            , building products end-to-end.
+            Computer Engineering student at PDEU with a{' '}
+            <span style={{ color: 'var(--arc-blue)' }}>strong bias toward building</span>{' '}
+            products that help people. Passionate about{' '}
+            <span style={{ color: 'var(--accent-gold)' }}>AI, full-stack development</span>, and solving complex problems.
           </motion.p>
 
           {/* CTA buttons */}
@@ -95,7 +94,7 @@ export default function HomePage() {
             <Link to="/work" className="btn-primary group">
               <span className="flex items-center gap-2">
                 <GiPunchBlast className="text-lg" />
-                View Work
+                View Projects
               </span>
               <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </Link>
@@ -104,7 +103,7 @@ export default function HomePage() {
               <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </Link>
             <a href="/Dhruv_Ladani_Resume_Tech.pdf" download className="btn-secondary group">
-              Resume
+              Download Resume
               <FiDownload className="transition-transform group-hover:translate-y-0.5" />
             </a>
           </motion.div>
@@ -141,7 +140,7 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
             <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>CAPABILITIES</span>
@@ -184,23 +183,23 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
               <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-              <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>SELECTED WORK</span>
+              <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>FEATURED WORK</span>
             </div>
             <Link to="/work" className="link-inline group">
-              View all
+              View all projects
               <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </Link>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { title: 'AI Interview Platform', desc: 'Intelligent hiring with structured, fair interviews', tag: 'AI/ML' },
-              { title: 'Inventory Management', desc: 'Fast-paced retail billing and stock system', tag: 'Full-Stack' },
-              { title: 'Research Publications', desc: 'LLM sector classification at ACM SAC', tag: 'Research' },
+              { title: 'Nexus - AI Interview Platform', desc: 'AI-powered hiring platform for structured, bias-free interviews', tag: 'AI/ML' },
+              { title: 'Stock Pro Inventory System', desc: 'Complete inventory management with billing for retail businesses', tag: 'Full-Stack' },
+              { title: 'LLM Research Publication', desc: 'Sector classification of software requirements using LLMs - ACM SAC 2026', tag: 'Research' },
             ].map((project, i) => (
               <motion.div
                 key={project.title}
@@ -229,18 +228,19 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
             Let's build something
-            <span className="text-gradient"> incredible</span>
+            <span className="text-gradient"> together</span>
           </h2>
           <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-            Open to AI, software, and product roles in 2026. If you're building something that matters, I want to hear about it.
+            I'm actively looking for AI, software engineering, and product roles.
+            If you're working on something interesting, I'd love to chat.
           </p>
           <Link to="/contact" className="btn-primary">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
-              Initialize Contact
+              Get in Touch
             </span>
             <FiArrowUpRight />
           </Link>

@@ -6,14 +6,14 @@ import { GiPunchBlast } from 'react-icons/gi';
 
 const contactMethods = [
   {
-    label: 'Secure Email',
+    label: 'Email',
     value: 'dhruvladani04@gmail.com',
     href: 'mailto:dhruvladani04@gmail.com',
     icon: FiMail,
     primary: true,
   },
   {
-    label: 'Direct Line',
+    label: 'Phone',
     value: '+91 94290 82869',
     href: 'tel:+919429082869',
     icon: FiPhone,
@@ -21,14 +21,14 @@ const contactMethods = [
   },
   {
     label: 'LinkedIn',
-    value: 'Connect professionally',
+    value: 'Connect with me',
     href: 'https://www.linkedin.com/in/dhruv-ladani-a65578252',
     icon: FiLinkedin,
     primary: false,
   },
   {
     label: 'GitHub',
-    value: 'Browse repositories',
+    value: 'View my projects',
     href: 'https://github.com/dhruvladani04',
     icon: FiGithub,
     primary: false,
@@ -43,7 +43,7 @@ export default function ContactPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === 'true') {
-      setStatus({ type: 'success', message: 'Message transmitted successfully.' });
+      setStatus({ type: 'success', message: 'Message sent successfully.' });
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -56,7 +56,7 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setStatus({ type: 'pending', message: 'Transmitting...' });
+    setStatus({ type: 'pending', message: 'Sending...' });
 
     try {
       const response = await fetch('/', {
@@ -67,9 +67,9 @@ export default function ContactPage() {
 
       if (!response.ok) throw new Error('Failed');
       setFormData({ name: '', email: '', message: '' });
-      setStatus({ type: 'success', message: 'Transmission complete.' });
+      setStatus({ type: 'success', message: 'Message sent. I\'ll get back to you soon.' });
     } catch {
-      setStatus({ type: 'error', message: 'Failed. Try direct email.' });
+      setStatus({ type: 'error', message: 'Failed. Please email me directly.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -77,7 +77,7 @@ export default function ContactPage() {
 
   return (
     <div className="section-shell pt-32 pb-20 min-h-screen">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
         <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
           <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />
@@ -96,11 +96,12 @@ export default function ContactPage() {
             <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>CONTACT</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Let's build something{' '}
-            <span className="text-gradient">incredible</span>
+            Let's work{' '}
+            <span className="text-gradient">together</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            Open to AI, software, and product roles in 2026. If you're building something that matters, I want to hear about it.
+            I'm actively looking for AI, software engineering, and product roles.
+            If you're working on something interesting, I'd love to chat.
           </p>
         </motion.div>
 
@@ -153,7 +154,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="font-mono text-xs uppercase tracking-wider mb-4" style={{ color: 'var(--accent-gold)' }}>DOWNLOADS</p>
+              <p className="font-mono text-xs uppercase tracking-wider mb-4" style={{ color: 'var(--accent-gold)' }}>RESUMES</p>
               <div className="flex flex-wrap gap-3">
                 <a href="/Dhruv_Ladani_Resume_Tech.pdf" download className="btn-secondary group">
                   <span className="flex items-center gap-2">
@@ -192,12 +193,12 @@ export default function ContactPage() {
                 animate={{ opacity: [1, 0.5, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              <span className="font-mono text-xs tracking-wider" style={{ color: 'var(--arc-blue)' }}>SECURE</span>
+              <span className="font-mono text-xs tracking-wider" style={{ color: 'var(--arc-blue)' }}>ONLINE</span>
             </div>
 
             <div className="relative z-10">
-              <p className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--accent-gold)' }}>ESTABLISH CONNECTION</p>
-              <h2 className="font-display text-2xl font-semibold text-white mb-6">Send a transmission</h2>
+              <p className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--accent-gold)' }}>SEND A MESSAGE</p>
+              <h2 className="font-display text-2xl font-semibold text-white mb-6">Get in touch</h2>
 
               <form
                 name="contact"
@@ -216,7 +217,7 @@ export default function ContactPage() {
 
                 <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Identity Code</label>
+                    <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Name</label>
                     <input
                       id="name"
                       name="name"
@@ -229,7 +230,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Channel</label>
+                    <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Email</label>
                     <input
                       id="email"
                       name="email"
@@ -253,7 +254,7 @@ export default function ContactPage() {
                     required
                     rows={5}
                     className="form-field resize-none"
-                    placeholder="Describe the mission or opportunity..."
+                    placeholder="Tell me about the opportunity or project..."
                   />
                 </div>
 
@@ -267,7 +268,7 @@ export default function ContactPage() {
                   >
                     <span className="flex items-center gap-2">
                       <GiPunchBlast className="text-lg" />
-                      {isSubmitting ? 'Transmitting...' : 'Initialize Contact'}
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </span>
                     <FiArrowUpRight />
                   </motion.button>

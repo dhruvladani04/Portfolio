@@ -1,7 +1,7 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { FiArrowUpRight, FiExternalLink, FiX, FiArrowLeft, FiGithub } from 'react-icons/fi';
+import { FiArrowUpRight, FiExternalLink, FiX, FiArrowLeft } from 'react-icons/fi';
 import { projects } from '../data/projects';
 
 function ProjectPreview({ project, onClose }) {
@@ -115,17 +115,6 @@ function ProjectPreview({ project, onClose }) {
                 <FiExternalLink />
               </a>
             )}
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-secondary"
-              >
-                <FiGithub />
-                View Source
-              </a>
-            )}
             <Link to="/contact" className="btn-secondary">
               Ask about this project
               <FiArrowUpRight />
@@ -159,7 +148,7 @@ export default function WorkPage() {
 
   return (
     <div className="section-shell pt-32 pb-20">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
         <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
           <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />
@@ -175,14 +164,14 @@ export default function WorkPage() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>SELECTED WORK</span>
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>MY WORK</span>
           </div>
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-4">
-            <span className="text-gradient">Projects</span>
-            {' '}that ship
+            Projects I've{' '}
+            <span className="text-gradient">built</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            A portfolio of experiments, polished applications, and ambitious prototypes built to solve real workflows.
+            From AI-powered applications to full-stack products. Each project taught me something new about building software that matters.
           </p>
         </motion.div>
 

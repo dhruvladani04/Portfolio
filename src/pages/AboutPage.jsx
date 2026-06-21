@@ -6,18 +6,19 @@ import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 import { experience } from '../data/experience';
 
 const skills = [
-  { category: 'AI & ML', items: ['LLM Integration', 'RAG Systems', 'Agent Architecture', 'Prompt Engineering'] },
+  { category: 'AI & Machine Learning', items: ['LLM Integration', 'RAG Systems', 'Prompt Engineering', 'AI Agents'] },
   { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
   { category: 'Backend', items: ['Node.js', 'Python', 'PostgreSQL', 'Supabase', 'REST APIs'] },
-  { category: 'Tools', items: ['Git', 'Vercel', 'Docker', 'Figma', 'Linux'] },
+  { category: 'Other', items: ['Git', 'Vercel', 'Docker', 'Figma', 'Linux', 'C++'] },
 ];
 
 const journeyPhases = [
-  { year: 'Before 2020', title: 'The Beginning', desc: 'Started coding, discovered competitive programming' },
-  { year: '2020', title: 'Creative Era', desc: 'Design through memes and videos, led Symmetry as President' },
-  { year: '2023', title: 'AI Focus', desc: 'Deep dive into LLMs, first-author ACM SAC 2026 paper' },
-  { year: '2024-25', title: 'Full Stack', desc: 'Built Serin, Invflow, and multiple production apps' },
-  { year: '2026', title: 'Ready to Scale', desc: 'Open to roles, seeking ambitious product work' },
+  { year: '2019-2020', title: 'Started Coding', desc: 'Learned Java fundamentals, began competitive programming journey' },
+  { year: '2020-2021', title: 'Competitive Programming', desc: 'Solved 500+ DSA problems, achieved CodeChef 5-star rating' },
+  { year: '2022', title: 'Full-Stack Development', desc: 'Built production apps, learned React and Node.js ecosystems' },
+  { year: '2023', title: 'AI & Research', desc: 'Started LLM research, published at ACM SAC 2026 as first author' },
+  { year: '2024-25', title: 'Product Building', desc: 'Shipped multiple products including AI interview platform and inventory system' },
+  { year: '2026', title: 'Graduating', desc: 'Ready for full-time roles in AI, software engineering, and product' },
 ];
 
 const profiles = [
@@ -55,18 +56,21 @@ export default function AboutPage() {
               <span className="text-gradient">Dhruv Ladani</span>
             </h1>
 
-            <p className="text-lg text-slate-300 mb-8 leading-relaxed">
-              A <span style={{ color: 'var(--arc-blue)' }}>designer who engineers</span> and a{' '}
-              <span style={{ color: 'var(--accent-gold)' }}>researcher who ships</span>, building
-              products end to end, from the Figma file to the model in production.
+            <p className="text-lg text-slate-300 mb-6 leading-relaxed">
+              I'm a Computer Engineering student at Pandit Deendayal Energy University (PDEU)
+              with a CGPA of <span style={{ color: 'var(--arc-blue)' }}>9.34</span> and a strong
+              bias toward building products that actually help people.
             </p>
-            <p className="text-lg text-slate-300 mb-8 leading-relaxed">
-              I work across the whole stack of building: the design that makes it feel right,
-              the engineering that makes it hold, and the research that pushes it forward.
+            <p className="text-lg text-slate-300 mb-6 leading-relaxed">
+              My journey started with Java, evolved through competitive programming in C++,
+              and now spans AI workflows, full-stack products, and data-driven systems.
+              I've solved <span style={{ color: 'var(--accent-gold)' }}>500+ DSA problems</span> across
+              platforms and achieved CodeChef 5-star rating.
             </p>
             <p className="text-lg text-slate-300 leading-relaxed">
-              Computer Engineering student at PDEU with a passion for AI, full-stack development,
-              and building products that solve real problems.
+              Across projects, I enjoy the blend of reasoning and craft: shaping the right
+              user flow, choosing practical architecture, and iterating until the experience
+              feels clear and reliable.
             </p>
 
             {/* CTAs */}
@@ -114,7 +118,7 @@ export default function AboutPage() {
         >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>JOURNEY</span>
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>MY JOURNEY</span>
           </div>
 
           <div className="relative">
@@ -150,7 +154,7 @@ export default function AboutPage() {
         >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>SKILLS</span>
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>SKILLS & TOOLS</span>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -224,7 +228,7 @@ export default function AboutPage() {
         >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>FIND ME</span>
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>FIND ME ONLINE</span>
           </div>
 
           <div className="flex flex-wrap gap-3">
