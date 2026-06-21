@@ -32,6 +32,104 @@ const profiles = [
 
 const focusTags = ['AI systems', 'Full-stack builds', 'Product-minded execution'];
 
+function ArcReactorCore({ size = 120, className = '' }) {
+  return (
+    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+      {/* Outer ring */}
+      <motion.div
+        className="absolute inset-0 rounded-full border-2"
+        style={{ borderColor: 'var(--arc-blue)' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+      >
+        {[0, 60, 120, 180, 240, 300].map((angle) => (
+          <div
+            key={angle}
+            className="absolute w-2 h-2 rounded-full"
+            style={{
+              background: 'var(--arc-blue)',
+              boxShadow: 'var(--arc-glow)',
+              top: '50%',
+              left: '50%',
+              transform: `rotate(${angle}deg) translateY(-${size / 2 - 4}px) translate(-50%, -50%)`,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Middle ring */}
+      <motion.div
+        className="absolute rounded-full border"
+        style={{
+          inset: size * 0.15,
+          borderColor: 'rgba(0, 217, 255, 0.5)',
+        }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+      >
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+          <div
+            key={angle}
+            className="absolute w-1.5 h-1.5 rounded-full"
+            style={{
+              background: 'var(--arc-blue)',
+              boxShadow: 'var(--arc-glow)',
+              top: '50%',
+              left: '50%',
+              transform: `rotate(${angle}deg) translateY(-${size * 0.35 - 2}px) translate(-50%, -50%)`,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Inner ring */}
+      <motion.div
+        className="absolute rounded-full border-2"
+        style={{
+          inset: size * 0.35,
+          borderColor: 'var(--accent-gold)',
+          boxShadow: 'var(--gold-glow)',
+        }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Core */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{
+          inset: size * 0.42,
+          background: 'radial-gradient(circle at 30% 30%, var(--arc-blue-glow), var(--arc-blue))',
+          boxShadow: 'var(--arc-glow)',
+        }}
+        animate={{ scale: [1, 1.1, 1], opacity: [1, 0.8, 1] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+}
+
+function HUDScanner({ className = '' }) {
+  return (
+    <motion.div
+      className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5 }}
+    >
+      <motion.div
+        className="absolute left-0 right-0 h-px"
+        style={{
+          background: 'linear-gradient(90deg, transparent, var(--arc-blue), transparent)',
+          boxShadow: '0 0 20px var(--arc-blue)',
+        }}
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      />
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const { rank: cfRank } = useCodeforces('dhruvcodes04');
 
@@ -44,20 +142,24 @@ export default function Hero() {
         animate="show"
       >
         <motion.div variants={fadeUp}>
-          <span className="pill">
-            <span className="pill-dot" />
-            Open to AI, software, and product roles in 2026
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="stark-badge">
+              <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
+              STARK INDUSTRIES
+            </span>
+            <span className="pill">
+              <span className="pill-dot" />
+              Open to AI, software, and product roles in 2026
+            </span>
+          </div>
         </motion.div>
 
         <motion.div variants={fadeUp} className="space-y-5">
-          <p className="eyebrow">Dhruv Ladani</p>
+          <p className="eyebrow">DHRUV LADANI</p>
           <h1 className="font-display text-balance text-5xl font-semibold leading-[0.95] sm:text-6xl lg:text-7xl">
             Building{' '}
-            <span className="bg-gradient-to-r from-[#71efff] via-[#3cbcff] to-[#9b7dff] bg-clip-text text-transparent">
-              AI-first products
-            </span>{' '}
-            with engineering depth and product taste.
+            <span className="text-gradient">intelligent systems</span>
+            {' '}with engineering precision.
           </h1>
           <p className="max-w-2xl text-lg leading-8 text-slate-300">
             Computer Engineering student blending AI, full-stack development, data thinking,
@@ -67,7 +169,10 @@ export default function Hero() {
 
         <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
           <a href={resumeTech} download="Dhruv_Ladani_Resume_Tech.pdf" className="btn-primary">
-            Download Tech Resume
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-white/30 glow-blue animate-pulse" />
+              Download Tech Resume
+            </span>
             <FiDownload />
           </a>
           <a href={resumePM} download="Dhruv_Ladani_Resume_PM.pdf" className="btn-secondary">
@@ -83,6 +188,7 @@ export default function Hero() {
         <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
           {focusTags.map((tag) => (
             <span key={tag} className="tag">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--arc-blue)]" style={{ boxShadow: 'var(--arc-glow)' }} />
               {tag}
             </span>
           ))}
@@ -94,10 +200,16 @@ export default function Hero() {
           initial="hidden"
           animate="show"
         >
-          {stats.map((stat) => (
-            <motion.div key={stat.label} variants={cardPop} className="stat-card">
+          {stats.map((stat, index) => (
+            <motion.div key={stat.label} variants={cardPop} className="stat-card relative">
+              <div className="hud-corner hud-corner-tl" />
+              <div className="hud-corner hud-corner-br" />
               <span className="stat-value">{stat.value}</span>
               <p className="text-sm leading-6 text-slate-400">{stat.label}</p>
+              <div
+                className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-[var(--arc-blue)] to-transparent opacity-50"
+                style={{ width: `${(index + 1) * 25}%` }}
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -111,10 +223,10 @@ export default function Hero() {
                 href={profile.href}
                 target="_blank"
                 rel="noreferrer"
-                className="contact-link"
+                className="contact-link group"
               >
                 <div className="flex items-center gap-3">
-                  <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg">
+                  <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg transition-all duration-300 group-hover:shadow-[var(--arc-glow)]">
                     <Icon />
                   </span>
                   <div>
@@ -122,7 +234,7 @@ export default function Hero() {
                     <p className="text-sm text-slate-400">View profile</p>
                   </div>
                 </div>
-                <FiArrowUpRight className="text-slate-400" />
+                <FiArrowUpRight className="text-slate-400 transition-transform duration-300 group-hover:translate-y-[-2px] group-hover:translate-x-[2px]" />
               </a>
             );
           })}
@@ -135,26 +247,45 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
+        <HUDScanner />
+
+        {/* Arc Ring Decorations */}
         <motion.div
-          className="floating-orb left-8 top-8 h-28 w-28"
-          animate={{ y: [0, -14, 0], x: [0, 8, 0] }}
+          className="absolute left-4 top-4 opacity-30"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="w-20 h-20 rounded-full border border-dashed" style={{ borderColor: 'var(--arc-blue)' }} />
+        </motion.div>
+
+        <motion.div
+          className="floating-orb left-12 top-12 h-32 w-32"
+          animate={{ y: [0, -18, 0], x: [0, 12, 0], scale: [1, 1.05, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ background: 'var(--orb-three)' }}
+        />
+        <motion.div
+          className="floating-orb bottom-12 right-12 h-40 w-40"
+          animate={{ y: [0, 15, 0], x: [0, -12, 0], scale: [1.02, 1, 1.02] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ background: 'var(--orb-one)' }}
+        />
+        <motion.div
+          className="floating-orb right-20 top-1/3 h-24 w-24"
+          animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           style={{ background: 'var(--orb-two)' }}
         />
-        <motion.div
-          className="floating-orb bottom-10 right-8 h-36 w-36"
-          animate={{ y: [0, 12, 0], x: [0, -10, 0] }}
-          transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'var(--orb-one)' }}
-        />
 
         <motion.div
-          className="absolute left-6 top-6 z-20 hidden max-w-[14rem] lg:flex"
+          className="absolute left-8 top-8 z-20 hidden max-w-[14rem] lg:flex"
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <div className="orbit-card">
-            <span className="text-xs uppercase tracking-[0.22em] text-slate-400">Current Focus</span>
+          <div className="orbit-card relative overflow-hidden">
+            <div className="hud-corner hud-corner-tl" style={{ borderColor: 'var(--arc-blue)' }} />
+            <div className="hud-corner hud-corner-br" style={{ borderColor: 'var(--arc-blue)' }} />
+            <span className="text-xs uppercase tracking-[0.22em] text-[var(--arc-blue)]">TARGET LOCK</span>
             <span className="font-display text-lg font-semibold text-white">
               Agentic AI products and intelligent tooling
             </span>
@@ -162,12 +293,12 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="absolute bottom-8 left-6 z-20 hidden max-w-[14rem] lg:flex"
+          className="absolute bottom-8 left-8 z-20 hidden max-w-[14rem] lg:flex"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         >
           <div className="orbit-card">
-            <span className="text-xs uppercase tracking-[0.22em] text-slate-400">How I Build</span>
+            <span className="text-xs uppercase tracking-[0.22em] text-[var(--accent-gold)]">BUILD PROTOCOL</span>
             <span className="font-display text-lg font-semibold text-white">
               Prototype fast, measure clearly, polish intentionally
             </span>
@@ -175,18 +306,27 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="absolute right-6 top-20 z-20 hidden max-w-[11rem] xl:flex"
+          className="absolute right-8 top-24 z-20 hidden max-w-[11rem] xl:flex"
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
         >
           <div className="orbit-card">
-            <span className="text-xs uppercase tracking-[0.22em] text-slate-400">Competitive Coding</span>
+            <span className="text-xs uppercase tracking-[0.22em] text-[var(--arc-blue)]">RANK ACHIEVED</span>
             <span className="font-display text-lg font-semibold text-white">CodeChef 5-star</span>
             <span className="text-sm text-slate-400">Codeforces {cfRank}</span>
           </div>
         </motion.div>
 
-        <div className="hero-portrait">
+        {/* Arc Reactor Decoration */}
+        <motion.div
+          className="absolute right-12 bottom-1/3 z-10 hidden xl:block opacity-60"
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+        >
+          <ArcReactorCore size={60} />
+        </motion.div>
+
+        <div className="hero-portrait relative">
           <motion.img
             src="/avatar.jpg"
             alt="Dhruv Ladani portrait"
@@ -197,17 +337,32 @@ export default function Hero() {
 
           <div className="hero-image-overlay absolute inset-0" />
 
-          <div className="hero-overlay-card absolute inset-x-4 bottom-4 z-10 rounded-[26px] border p-5 backdrop-blur-md">
+          {/* HUD Corners on portrait */}
+          <div className="absolute inset-4 pointer-events-none">
+            <div className="hud-corner hud-corner-tl" style={{ borderColor: 'var(--arc-blue)' }} />
+            <div className="hud-corner hud-corner-tr" style={{ borderColor: 'var(--arc-blue)' }} />
+            <div className="hud-corner hud-corner-bl" style={{ borderColor: 'var(--arc-blue)' }} />
+            <div className="hud-corner hud-corner-br" style={{ borderColor: 'var(--arc-blue)' }} />
+          </div>
+
+          <div className="hero-overlay-card absolute inset-x-4 bottom-4 z-10 rounded-[22px] border p-5 backdrop-blur-md relative overflow-hidden">
+            <div className="hud-corner hud-corner-tl" style={{ borderColor: 'var(--arc-blue)', width: 14, height: 14 }} />
+            <div className="hud-corner hud-corner-br" style={{ borderColor: 'var(--arc-blue)', width: 14, height: 14 }} />
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.24em] text-slate-400">Recent Themes</p>
-                <p className="mt-2 font-display text-2xl font-semibold text-white">
+                <p className="text-xs uppercase tracking-[0.24em] text-[var(--arc-blue)]">ACTIVE PROJECTS</p>
+                <p className="mt-2 font-display text-xl font-semibold text-white">
                   AI agents, dashboards, and product workflows
                 </p>
               </div>
-              <span className="accent-icon action-circle hidden rounded-full border p-3 sm:inline-flex">
-                <FiArrowDownRight size={22} />
-              </span>
+              <motion.span
+                className="accent-icon hidden rounded-full border p-3 sm:inline-flex"
+                style={{ borderColor: 'var(--stat-border)' }}
+                animate={{ rotate: [0, 15, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <FiArrowDownRight size={20} />
+              </motion.span>
             </div>
           </div>
         </div>

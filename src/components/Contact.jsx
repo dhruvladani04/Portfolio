@@ -8,6 +8,7 @@ import {
   FiMail,
   FiPhone,
 } from 'react-icons/fi';
+import { GiPunchBlast, GiPowerButton } from 'react-icons/gi';
 import SectionHeading from './SectionHeading';
 import { cardPop, viewport } from '../utils/motion';
 
@@ -19,30 +20,58 @@ const initialForm = {
 
 const contactLinks = [
   {
-    label: 'Email',
+    label: 'Secure Email',
     value: 'dhruvladani04@gmail.com',
     href: 'mailto:dhruvladani04@gmail.com',
     icon: FiMail,
   },
   {
-    label: 'Phone',
+    label: 'Direct Line',
     value: '+91 94290 82869',
     href: 'tel:+919429082869',
     icon: FiPhone,
   },
   {
     label: 'LinkedIn',
-    value: 'Connect professionally',
+    value: 'Professional network',
     href: 'https://www.linkedin.com/in/dhruv-ladani-a65578252',
     icon: FiLinkedin,
   },
   {
     label: 'GitHub',
-    value: 'Browse my repositories',
+    value: 'Source archives',
     href: 'https://github.com/dhruvladani04',
     icon: FiGithub,
   },
 ];
+
+function HUDContactDecoration() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 opacity-40" style={{ borderColor: 'var(--arc-blue)' }} />
+      <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 opacity-40" style={{ borderColor: 'var(--arc-blue)' }} />
+
+      {/* Animated scan line */}
+      <motion.div
+        className="absolute left-0 right-0 h-px opacity-30"
+        style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue), transparent)' }}
+        animate={{ top: ['0%', '100%', '0%'] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Status indicators */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <motion.div
+          className="w-2 h-2 rounded-full"
+          style={{ background: 'var(--arc-blue)', boxShadow: 'var(--arc-glow)' }}
+          animate={{ opacity: [1, 0.5, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+        <span className="font-mono text-xs tracking-wider" style={{ color: 'var(--arc-blue)' }}>SECURE</span>
+      </div>
+    </div>
+  );
+}
 
 export default function Contact() {
   const [status, setStatus] = useState(null);
@@ -52,7 +81,7 @@ export default function Contact() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === 'true') {
-      setStatus({ type: 'success', message: 'Message sent successfully. Thanks for reaching out.' });
+      setStatus({ type: 'success', message: 'Message transmitted successfully. Thanks for reaching out.' });
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -77,7 +106,7 @@ export default function Contact() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setStatus({ type: 'pending', message: 'Sending your message...' });
+    setStatus({ type: 'pending', message: 'Transmitting message...' });
 
     const payload = new FormData(event.target);
 
@@ -93,10 +122,10 @@ export default function Contact() {
       }
 
       setFormData(initialForm);
-      setStatus({ type: 'success', message: 'Message sent successfully. I will get back to you soon.' });
+      setStatus({ type: 'success', message: 'Transmission complete. I will respond soon.' });
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      setStatus({ type: 'error', message: 'Something went wrong. Please try again or email me directly.' });
+      setStatus({ type: 'error', message: 'Transmission failed. Please try again or email directly.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +133,7 @@ export default function Contact() {
 
   const statusClass =
     status?.type === 'success'
-      ? 'text-[var(--accent-violet)]'
+      ? 'text-[var(--arc-blue)]'
       : status?.type === 'error'
         ? 'text-[#ff9b9b]'
         : 'text-slate-400';
@@ -112,28 +141,30 @@ export default function Contact() {
   return (
     <div className="space-y-6">
       <SectionHeading
-        eyebrow="Contact"
-        title="Let&apos;s build something useful together."
-        description="If you have an opportunity, an idea, or just want to talk through a project, I&apos;m always happy to connect."
+        eyebrow="INITIATE PROTOCOL"
+        title="Let's build something meaningful"
+        description="If you have an opportunity, an idea, or just want to talk through a project, I'm always happy to connect."
       />
 
       <div className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
         <motion.div
-          className="panel panel-highlight p-7 md:p-8"
+          className="panel panel-highlight p-7 md:p-8 relative overflow-hidden"
           variants={cardPop}
           initial="hidden"
           whileInView="show"
           viewport={viewport}
         >
-          <div className="space-y-6">
+          <HUDContactDecoration />
+
+          <div className="relative z-10 space-y-6">
             <div>
-              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Best fit</p>
-              <h3 className="mt-2 font-display text-3xl font-semibold text-white">
-                AI product work, engineering roles, and ambitious side projects.
+              <p className="font-mono text-xs uppercase tracking-widest" style={{ color: 'var(--accent-gold)' }}>TARGET MISSION</p>
+              <h3 className="mt-2 font-display text-2xl md:text-3xl font-semibold text-white">
+                AI product work, engineering roles, and ambitious projects.
               </h3>
               <p className="mt-4 text-base leading-7 text-slate-300">
                 I enjoy conversations where thoughtful product direction meets solid execution.
-                If that sounds like your team or project, let&apos;s talk.
+                If that sounds like your team or project, let's talk.
               </p>
             </div>
 
@@ -141,15 +172,17 @@ export default function Contact() {
               {contactLinks.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <a
+                  <motion.a
                     key={item.label}
                     href={item.href}
                     target={item.href.startsWith('http') ? '_blank' : undefined}
                     rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
-                    className="contact-link"
+                    className="contact-link group"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg">
+                      <span className="accent-icon icon-shell inline-flex h-11 w-11 items-center justify-center rounded-2xl text-lg transition-all duration-300 group-hover:shadow-[var(--arc-glow)]">
                         <Icon />
                       </span>
                       <div>
@@ -157,8 +190,8 @@ export default function Contact() {
                         <p className="text-sm text-slate-400">{item.value}</p>
                       </div>
                     </div>
-                    <FiArrowUpRight className="text-slate-400" />
-                  </a>
+                    <FiArrowUpRight className="text-slate-400 transition-transform group-hover:translate-y-[-2px] group-hover:translate-x-[2px]" />
+                  </motion.a>
                 );
               })}
             </div>
@@ -169,118 +202,141 @@ export default function Contact() {
               <a
                 href="/Dhruv_Ladani_Resume_Tech.pdf"
                 download="Dhruv_Ladani_Resume_Tech.pdf"
-                className="btn-secondary"
+                className="btn-secondary group"
               >
-                Tech Resume
-                <FiDownload />
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full" style={{ background: 'var(--arc-blue)', boxShadow: 'var(--arc-glow)' }} />
+                  Tech Resume
+                </span>
+                <FiDownload className="transition-transform group-hover:translate-y-[2px]" />
               </a>
               <a
                 href="/Dhruv_Ladani_Resume_PM.pdf"
                 download="Dhruv_Ladani_Resume_PM.pdf"
-                className="btn-secondary"
+                className="btn-secondary group"
               >
-                PM Resume
-                <FiDownload />
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent-gold)', boxShadow: 'var(--gold-glow)' }} />
+                  PM Resume
+                </span>
+                <FiDownload className="transition-transform group-hover:translate-y-[2px]" />
               </a>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          className="panel p-7 md:p-8"
+          className="panel p-7 md:p-8 relative overflow-hidden"
           variants={cardPop}
           initial="hidden"
           whileInView="show"
           viewport={viewport}
         >
-          <div className="mb-6">
-            <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Send a message</p>
-            <h3 className="mt-2 font-display text-3xl font-semibold text-white">
-              Tell me what you&apos;re building.
-            </h3>
+          <HUDContactDecoration />
+
+          <div className="relative z-10">
+            <div className="mb-6">
+              <p className="font-mono text-xs uppercase tracking-widest" style={{ color: 'var(--accent-gold)' }}>ESTABLISH CONNECTION</p>
+              <h3 className="mt-2 font-display text-2xl md:text-3xl font-semibold text-white">
+                Transmit your message.
+              </h3>
+            </div>
+
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+              action="/form"
+              className="space-y-5"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+
+              <div className="hidden">
+                <label htmlFor="bot-field">
+                  Do not fill this field
+                  <input id="bot-field" name="bot-field" />
+                </label>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label htmlFor="name" className="mb-2 block font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--arc-blue)' }}>
+                    Identity Code
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                    placeholder="Enter your name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="mb-2 block font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--arc-blue)' }}>
+                    Communication Channel
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="form-field"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="mb-2 block font-mono text-xs uppercase tracking-wider" style={{ color: 'var(--arc-blue)' }}>
+                  Data Transmission
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows="6"
+                  className="form-field resize-none"
+                  placeholder="Describe the mission, project, or opportunity..."
+                />
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <motion.button
+                  type="submit"
+                  className="btn-primary w-fit group"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span className="flex items-center gap-2">
+                    <GiPunchBlast className="text-lg" />
+                    {isSubmitting ? 'Transmitting...' : 'Initialize Contact'}
+                  </span>
+                  <FiArrowUpRight className="transition-transform group-hover:translate-y-[-2px] group-hover:translate-x-[2px]" />
+                </motion.button>
+
+                {status && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`text-sm font-mono ${statusClass}`}
+                  >
+                    {status.message}
+                  </motion.p>
+                )}
+              </div>
+            </form>
           </div>
-
-          <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
-            action="/form"
-            className="space-y-5"
-          >
-            <input type="hidden" name="form-name" value="contact" />
-
-            <div className="hidden">
-              <label htmlFor="bot-field">
-                Do not fill this field
-                <input id="bot-field" name="bot-field" />
-              </label>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-200">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="form-field"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="form-field"
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-200">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows="6"
-                className="form-field resize-none"
-                placeholder="Tell me a little about the opportunity, project, or idea."
-              />
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <button type="submit" className="btn-primary w-fit" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Send message'}
-                <FiArrowUpRight />
-              </button>
-
-              {status && (
-                <p className={`text-sm ${statusClass}`}>
-                  {status.message}
-                </p>
-              )}
-            </div>
-          </form>
         </motion.div>
       </div>
     </div>
