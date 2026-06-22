@@ -6,10 +6,10 @@ import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 import { experience } from '../data/experience';
 
 const skills = [
-  { category: 'AI & Machine Learning', items: ['LLM Integration', 'RAG Systems', 'Prompt Engineering', 'AI Agents'] },
-  { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
-  { category: 'Backend', items: ['Node.js', 'Python', 'PostgreSQL', 'Supabase', 'REST APIs'] },
-  { category: 'Other', items: ['Git', 'Vercel', 'Docker', 'Figma', 'Linux', 'C++'] },
+  { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
+  { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Streamlit', 'Gradio'] },
+  { category: 'Backend', items: ['Python', 'FastAPI', 'Node.js', 'PostgreSQL', 'MongoDB', 'Supabase', 'Prisma', 'SQLAlchemy'] },
+  { category: 'Tools & Other', items: ['Git', 'Docker', 'LangSmith', 'Vercel', 'Figma', 'Linux', 'C++', 'Flutter'] },
 ];
 
 const journeyPhases = [
