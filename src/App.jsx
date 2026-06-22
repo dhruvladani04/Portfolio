@@ -5,7 +5,6 @@ import { Canvas } from '@react-three/fiber';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ArcReactorScene from './components/3d/ArcReactorScene';
-import { THEME_STORAGE_KEY, getInitialTheme } from './utils/theme.mjs';
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -44,7 +43,7 @@ function LoadingScreen() {
   );
 }
 
-function ThreeBackground({ theme }) {
+function ThreeBackground() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
       <Canvas
@@ -52,7 +51,7 @@ function ThreeBackground({ theme }) {
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
       >
-        <ArcReactorScene theme={theme} />
+        <ArcReactorScene />
       </Canvas>
       <div className="app-noise" />
     </div>
@@ -87,15 +86,14 @@ const pageVariants = {
 };
 
 export default function App() {
-  const [theme, setTheme] = useState(getInitialTheme);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-  }, [theme]);
+    // Always use dark mode
+    document.documentElement.dataset.theme = 'dark';
+    document.documentElement.style.colorScheme = 'dark';
+  }, []);
 
   useEffect(() => {
     // Simulate initial load
@@ -109,11 +107,8 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <ThreeBackground theme={theme} />
-      <Navbar
-        theme={theme}
-        onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))}
-      />
+      <ThreeBackground />
+      <Navbar />
       <main className="content-stack relative z-10">
         <AnimatePresence mode="wait">
           <Suspense fallback={<LoadingScreen />}>

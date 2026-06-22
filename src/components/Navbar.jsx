@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { FiArrowUpRight, FiMoon, FiSun, FiMenu, FiX } from 'react-icons/fi';
+import { FiArrowUpRight, FiMenu, FiX } from 'react-icons/fi';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -10,7 +10,7 @@ const navLinks = [
   { path: '/contact', label: 'Contact' },
 ];
 
-export default function Navbar({ theme = 'dark', onToggleTheme }) {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -25,8 +25,6 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
-
-  const isLightTheme = theme === 'light';
 
   return (
     <>
@@ -98,21 +96,6 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
                 <FiArrowUpRight className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
 
-              <button
-                type="button"
-                className="theme-toggle hidden sm:inline-flex"
-                onClick={onToggleTheme}
-                aria-label={`Switch to ${isLightTheme ? 'dark' : 'light'} mode`}
-              >
-                <motion.span
-                  className="theme-toggle-glyph"
-                  animate={{ rotate: isLightTheme ? 0 : 180 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {isLightTheme ? <FiMoon size={14} /> : <FiSun size={14} />}
-                </motion.span>
-              </button>
-
               {/* Mobile menu button */}
               <button
                 type="button"
@@ -156,22 +139,6 @@ export default function Navbar({ theme = 'dark', onToggleTheme }) {
                     </Link>
                   );
                 })}
-
-                <div className="h-px w-full my-4" style={{ background: 'var(--border)' }} />
-
-                <button
-                  type="button"
-                  className="theme-toggle w-full theme-toggle-mobile"
-                  onClick={onToggleTheme}
-                >
-                  <span className="flex items-center gap-3">
-                    <span className="theme-toggle-glyph">
-                      {isLightTheme ? <FiMoon size={14} /> : <FiSun size={14} />}
-                    </span>
-                    <span>{isLightTheme ? 'Switch to dark' : 'Switch to light'}</span>
-                  </span>
-                  <FiArrowUpRight size={14} />
-                </button>
               </motion.div>
             )}
           </AnimatePresence>

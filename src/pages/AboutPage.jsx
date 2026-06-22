@@ -22,7 +22,7 @@ const journeyPhases = [
   {
     year: 'Aug 2022',
     title: 'PDEU — B.Tech Computer Engineering',
-    desc: 'Joined Pandit Deendayal Energy University. Dove deep into algorithms, data structures, and foundational CS. CGPA: 9.34.',
+    desc: 'Joined Pandit Deendayal Energy University. Dove deep into algorithms, data structures, and foundational CS.',
   },
   {
     year: 'Jul–Oct 2023',
@@ -108,8 +108,7 @@ export default function AboutPage() {
 
             <p className="text-lg text-slate-300 mb-6 leading-relaxed">
               I'm a Computer Engineering student at Pandit Deendayal Energy University (PDEU)
-              with a CGPA of <span style={{ color: 'var(--arc-blue)' }}>9.34</span> and a strong
-              bias toward building products that actually help people.
+              with a strong bias toward building products that actually help people.
             </p>
             <p className="text-lg text-slate-300 mb-6 leading-relaxed">
               My journey started with Java, evolved through competitive programming in C++,
