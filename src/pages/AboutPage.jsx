@@ -7,6 +7,7 @@ import { experience } from '../data/experience';
 
 const skills = [
   { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
+  { category: 'Product Management', items: ['JIRA', 'Agile/Scrum', 'KPI Definition', 'POC Scoping', 'Feature Prioritization', 'Stakeholder Management', 'Product Documentation', 'Proposal Writing'] },
   { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Streamlit', 'Gradio'] },
   { category: 'Backend', items: ['Python', 'FastAPI', 'Node.js', 'PostgreSQL', 'MongoDB', 'Supabase', 'Prisma', 'SQLAlchemy'] },
   { category: 'Tools & Other', items: ['Git', 'Docker', 'LangSmith', 'Vercel', 'Figma', 'Linux', 'C++', 'Flutter'] },
@@ -206,7 +207,7 @@ export default function AboutPage() {
             <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>SKILLS & TOOLS</span>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             {skills.map((skillSet, i) => (
               <motion.div
                 key={skillSet.category}
