@@ -86,9 +86,8 @@ export default function Footer() {
           {/* Bottom bar */}
           <div className="relative z-10 mt-6 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ color: 'var(--muted)' }}>
-              <p>
-                <span className="font-mono" style={{ color: 'var(--arc-blue)' }}>STARK ARCHIVES</span>
-                {' '}&copy; {currentYear}
+              <p className="font-mono">
+                Made with <span style={{ color: 'var(--stark-red)' }}>❤️</span> by <span style={{ color: 'var(--arc-blue)' }}>Dhruv Ladani</span>
               </p>
               <p className="font-mono">
                 Built with React + Three.js + Framer Motion

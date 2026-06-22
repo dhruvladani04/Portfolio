@@ -197,9 +197,9 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { title: 'Nexus - AI Interview Platform', desc: 'AI-powered hiring platform for structured, bias-free interviews', tag: 'AI/ML' },
-              { title: 'Stock Pro Inventory System', desc: 'Complete inventory management with billing for retail businesses', tag: 'Full-Stack' },
-              { title: 'LLM Research Publication', desc: 'Sector classification of software requirements using LLMs - ACM SAC 2026', tag: 'Research' },
+              { title: 'AI PM Co-pilot', desc: 'Dynamic utility for Product Managers to manage probabilistic AI systems with automated synthesis and testing', tag: 'AI/ML + PM' },
+              { title: 'Smart Job Tracker', desc: 'AI-powered job search pipeline that aggregates 100+ sources and scores leads via LLMs', tag: 'AI/ML' },
+              { title: 'Agile Sprint Guardian', desc: 'Multi-agent system simulating an Agile squad to autonomously refine feature requests', tag: 'Multi-Agent AI' },
             ].map((project, i) => (
               <motion.div
                 key={project.title}

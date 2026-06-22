@@ -13,12 +13,61 @@ const skills = [
 ];
 
 const journeyPhases = [
-  { year: '2019-2020', title: 'Started Coding', desc: 'Learned Java fundamentals, began competitive programming journey' },
-  { year: '2020-2021', title: 'Competitive Programming', desc: 'Solved 500+ DSA problems, achieved CodeChef 5-star rating' },
-  { year: '2022', title: 'Full-Stack Development', desc: 'Built production apps, learned React and Node.js ecosystems' },
-  { year: '2023', title: 'AI & Research', desc: 'Started LLM research, published at ACM SAC 2026 as first author' },
-  { year: '2024-25', title: 'Product Building', desc: 'Shipped multiple products including AI interview platform and inventory system' },
-  { year: '2026', title: 'Graduating', desc: 'Ready for full-time roles in AI, software engineering, and product' },
+  {
+    year: 'Pre-2022',
+    title: 'The Beginning',
+    desc: 'Started with Java, fell into competitive programming — solved 500+ DSA problems and earned CodeChef 5-star & Codeforces ratings.',
+  },
+  {
+    year: 'Aug 2022',
+    title: 'PDEU — B.Tech Computer Engineering',
+    desc: 'Joined Pandit Deendayal Energy University. Dove deep into algorithms, data structures, and foundational CS. CGPA: 9.34.',
+  },
+  {
+    year: 'Jul–Oct 2023',
+    title: 'Campus Leadership Begins',
+    desc: 'Joined ACM PDEU Student Chapter (Core Committee), CSI PDEU (Technical Sub-Committee), GeeksForGeeks PDEU, Encode PDEU, and Symmetry PDEU simultaneously.',
+  },
+  {
+    year: 'Aug 2024 — Aug 2024',
+    title: 'First Research Published',
+    desc: '"Advanced Water Quality Assessment through Integrated Machine Learning Models" published at IEEE ICCUBEA 2024. First step into academic research.',
+  },
+  {
+    year: 'Jun–Sep 2024',
+    title: 'First Internships',
+    desc: 'Android App Developer Intern at Prodigy InfoTech (Jun–Jul). Followed by Mobile App Dev Intern at WebMobi360, exploring Flutter and app architecture.',
+  },
+  {
+    year: 'Oct–Dec 2024',
+    title: 'MitJayn Corporation',
+    desc: 'Mobile App Developer — managed the alpha phase of a healthcare management app, built from scratch in Flutter, and designed the UI in Figma.',
+  },
+  {
+    year: 'Aug 2024 – Jul 2025',
+    title: 'Application Dev Head & Technical Head',
+    desc: 'Elected Application Development Head at ACM PDEU and Technical Head at CSI PDEU simultaneously — led technical events, workshops, and app initiatives.',
+  },
+  {
+    year: 'Aug 2025',
+    title: 'Second Research Published',
+    desc: '"Analysing API Access Behaviour for Enhanced Security: A Machine Learning Approach" published at AIMV 2025 (2nd International Conference on AI and Machine Vision).',
+  },
+  {
+    year: 'May–Aug 2025',
+    title: 'AI/ML Engineer Intern — WebMobi360',
+    desc: 'Integrated Generative AI, Agentic AI, and LLM-based solutions into product workflows. Built prototypes and evaluated agentic AI feature feasibility.',
+  },
+  {
+    year: 'Jan 2026 – Present',
+    title: 'AI/ML Intern — Impresa.ai Consulting',
+    desc: 'Shaping client proposals with PMs, designing GenAI prompt workflows, building Python automation scripts, and delivering POC demos for enterprise clients.',
+  },
+  {
+    year: 'Jul 2026',
+    title: 'Graduating',
+    desc: 'Completing B.Tech in Computer Engineering. Ready for full-time roles in AI engineering, agentic systems, and product management.',
+  },
 ];
 
 const profiles = [
