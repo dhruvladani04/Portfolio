@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowLeft, FiArrowUpRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 import { experience } from '../data/experience';
+import IronManAvatar from '../components/IronManAvatar';
 
 const skills = [
   { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
@@ -138,24 +139,8 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Avatar */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="panel p-2 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 opacity-30" style={{ borderColor: 'var(--arc-blue)' }} />
-              <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 opacity-30" style={{ borderColor: 'var(--arc-blue)' }} />
-              <img
-                src="/avatar.jpg"
-                alt="Dhruv Ladani"
-                className="w-full aspect-[4/5] object-cover rounded-xl"
-              />
-              <div className="absolute inset-2 pointer-events-none" style={{ boxShadow: 'inset 0 0 30px rgba(0, 217, 255, 0.1)' }} />
-            </div>
-          </motion.div>
+          {/* Avatar with Iron Man AI System */}
+          <IronManAvatar />
         </motion.div>
 
         {/* Journey Timeline */}
