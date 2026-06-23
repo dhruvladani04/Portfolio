@@ -189,7 +189,7 @@ export default function HomePage() {
                 animate={{ opacity: [1, 0.5, 1], scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="relative z-10">AI ENGINEER</span>
+              <span className="relative z-10">AI PRODUCT MANAGER & PRODUCT BUILDER</span>
             </motion.span>
             <motion.span
               className="pill"
@@ -213,11 +213,18 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <GlitchText className="text-gradient">Dhruv</GlitchText>
+              <motion.span
+                className="text-gradient inline-block"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                Dhruv
+              </motion.span>
               <br />
               <motion.span
                 className="text-white inline-block"
-                initial={{ opacity: 0, x: -50 }}
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
@@ -255,7 +262,7 @@ export default function HomePage() {
             transition={{ delay: 0.4 }}
           >
             <TextReveal delay={0.6}>
-              Computer Engineering student at PDEU with a strong bias toward building products that help people. Passionate about AI, full-stack development, and solving complex problems.
+              AI Product Builder with hands-on experience designing and deploying Generative AI applications using multi-agent systems and RAG pipelines. Skilled in translating user needs into product features, defining metrics, and collaborating across engineering and design teams to deliver impactful AI-driven products.
             </TextReveal>
           </motion.div>
 

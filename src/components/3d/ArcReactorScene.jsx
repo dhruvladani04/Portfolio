@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Sphere, Ring, Box, Torus } from '@react-three/drei';
 import * as THREE from 'three';
 
-function ArcReactorRing({ radius, thickness, segments, speed, color, inner = false }) {
+function ArcReactorRing({ radius, thickness, segments, speed, color }) {
   const ringRef = useRef();
 
   useFrame((state) => {
@@ -25,7 +25,7 @@ function ArcReactorRing({ radius, thickness, segments, speed, color, inner = fal
 
   return (
     <group ref={ringRef}>
-      {/* Main ring */}
+      {/* Main ring - more transparent */}
       <Ring
         args={[radius - thickness, radius, 64]}
         rotation={[0, 0, Math.PI / 2]}
@@ -33,7 +33,7 @@ function ArcReactorRing({ radius, thickness, segments, speed, color, inner = fal
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.3}
+          opacity={0.12}
           side={THREE.DoubleSide}
         />
       </Ring>
@@ -41,11 +41,11 @@ function ArcReactorRing({ radius, thickness, segments, speed, color, inner = fal
       {/* Nodes around the ring */}
       {nodes.map((node, i) => (
         <mesh key={i} position={[node.x, node.y, 0]}>
-          <sphereGeometry args={[thickness * 0.5, 8, 8]} />
+          <sphereGeometry args={[thickness * 0.4, 8, 8]} />
           <meshBasicMaterial
             color={color}
             transparent
-            opacity={0.8}
+            opacity={0.3}
           />
         </mesh>
       ))}
@@ -77,7 +77,7 @@ function HexGridCircle({ radius = 5, rings = 4 }) {
           <meshBasicMaterial
             color="#00d9ff"
             transparent
-            opacity={0.1 + (hex.ring * 0.05)}
+            opacity={0.03 + (hex.ring * 0.02)}
           />
         </mesh>
       ))}
@@ -85,25 +85,24 @@ function HexGridCircle({ radius = 5, rings = 4 }) {
   );
 }
 
-function ParticleField({ count = 300, spread = 20 }) {
+function ParticleField({ count = 150, spread = 25 }) {
   const particles = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {
       const x = (Math.random() - 0.5) * spread;
       const y = (Math.random() - 0.5) * spread;
-      const z = (Math.random() - 0.5) * spread - 5;
-      temp.push({ x, y, z, speed: 0.2 + Math.random() * 0.5, offset: Math.random() * Math.PI * 2 });
+      const z = (Math.random() - 0.5) * spread - 8;
+      temp.push({ x, y, z, speed: 0.2 + Math.random() * 0.3, offset: Math.random() * Math.PI * 2 });
     }
     return temp;
   }, [count, spread]);
 
   const pointsRef = useRef();
-  const positionsRef = useRef();
 
   useFrame((state) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02;
-      pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.01) * 0.1;
+      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.015;
+      pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.01) * 0.05;
     }
   });
 
@@ -128,10 +127,10 @@ function ParticleField({ count = 300, spread = 20 }) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.04}
+        size={0.03}
         color="#00d9ff"
         transparent
-        opacity={0.6}
+        opacity={0.3}
         sizeAttenuation
       />
     </points>
@@ -143,28 +142,28 @@ function ArcCore() {
 
   useFrame((state) => {
     if (coreRef.current) {
-      const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1;
+      const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.08;
       coreRef.current.scale.set(scale, scale, scale);
     }
   });
 
   return (
     <group ref={coreRef}>
-      {/* Inner glow */}
-      <Sphere args={[0.3, 32, 32]}>
+      {/* Inner glow - more subtle */}
+      <Sphere args={[0.25, 32, 32]}>
         <meshBasicMaterial
           color="#00d9ff"
           transparent
-          opacity={0.9}
+          opacity={0.4}
         />
       </Sphere>
 
       {/* Outer glow */}
-      <Sphere args={[0.4, 32, 32]}>
+      <Sphere args={[0.35, 32, 32]}>
         <meshBasicMaterial
           color="#4fc3f7"
           transparent
-          opacity={0.3}
+          opacity={0.1}
         />
       </Sphere>
     </group>
@@ -184,12 +183,6 @@ function TriangleFrame({ size = 6, color = "#e63946" }) {
 
   const geomRef = useRef();
 
-  useFrame((state) => {
-    if (geomRef.current) {
-      geomRef.current.rotation.z = Math.PI;
-    }
-  });
-
   return (
     <group ref={geomRef} position={[0, 0, -1]}>
       <mesh rotation={[0, 0, Math.PI]}>
@@ -197,11 +190,11 @@ function TriangleFrame({ size = 6, color = "#e63946" }) {
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={0.05}
+          opacity={0.02}
           side={THREE.DoubleSide}
         />
       </mesh>
-      {/* Triangle outline */}
+      {/* Triangle outline - more subtle */}
       <line>
         <bufferGeometry>
           <bufferAttribute
@@ -216,7 +209,7 @@ function TriangleFrame({ size = 6, color = "#e63946" }) {
             itemSize={3}
           />
         </bufferGeometry>
-        <lineBasicMaterial color={color} transparent opacity={0.3} />
+        <lineBasicMaterial color={color} transparent opacity={0.12} />
       </line>
     </group>
   );
@@ -228,8 +221,8 @@ function EnergyBeam({ angle = 0, length = 4, color = "#00d9ff" }) {
 
   useFrame((state) => {
     if (beamRef.current) {
-      const pulse = 0.5 + Math.sin(state.clock.elapsedTime * 3 + angle) * 0.5;
-      beamRef.current.material.opacity = pulse * 0.4;
+      const pulse = 0.3 + Math.sin(state.clock.elapsedTime * 2.5 + angle) * 0.3;
+      beamRef.current.material.opacity = pulse * 0.15;
     }
   });
 
@@ -246,120 +239,66 @@ function EnergyBeam({ angle = 0, length = 4, color = "#00d9ff" }) {
           itemSize={3}
         />
       </bufferGeometry>
-      <lineBasicMaterial color={color} transparent opacity={0.3} />
+      <lineBasicMaterial color={color} transparent opacity={0.12} />
     </line>
   );
 }
 
-// Floating geometric shapes
-function FloatingShape({ position, geometry, color, scale = 1, rotationSpeed = 0.5, floatIntensity = 0.5 }) {
+// Floating geometric shapes - smaller and more subtle
+function FloatingShape({ position, geometry, color, scale = 1, rotationSpeed = 0.5 }) {
   const meshRef = useRef();
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.01 * rotationSpeed;
-      meshRef.current.rotation.y += 0.015 * rotationSpeed;
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * floatIntensity + position[0]) * 0.3;
+      meshRef.current.rotation.x += 0.008 * rotationSpeed;
+      meshRef.current.rotation.y += 0.01 * rotationSpeed;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.4 + position[0]) * 0.2;
     }
   });
 
   return (
-    <Float speed={1} rotationIntensity={0.2} floatIntensity={0.3}>
-      <mesh ref={meshRef} position={position} scale={scale}>
-        {geometry === 'octahedron' && <octahedronGeometry args={[0.3]} />}
-        {geometry === 'tetrahedron' && <tetrahedronGeometry args={[0.3]} />}
-        {geometry === 'icosahedron' && <icosahedronGeometry args={[0.25]} />}
-        {geometry === 'dodecahedron' && <dodecahedronGeometry args={[0.25]} />}
-        {geometry === 'torus' && <torusGeometry args={[0.2, 0.08, 8, 16]} />}
-        <meshBasicMaterial color={color} transparent opacity={0.15} wireframe />
+    <Float speed={0.5} rotationIntensity={0.1} floatIntensity={0.2}>
+      <mesh ref={meshRef} position={position} scale={scale * 0.6}>
+        {geometry === 'octahedron' && <octahedronGeometry args={[0.25]} />}
+        {geometry === 'tetrahedron' && <tetrahedronGeometry args={[0.25]} />}
+        {geometry === 'icosahedron' && <icosahedronGeometry args={[0.2]} />}
+        {geometry === 'dodecahedron' && <dodecahedronGeometry args={[0.2]} />}
+        {geometry === 'torus' && <torusGeometry args={[0.15, 0.06, 8, 16]} />}
+        <meshBasicMaterial color={color} transparent opacity={0.06} wireframe />
       </mesh>
     </Float>
   );
 }
 
-// Glowing orb that moves around
+// Glowing orb that moves around - more subtle
 function GlowingOrb({ basePosition, color = "#ffa502", speed = 1 }) {
   const orbRef = useRef();
 
   useFrame((state) => {
     if (orbRef.current) {
-      const t = state.clock.elapsedTime * speed;
-      orbRef.current.position.x = basePosition[0] + Math.sin(t) * 2;
-      orbRef.current.position.y = basePosition[1] + Math.cos(t * 0.7) * 1.5;
-      orbRef.current.position.z = basePosition[2] + Math.sin(t * 0.5) * 1;
+      const t = state.clock.elapsedTime * speed * 0.5;
+      orbRef.current.position.x = basePosition[0] + Math.sin(t) * 1.5;
+      orbRef.current.position.y = basePosition[1] + Math.cos(t * 0.5) * 1;
+      orbRef.current.position.z = basePosition[2] + Math.sin(t * 0.3) * 0.8;
 
-      const scale = 0.8 + Math.sin(t * 2) * 0.2;
+      const scale = 0.6 + Math.sin(t) * 0.15;
       orbRef.current.scale.set(scale, scale, scale);
     }
   });
 
   return (
     <group ref={orbRef} position={basePosition}>
-      <Sphere args={[0.15, 16, 16]}>
-        <meshBasicMaterial color={color} transparent opacity={0.8} />
+      <Sphere args={[0.08, 16, 16]}>
+        <meshBasicMaterial color={color} transparent opacity={0.25} />
       </Sphere>
-      <Sphere args={[0.25, 16, 16]}>
-        <meshBasicMaterial color={color} transparent opacity={0.2} />
+      <Sphere args={[0.15, 16, 16]}>
+        <meshBasicMaterial color={color} transparent opacity={0.08} />
       </Sphere>
     </group>
   );
 }
 
-// Data flow lines
-function DataFlowLine({ startPos, endPos, color = "#00d9ff", duration = 3 }) {
-  const lineRef = useRef();
-  const progressRef = useRef(0);
-
-  useFrame((state, delta) => {
-    if (lineRef.current) {
-      progressRef.current = (progressRef.current + delta / duration) % 1;
-      const progress = progressRef.current;
-
-      // Update line positions for flowing effect
-      const positions = lineRef.current.geometry.attributes.position.array;
-      const segments = 20;
-
-      for (let i = 0; i <= segments; i++) {
-        const t = i / segments;
-        const flowT = (progress + t) % 1;
-        const alpha = Math.sin(flowT * Math.PI);
-
-        positions[i * 3] = startPos[0] + (endPos[0] - startPos[0]) * t;
-        positions[i * 3 + 1] = startPos[1] + (endPos[1] - startPos[1]) * t + Math.sin(t * Math.PI * 4) * 0.3;
-        positions[i * 3 + 2] = startPos[2] + (endPos[2] - startPos[2]) * t;
-      }
-
-      lineRef.current.geometry.attributes.position.needsUpdate = true;
-    }
-  });
-
-  const positions = useMemo(() => {
-    const pos = new Float32Array(21 * 3); // 20 segments + 1
-    for (let i = 0; i <= 20; i++) {
-      const t = i / 20;
-      pos[i * 3] = startPos[0] + (endPos[0] - startPos[0]) * t;
-      pos[i * 3 + 1] = startPos[1] + (endPos[1] - startPos[1]) * t;
-      pos[i * 3 + 2] = startPos[2] + (endPos[2] - startPos[2]) * t;
-    }
-    return pos;
-  }, [startPos, endPos]);
-
-  return (
-    <line ref={lineRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={21}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial color={color} transparent opacity={0.3} />
-    </line>
-  );
-}
-
-// Orbiting ring
+// Orbiting ring - more subtle
 function OrbitingRing({ radius = 3, tilt = Math.PI / 4, speed = 0.3, color = "#ffa502" }) {
   const ringRef = useRef();
 
@@ -372,14 +311,14 @@ function OrbitingRing({ radius = 3, tilt = Math.PI / 4, speed = 0.3, color = "#f
 
   return (
     <group ref={ringRef}>
-      <Torus args={[radius, 0.02, 8, 64]}>
-        <meshBasicMaterial color={color} transparent opacity={0.4} />
+      <Torus args={[radius, 0.015, 8, 64]}>
+        <meshBasicMaterial color={color} transparent opacity={0.15} />
       </Torus>
       {/* Small nodes on the ring */}
       {[0, 0.5, 1, 1.5].map((offset, i) => (
         <mesh key={i} position={[Math.cos(offset * Math.PI) * radius, Math.sin(offset * Math.PI) * radius, 0]}>
-          <sphereGeometry args={[0.06, 8, 8]} />
-          <meshBasicMaterial color={color} transparent opacity={0.7} />
+          <sphereGeometry args={[0.04, 8, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.2} />
         </mesh>
       ))}
     </group>
@@ -392,16 +331,16 @@ function PulsingHexagon({ position = [0, 0, -3], maxRadius = 2 }) {
 
   useFrame((state) => {
     if (hexRef.current) {
-      const scale = 0.8 + Math.sin(state.clock.elapsedTime * 1.5) * 0.15;
+      const scale = 0.7 + Math.sin(state.clock.elapsedTime * 1.2) * 0.1;
       hexRef.current.scale.set(scale, scale, 1);
-      hexRef.current.material.opacity = 0.1 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+      hexRef.current.material.opacity = 0.03 + Math.sin(state.clock.elapsedTime * 1.5) * 0.02;
     }
   });
 
   return (
     <mesh ref={hexRef} position={position} rotation={[0, 0, Math.PI / 6]}>
       <circleGeometry args={[maxRadius, 6]} />
-      <meshBasicMaterial color="#00d9ff" transparent opacity={0.1} />
+      <meshBasicMaterial color="#00d9ff" transparent opacity={0.03} />
     </mesh>
   );
 }
@@ -412,7 +351,7 @@ export default function ArcReactorScene() {
   useFrame((state) => {
     if (groupRef.current) {
       // Gentle floating motion
-      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.08;
     }
   });
 
@@ -420,56 +359,56 @@ export default function ArcReactorScene() {
   const goldColor = "#ffa502";
   const redColor = "#e63946";
 
-  // Floating shapes positions
+  // Floating shapes positions - moved further back
   const floatingShapes = useMemo(() => [
-    { position: [-4, 2, -3], geometry: 'octahedron', color: blueColor, scale: 1.2, speed: 0.3 },
-    { position: [4, -1.5, -2], geometry: 'tetrahedron', color: goldColor, scale: 0.8, speed: 0.4 },
-    { position: [-3, -2, -4], geometry: 'icosahedron', color: redColor, scale: 0.9, speed: 0.25 },
-    { position: [3.5, 2.5, -3], geometry: 'dodecahedron', color: blueColor, scale: 0.7, speed: 0.35 },
-    { position: [-5, 0, -5], geometry: 'torus', color: goldColor, scale: 1, speed: 0.2 },
-    { position: [5, 1, -4], geometry: 'octahedron', color: redColor, scale: 0.6, speed: 0.45 },
+    { position: [-5, 2.5, -5], geometry: 'octahedron', color: blueColor, scale: 1, speed: 0.25 },
+    { position: [5, -2, -4], geometry: 'tetrahedron', color: goldColor, scale: 0.8, speed: 0.3 },
+    { position: [-4, -2.5, -6], geometry: 'icosahedron', color: redColor, scale: 0.9, speed: 0.2 },
+    { position: [4.5, 3, -5], geometry: 'dodecahedron', color: blueColor, scale: 0.7, speed: 0.3 },
+    { position: [-6, 0.5, -7], geometry: 'torus', color: goldColor, scale: 1, speed: 0.15 },
+    { position: [6, 1.5, -6], geometry: 'octahedron', color: redColor, scale: 0.6, speed: 0.35 },
   ], []);
 
   return (
     <>
-      {/* Ambient light */}
-      <ambientLight intensity={0.1} />
+      {/* Ambient light - reduced */}
+      <ambientLight intensity={0.05} />
 
-      {/* Point lights for glow effect */}
-      <pointLight position={[0, 0, 0]} color={blueColor} intensity={2} distance={10} />
-      <pointLight position={[0, 2, 0]} color={goldColor} intensity={0.5} distance={8} />
+      {/* Point lights for glow effect - reduced intensity */}
+      <pointLight position={[0, 0, 0]} color={blueColor} intensity={0.8} distance={8} />
+      <pointLight position={[0, 2, 0]} color={goldColor} intensity={0.2} distance={6} />
 
       <group ref={groupRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
-        {/* Triangle frame (Iron Man style) */}
+        {/* Triangle frame */}
         <TriangleFrame size={8} color={redColor} />
 
         {/* Orbiting rings */}
-        <OrbitingRing radius={3.5} tilt={0.3} speed={0.2} color={goldColor} />
-        <OrbitingRing radius={4} tilt={-0.2} speed={-0.15} color={blueColor} />
+        <OrbitingRing radius={3.5} tilt={0.3} speed={0.15} color={goldColor} />
+        <OrbitingRing radius={4} tilt={-0.2} speed={-0.1} color={blueColor} />
 
         {/* Main reactor rings */}
-        <ArcReactorRing radius={3} thickness={0.08} segments={12} speed={0.1} color={blueColor} />
-        <ArcReactorRing radius={2.5} thickness={0.06} segments={8} speed={-0.15} color={goldColor} />
-        <ArcReactorRing radius={2} thickness={0.05} segments={6} speed={0.2} color={blueColor} />
-        <ArcReactorRing radius={1.5} thickness={0.04} segments={4} speed={-0.25} color={goldColor} />
-        <ArcReactorRing radius={1} thickness={0.03} segments={6} speed={0.4} color={blueColor} />
+        <ArcReactorRing radius={3} thickness={0.08} segments={12} speed={0.08} color={blueColor} />
+        <ArcReactorRing radius={2.5} thickness={0.06} segments={8} speed={-0.1} color={goldColor} />
+        <ArcReactorRing radius={2} thickness={0.05} segments={6} speed={0.15} color={blueColor} />
+        <ArcReactorRing radius={1.5} thickness={0.04} segments={4} speed={-0.18} color={goldColor} />
+        <ArcReactorRing radius={1} thickness={0.03} segments={6} speed={0.3} color={blueColor} />
 
         {/* Core */}
         <ArcCore />
 
         {/* Energy beams radiating from core */}
         {[0, 1, 2, 3, 4, 5].map((i) => (
-          <EnergyBeam key={i} angle={(i / 6) * Math.PI * 2} length={3.5} color={i % 2 === 0 ? blueColor : goldColor} />
+          <EnergyBeam key={i} angle={(i / 6) * Math.PI * 2} length={3} color={i % 2 === 0 ? blueColor : goldColor} />
         ))}
 
         {/* Background elements */}
-        <HexGridCircle rings={5} />
+        <HexGridCircle rings={4} />
 
-        {/* Enhanced particle field */}
-        <ParticleField count={250} spread={25} />
+        {/* Enhanced particle field - moved back */}
+        <ParticleField count={120} spread={30} />
 
         {/* Pulsing hexagon */}
-        <PulsingHexagon position={[0, 0, -4]} maxRadius={2.5} />
+        <PulsingHexagon position={[0, 0, -5]} maxRadius={2} />
 
         {/* Floating geometric shapes */}
         {floatingShapes.map((shape, i) => (
@@ -483,10 +422,10 @@ export default function ArcReactorScene() {
           />
         ))}
 
-        {/* Glowing orbs */}
-        <GlowingOrb basePosition={[3, 1, -2]} color={goldColor} speed={0.8} />
-        <GlowingOrb basePosition={[-3, -1, -2]} color={blueColor} speed={0.6} />
-        <GlowingOrb basePosition={[0, 3, -3]} color={redColor} speed={1} />
+        {/* Glowing orbs - moved back */}
+        <GlowingOrb basePosition={[4, 1.5, -4]} color={goldColor} speed={0.6} />
+        <GlowingOrb basePosition={[-4, -1.5, -4]} color={blueColor} speed={0.4} />
+        <GlowingOrb basePosition={[0, 4, -5]} color={redColor} speed={0.8} />
       </group>
     </>
   );
