@@ -17,6 +17,14 @@ export const projects = [
       'Gradio', 'Gemini 2.5 Flash', 'NetworkX', 'Pandas'
     ],
     link: 'https://github.com/dhruvladani04/AI_PM-Co-pilot',
+    caseStudy: {
+      problem:
+        'Product managers shipping AI features work with probabilistic systems — the same prompt can produce different outputs, which makes speccing, prototyping, and evaluating features slow and manual. Nothing in the standard PM toolkit is built for this.',
+      approach:
+        'Built a three-phase workflow that mirrors how PM work actually flows: a Discovery Hub for ideation, a Technical Drafting Studio for speccing, and an Eval Dashboard for governance. Background agents automate synthesis, prototyping, and testing along the way. LangGraph-powered persistence keeps shared state consistent across multi-step workflows, and Gemini is integrated via LangChain behind timeout and fallback protections. A dual UI — Streamlit for dashboards, Gradio for interactive drafting — matches the interface to each task.',
+      outcome:
+        'Synthetic dataset generation from 50 Commune transcripts removed manual data collection from the testing loop, so a feature can travel from ideation to evaluated prototype inside a single tool.',
+    },
     features: [
       'Discovery Hub',
       'Technical Drafting Studio',
@@ -42,6 +50,14 @@ export const projects = [
       'SQLite', 'SQLAlchemy', 'Docker', 'asyncio'
     ],
     link: 'https://github.com/dhruvladani04/smart-job-tracker',
+    caseStudy: {
+      problem:
+        'Job listings are fragmented across dozens of boards, full of duplicates, and there is no consistent way to judge fit — evaluating leads by hand simply does not scale during an active search.',
+      approach:
+        'An aggregation pipeline pulls 100+ job sources through the Apify API into a single source of truth. Every lead is scored by Gemini against a 9-factor weighted rubric, and a 3-tier deduplication system (URL, composite key, fuzzy match) keeps the dataset clean. Results are served two ways: CLI reports for quick scans and a FastAPI dashboard for deeper review.',
+      outcome:
+        'A feedback-driven calibration loop raised scoring correlation from 62% to 87%, and the deduplication system holds data accuracy at ~98% — turning a fragmented job market into one ranked, trustworthy list.',
+    },
     features: [
       'Multi-source Aggregation',
       'LLM-based Scoring',
@@ -92,6 +108,14 @@ export const projects = [
       'Gemini 3 Pro', 'Gemini 2.5 Flash'
     ],
     link: 'https://github.com/dhruvladani04/BugVision-AI',
+    caseStudy: {
+      problem:
+        'Visually-manifesting bugs are painful to trace: the symptom lives in a screen recording while the cause lives in the code, and nothing connects the two. QA hands engineering a video; engineering starts from zero.',
+      approach:
+        'BugVision correlates MP4/WEBM screen recordings with component code using multimodal analysis (Gemini 3 Pro + Gemini 2.5 Flash). A Smart Code Editor enables on-the-fly inspection and live patching inside the tool, and "Sherlock Mode" adds an interactive chat for deep contextual queries into the codebase.',
+      outcome:
+        'The system automatically identifies visual anomalies and traces them to the underlying logic errors — bridging QA and engineering and drastically reducing time-to-resolution. Recognized as an award-winning Google DeepMind competition entry.',
+    },
     features: [
       'Multimodal Analysis',
       'Smart Code Editor',

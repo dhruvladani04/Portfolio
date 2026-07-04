@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FiArrowUpRight, FiExternalLink, FiX, FiArrowLeft } from 'react-icons/fi';
 import { projects } from '../data/projects';
+import Seo from '../components/Seo';
 
 function ProjectPreview({ project, onClose }) {
   if (!project) return null;
@@ -57,6 +58,24 @@ function ProjectPreview({ project, onClose }) {
           <p className="text-lg text-slate-300 mb-8 leading-relaxed">
             {project.summary}
           </p>
+
+          {/* Case study (flagship projects) */}
+          {project.caseStudy && (
+            <div className="mb-8 grid gap-6">
+              {[
+                ['The Problem', project.caseStudy.problem, 'var(--accent-red-bright)'],
+                ['The Approach', project.caseStudy.approach, 'var(--arc-blue)'],
+                ['The Outcome', project.caseStudy.outcome, 'var(--accent-gold)'],
+              ].map(([label, text, color]) => (
+                <div key={label} className="relative pl-4" style={{ borderLeft: `2px solid ${color}` }}>
+                  <h3 className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color }}>
+                    {label}
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed">{text}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Bullets */}
           <div className="mb-8">
@@ -129,25 +148,29 @@ function ProjectPreview({ project, onClose }) {
 export default function WorkPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [selectedProject, setSelectedProject] = useState(null);
 
-  // Find project by slug if present
-  React.useEffect(() => {
-    if (slug) {
-      const project = projects.find((p) => p.id === slug || p.title.toLowerCase().replace(/\s+/g, '-') === slug);
-      if (project) {
-        setSelectedProject(project);
-      }
-    }
-  }, [slug]);
+  // Project selection is URL-driven so every project has a shareable link
+  const selectedProject = slug
+    ? projects.find((p) => p.id === slug || p.title.toLowerCase().replace(/\s+/g, '-') === slug) || null
+    : null;
 
   const handleCloseProject = () => {
-    setSelectedProject(null);
     navigate('/work');
   };
 
   return (
     <div className="section-shell pt-32 pb-20">
+      {selectedProject ? (
+        <Seo
+          title={`${selectedProject.title} — Case Study | Dhruv Ladani`}
+          description={selectedProject.summary}
+        />
+      ) : (
+        <Seo
+          title="Projects — Dhruv Ladani"
+          description="15+ projects across AI agents, RAG systems, and full-stack products — including an award-winning Google DeepMind competition entry."
+        />
+      )}
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
         <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
@@ -185,7 +208,7 @@ export default function WorkPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => navigate(`/work/${project.id}`)}
             >
               {/* HUD corners */}
               <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />

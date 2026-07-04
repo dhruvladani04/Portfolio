@@ -5,6 +5,7 @@ import { FiArrowLeft, FiArrowUpRight, FiDownload, FiGithub, FiLinkedin, FiMail }
 import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 import { experience } from '../data/experience';
 import IronManAvatar from '../components/IronManAvatar';
+import Seo from '../components/Seo';
 
 const skills = [
   { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
@@ -83,6 +84,10 @@ const profiles = [
 export default function AboutPage() {
   return (
     <div className="section-shell pt-32 pb-20">
+      <Seo
+        title="About — Dhruv Ladani"
+        description="Computer Engineering student at PDEU. 500+ DSA problems, CodeChef 5-star, 2 published research papers, and internships across AI/ML and product."
+      />
       <div className="max-w-6xl mx-auto">
         {/* Back link */}
         <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">

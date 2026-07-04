@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft, FiArrowUpRight, FiDownload, FiGithub, FiLinkedin, FiMail, FiPhone } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
+import Seo from '../components/Seo';
 
 const contactMethods = [
   {
@@ -77,6 +78,10 @@ export default function ContactPage() {
 
   return (
     <div className="section-shell pt-32 pb-20 min-h-screen">
+      <Seo
+        title="Contact — Dhruv Ladani"
+        description="Get in touch about AI, software engineering, and product roles. Email, LinkedIn, GitHub, and resumes."
+      />
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
         <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">

@@ -5,6 +5,7 @@ import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp,
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
+import Seo from '../components/Seo';
 
 const stats = [
   { value: '15+', label: 'Projects', unit: 'built', icon: FiLayers },
@@ -173,6 +174,10 @@ export default function HomePage() {
 
   return (
     <div ref={ref} className="min-h-screen">
+      <Seo
+        title="Dhruv Ladani — AI Product Builder & Engineer"
+        description="A product manager who codes and an AI builder who ships. Agentic systems, RAG pipelines, and full-stack products — portfolio of Dhruv Ladani."
+      />
       {/* Hero Section */}
       <motion.section
         className="section-shell pt-32 md:pt-40 pb-20 relative overflow-hidden"
@@ -276,9 +281,20 @@ export default function HomePage() {
             ))}
           </motion.div>
 
+          {/* Positioning line */}
+          <motion.p
+            className="font-display text-lg md:text-2xl font-semibold mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+          >
+            <span style={{ color: 'var(--arc-blue)' }}>A product manager who codes.</span>{' '}
+            <span style={{ color: 'var(--accent-gold)' }}>An AI builder who ships.</span>
+          </motion.p>
+
           {/* Animated intro text */}
           <motion.div
-            className="text-xl md:text-2xl text-slate-300 max-w-2xl mb-12 leading-relaxed"
+            className="text-lg md:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}

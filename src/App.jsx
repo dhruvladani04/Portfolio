@@ -175,7 +175,14 @@ const pageVariants = {
 };
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  // Boot sequence plays once per session; repeat visits skip straight in
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem('dl:booted');
+    } catch (_) {
+      return true;
+    }
+  });
   const location = useLocation();
 
   useEffect(() => {
@@ -184,10 +191,17 @@ export default function App() {
     document.documentElement.style.colorScheme = 'dark';
   }, []);
 
+  const finishBoot = () => {
+    setIsLoading(false);
+    try {
+      sessionStorage.setItem('dl:booted', '1');
+    } catch (_) { /* private mode */ }
+  };
+
   return (
     <div className="app-shell">
       <AnimatePresence>
-        {isLoading && <BootScreen onDone={() => setIsLoading(false)} />}
+        {isLoading && <BootScreen onDone={finishBoot} />}
       </AnimatePresence>
       <HUDCursor />
       <HUDBackground />
@@ -197,7 +211,8 @@ export default function App() {
       <main className="content-stack relative z-10">
         <AnimatePresence mode="wait">
           <Suspense fallback={<LoadingScreen />}>
-            <Routes location={location} key={location.pathname}>
+            {/* Key by section so /work -> /work/:slug opens in place (no page remount) */}
+            <Routes location={location} key={location.pathname.split('/')[1] || 'home'}>
               <Route
                 path="/"
                 element={
