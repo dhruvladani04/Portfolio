@@ -530,6 +530,46 @@ a {
   }
 }
 
+/* Custom HUD cursor (activated on fine pointers by HUDCursor.jsx) */
+body.hud-cursor-active,
+body.hud-cursor-active * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--arc-blue);
+  box-shadow: 0 0 10px var(--arc-blue);
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(0, 217, 255, 0.5);
+  border-radius: 50%;
+  transition: width 0.18s, height 0.18s, border-color 0.18s, background 0.18s;
+}
+
+.cursor-ring.is-hot {
+  width: 52px;
+  height: 52px;
+  border-color: var(--accent-red-bright);
+  background: rgba(230, 57, 70, 0.08);
+}
+
 @keyframes arc-pulse {
   0%, 100% {
     opacity: 1;
