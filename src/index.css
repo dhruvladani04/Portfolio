@@ -158,14 +158,15 @@ a {
     position: relative;
   }
 
-  /* Panels - Minimal and clean */
+  /* Panels - Minimal and clean.
+     No backdrop-filter here: panel backgrounds are ~90% opaque so the blur is
+     invisible, but re-blurring over the animated canvas backgrounds costs a
+     full blur pass per panel per frame. */
   .panel {
     position: relative;
     border-radius: 20px;
     border: 1px solid var(--panel-border);
     background: var(--panel-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     box-shadow: var(--shadow);
   }
 

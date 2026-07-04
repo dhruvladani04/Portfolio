@@ -40,6 +40,22 @@ export default function RepulsorField() {
     }));
     const near = particles.filter((p) => !p.far);
 
+    // pre-rendered glow sprites (blue/gold): cheaper than per-draw shadowBlur
+    function makeGlow(core, mid) {
+      const c = document.createElement('canvas');
+      c.width = c.height = 48;
+      const g = c.getContext('2d');
+      const grad = g.createRadialGradient(24, 24, 0, 24, 24, 24);
+      grad.addColorStop(0, core);
+      grad.addColorStop(0.3, mid);
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 48, 48);
+      return c;
+    }
+    const glowBlue = makeGlow('rgba(220, 248, 255, 1)', 'rgba(79, 195, 247, 0.7)');
+    const glowGold = makeGlow('rgba(255, 240, 210, 1)', 'rgba(255, 165, 2, 0.7)');
+
     // repulsor streak state
     let streak = null;
     let nextStreak = 2 + Math.random() * 3;
@@ -81,17 +97,18 @@ export default function RepulsorField() {
           if (p.y < -0.02) p.y = 1.02;
         }
         const twinkle = 0.55 + 0.45 * Math.sin(t * 1.2 + p.tw);
-        const base = p.far ? 0.32 : 0.55;
-        const color = p.gold ? '255, 165, 2' : '79, 195, 247';
-        ctx.fillStyle = `rgba(${color}, ${base * twinkle})`;
-        if (!p.far) {
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = 'rgba(0, 217, 255, 0.6)';
+        if (p.far) {
+          const color = p.gold ? '255, 165, 2' : '79, 195, 247';
+          ctx.fillStyle = `rgba(${color}, ${0.32 * twinkle})`;
+          ctx.beginPath();
+          ctx.arc(p.x * w, p.y * h, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          const s = p.size * 6;
+          ctx.globalAlpha = 0.55 * twinkle;
+          ctx.drawImage(p.gold ? glowGold : glowBlue, p.x * w - s / 2, p.y * h - s / 2, s, s);
+          ctx.globalAlpha = 1;
         }
-        ctx.beginPath();
-        ctx.arc(p.x * w, p.y * h, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
       }
     }
 
@@ -217,7 +234,13 @@ export default function RepulsorField() {
     }
 
     let last = start;
+    let frameSkip = 0;
     function draw(now) {
+      // ambient background: 30fps is indistinguishable and halves the cost
+      if (!reduce && (frameSkip++ & 1)) {
+        rafId = requestAnimationFrame(draw);
+        return;
+      }
       const t = (now - start) / 1000;
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;

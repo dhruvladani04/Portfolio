@@ -27,8 +27,22 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       size: 0.8 + Math.random() * 1.7,
     }));
 
+    // pre-rendered glow sprite: drawImage is far cheaper than per-draw shadowBlur
+    const glow = document.createElement('canvas');
+    glow.width = glow.height = 64;
+    {
+      const g = glow.getContext('2d');
+      const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(230, 250, 255, 1)');
+      grad.addColorStop(0.25, 'rgba(79, 195, 247, 0.8)');
+      grad.addColorStop(1, 'rgba(0, 217, 255, 0)');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 64, 64);
+    }
+
     let t = 0;
     let rafId = 0;
+    let visible = true;
 
     function roundedRect(c, x, y, w, h, r) {
       c.beginPath();
@@ -104,7 +118,7 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       }
       ctx.restore();
 
-      // inward-spiralling particles
+      // inward-spiralling particles (glow sprite, no shadowBlur)
       ctx.save();
       for (const pt of particles) {
         if (!reduce) {
@@ -118,14 +132,11 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
         const px = Math.cos(pt.a) * pt.r;
         const py = Math.sin(pt.a) * pt.r;
         const fade = Math.min(1, (pt.r - R * 0.3) / (R * 0.4));
-        ctx.fillStyle = `rgba(79,195,247,${0.7 * fade})`;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = BLUE;
-        ctx.beginPath();
-        ctx.arc(px, py, pt.size, 0, Math.PI * 2);
-        ctx.fill();
+        const s = pt.size * 7;
+        ctx.globalAlpha = 0.7 * fade;
+        ctx.drawImage(glow, px - s / 2, py - s / 2, s, s);
       }
-      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
       ctx.restore();
 
       // gold ring
@@ -196,11 +207,22 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       ctx.restore();
       ctx.restore();
 
-      rafId = requestAnimationFrame(draw);
+      if (visible) rafId = requestAnimationFrame(draw);
     }
 
+    // pause rendering while scrolled out of view
+    const io = new IntersectionObserver(([entry]) => {
+      const wasVisible = visible;
+      visible = entry.isIntersecting;
+      if (visible && !wasVisible) rafId = requestAnimationFrame(draw);
+    });
+    io.observe(canvas);
+
     draw();
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (

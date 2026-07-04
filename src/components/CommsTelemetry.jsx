@@ -140,7 +140,13 @@ export default function CommsTelemetry() {
     }
 
     let last = start;
+    let frameSkip = 0;
     function draw(now) {
+      // ambient background: 30fps is indistinguishable and halves the cost
+      if (!reduce && (frameSkip++ & 1)) {
+        rafId = requestAnimationFrame(draw);
+        return;
+      }
       const t = (now - start) / 1000;
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;

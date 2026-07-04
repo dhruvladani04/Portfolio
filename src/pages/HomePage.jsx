@@ -368,8 +368,8 @@ export default function HomePage() {
               </div>
 
               <motion.div
-                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3 backdrop-blur-md"
-                style={{ top: '2%', left: '-4%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3"
+                style={{ top: '2%', left: '-4%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.92)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               >
@@ -378,8 +378,8 @@ export default function HomePage() {
               </motion.div>
 
               <motion.div
-                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3 backdrop-blur-md"
-                style={{ bottom: '6%', left: '-2%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3"
+                style={{ bottom: '6%', left: '-2%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.92)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
@@ -388,8 +388,8 @@ export default function HomePage() {
               </motion.div>
 
               <motion.div
-                className="absolute z-10 hidden max-w-[150px] rounded-[13px] px-3.5 py-3 backdrop-blur-md sm:block"
-                style={{ top: '20%', right: '-6%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                className="absolute z-10 hidden max-w-[150px] rounded-[13px] px-3.5 py-3 sm:block"
+                style={{ top: '20%', right: '-6%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.92)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
               >
