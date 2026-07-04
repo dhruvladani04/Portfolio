@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp, FiLayers, FiGitBranch } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
@@ -157,6 +157,7 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0.5]);
 
   const { rank: cfRank } = useCodeforces('dhruvcodes04');
+  const navigate = useNavigate();
 
   // Stagger animation variants
   const containerVariants = {
@@ -617,9 +618,10 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             {[
-              { title: 'AI PM Co-pilot', desc: 'Dynamic utility for Product Managers to manage probabilistic AI systems with automated synthesis and testing', tag: 'AI/ML + PM', gradient: 'var(--arc-blue)' },
-              { title: 'Smart Job Tracker', desc: 'AI-powered job search pipeline that aggregates 100+ sources and scores leads via LLMs', tag: 'AI/ML', gradient: 'var(--accent-gold)' },
-              { title: 'Agile Sprint Guardian', desc: 'Multi-agent system simulating an Agile squad to autonomously refine feature requests', tag: 'Multi-Agent AI', gradient: 'var(--accent-red)' },
+              { id: 'ai-pm-copilot', title: 'AI PM Co-pilot', desc: 'Dynamic utility for Product Managers to manage probabilistic AI systems with automated synthesis and testing', tag: 'AI/ML + PM', gradient: 'var(--arc-blue)' },
+              { id: 'smart-job-tracker', title: 'Smart Job Tracker', desc: 'AI-powered job search pipeline that aggregates 100+ sources and scores leads via LLMs', tag: 'AI/ML', gradient: 'var(--accent-gold)' },
+              { id: 'agile-sprint-guardian', title: 'Agile Sprint Guardian', desc: 'Multi-agent system simulating an Agile squad to autonomously refine feature requests', tag: 'Multi-Agent AI', gradient: 'var(--accent-red)' },
+              { id: 'recruitai-platform', title: 'Recruit-AI Platform', desc: 'Agent-first recruitment platform that autonomously parses, scores, and ranks candidates for SMB recruiters', tag: 'Agentic AI + PM', gradient: 'var(--arc-blue)' },
             ].map((project, i) => (
               <motion.div
                 key={project.title}
@@ -631,6 +633,7 @@ export default function HomePage() {
                   boxShadow: `0 10px 40px rgba(0, 217, 255, 0.2)`,
                 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => navigate(`/work/${project.id}`)}
               >
                 {/* Animated background glow */}
                 <motion.div
