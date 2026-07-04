@@ -35,6 +35,13 @@ node_modules
 *.sln
 *.sw?
 
+# Design concept references (local only, not deployed)
+public/concept.html
+public/DESIGN-NOTES.md
+
+# Local tooling
+.serena/
+
 # OS generated files
 .DS_Store
 .DS_Store?

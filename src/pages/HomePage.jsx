@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp, FiLayers, FiGitBranch } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
+import ArcReactorCanvas from '../components/ArcReactorCanvas';
 
 const stats = [
   { value: '15+', label: 'Projects', unit: 'built', icon: FiLayers },
@@ -18,17 +19,36 @@ const capabilities = [
   { title: 'Competitive Programming', desc: '500+ DSA problems solved across platforms', icon: FiCode, color: 'var(--accent-red)' },
 ];
 
-// Animated counter component
-function AnimatedCounter({ value, duration = 2 }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: duration * 0.3 }}
-    >
-      {value}
-    </motion.span>
-  );
+// Animated counter: cubic-eased ramp for countable values ("15+", "500+", "2");
+// years like "2026" render statically.
+function AnimatedCounter({ value, duration = 1.3 }) {
+  const match = /^(\d+)(\+?)$/.exec(value);
+  const target = match ? parseInt(match[1], 10) : null;
+  const countable = target !== null && target < 2000;
+  const [display, setDisplay] = React.useState(countable ? '0' : value);
+
+  React.useEffect(() => {
+    if (!countable) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplay(value);
+      return undefined;
+    }
+    const suffix = match[2];
+    let rafId = 0;
+    let t0 = null;
+    const step = (ts) => {
+      if (t0 === null) t0 = ts;
+      const k = Math.min((ts - t0) / (duration * 1000), 1);
+      const eased = 1 - Math.pow(1 - k, 3);
+      setDisplay(k < 1 ? String(Math.round(target * eased)) : target + suffix);
+      if (k < 1) rafId = requestAnimationFrame(step);
+    };
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  return <span style={{ fontVariantNumeric: 'tabular-nums' }}>{display}</span>;
 }
 
 // Magnetic button effect
@@ -117,7 +137,7 @@ function ScanningLine() {
   return (
     <motion.div
       className="absolute left-0 right-0 h-px"
-      style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue), transparent)' }}
+      style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue), transparent)', boxShadow: '0 0 18px var(--arc-blue)' }}
       animate={{ top: ['0%', '100%'] }}
       transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
     />
@@ -167,6 +187,8 @@ export default function HomePage() {
           className="max-w-6xl mx-auto px-4 md:px-6 relative"
           style={{ y: heroY, opacity: heroOpacity }}
         >
+          <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+          <div>
           {/* Status badge */}
           <motion.div
             className="flex items-center gap-3 mb-8"
@@ -307,6 +329,60 @@ export default function HomePage() {
               </a>
             </MagneticButton>
           </motion.div>
+          </div>
+
+          {/* Arc reactor visual with orbiting HUD chips */}
+          <motion.div
+            className="relative order-first mx-auto w-full max-w-[340px] sm:max-w-[400px] lg:order-none lg:max-w-[480px]"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="relative aspect-square">
+              <ArcReactorCanvas />
+
+              {/* crosshair frame */}
+              <div
+                className="pointer-events-none absolute rounded-full border"
+                style={{ inset: '6%', borderColor: 'rgba(0, 217, 255, 0.1)' }}
+              >
+                <div className="absolute left-[-14px] right-[-14px] top-1/2 h-px" style={{ background: 'rgba(0, 217, 255, 0.14)' }} />
+                <div className="absolute bottom-[-14px] top-[-14px] left-1/2 w-px" style={{ background: 'rgba(0, 217, 255, 0.14)' }} />
+              </div>
+
+              <motion.div
+                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3 backdrop-blur-md"
+                style={{ top: '2%', left: '-4%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--arc-blue)', letterSpacing: '0.2em' }}>Target Lock</span>
+                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Agentic AI products and intelligent tooling</span>
+              </motion.div>
+
+              <motion.div
+                className="absolute z-10 max-w-[176px] rounded-[13px] px-3.5 py-3 backdrop-blur-md"
+                style={{ bottom: '6%', left: '-2%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--accent-gold)', letterSpacing: '0.2em' }}>Build Protocol</span>
+                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Prototype fast, measure clearly, polish intentionally</span>
+              </motion.div>
+
+              <motion.div
+                className="absolute z-10 hidden max-w-[150px] rounded-[13px] px-3.5 py-3 backdrop-blur-md sm:block"
+                style={{ top: '20%', right: '-6%', border: '1px solid rgba(0, 217, 255, 0.14)', background: 'rgba(8, 8, 14, 0.82)', boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)' }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--accent-red-bright)', letterSpacing: '0.2em' }}>LLM Stack</span>
+                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Multi-agent systems &amp; RAG pipelines</span>
+                <span className="mt-0.5 block text-xs text-slate-400">LangGraph · LangChain · Gemini</span>
+              </motion.div>
+            </div>
+          </motion.div>
+          </div>
 
           {/* Stats with counter animation */}
           <motion.div

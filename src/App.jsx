@@ -1,10 +1,13 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Canvas } from '@react-three/fiber';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ArcReactorScene from './components/3d/ArcReactorScene';
+import HUDCursor from './components/HUDCursor';
+import JarvisHUD from './components/JarvisHUD';
+import WorkshopHolo from './components/WorkshopHolo';
+import RepulsorField from './components/RepulsorField';
+import CommsTelemetry from './components/CommsTelemetry';
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -43,16 +46,102 @@ function LoadingScreen() {
   );
 }
 
-function ThreeBackground() {
+// Arc-reactor boot sequence: spinning reactor + progress bar + percentage,
+// then fades out to reveal the app.
+function BootScreen({ onDone }) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let p = 0;
+    const tick = setInterval(() => {
+      p += Math.random() * 16 + 7;
+      if (p >= 100) {
+        p = 100;
+        clearInterval(tick);
+        setTimeout(onDone, 240);
+      }
+      setProgress(p);
+    }, reduce ? 30 : 110);
+    return () => clearInterval(tick);
+  }, [onDone]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'var(--bg)' }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.7 }}
+    >
+      <div className="flex flex-col items-center gap-6" style={{ width: 'min(320px, 78vw)' }}>
+        <motion.div
+          className="w-20 h-20 rounded-full border-2 relative"
+          style={{ borderColor: 'var(--arc-blue)', boxShadow: 'var(--arc-glow)' }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}
+        >
+          <motion.div
+            className="absolute inset-4 rounded-full"
+            style={{
+              background: 'radial-gradient(circle at 35% 35%, var(--arc-blue-glow), var(--arc-blue) 70%)',
+              boxShadow: 'var(--arc-glow)',
+            }}
+            animate={{ scale: [1, 1.12, 1], opacity: [1, 0.75, 1] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
+        <p
+          className="font-mono text-[11px] uppercase"
+          style={{ color: 'var(--arc-blue)', letterSpacing: '0.28em' }}
+        >
+          Initializing Arc Reactor
+        </p>
+        <div className="w-full h-0.5 overflow-hidden" style={{ background: 'rgba(0, 217, 255, 0.12)' }}>
+          <div
+            className="h-full"
+            style={{
+              width: `${progress}%`,
+              background: 'linear-gradient(90deg, var(--arc-blue), var(--accent-gold))',
+              boxShadow: '0 0 12px var(--arc-blue)',
+            }}
+          />
+        </div>
+        <p className="font-mono text-[10px]" style={{ color: 'var(--muted)', letterSpacing: '0.2em' }}>
+          {Math.floor(progress)}%
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// One Iron Man-themed background per page, crossfaded on route change:
+// Home = J.A.R.V.I.S. HUD, Work = workshop holograms, About = repulsor
+// energy field, Contact = open comms channel.
+const backgrounds = [
+  { key: 'work', match: (p) => p.startsWith('/work'), Component: WorkshopHolo },
+  { key: 'about', match: (p) => p.startsWith('/about'), Component: RepulsorField },
+  { key: 'contact', match: (p) => p.startsWith('/contact'), Component: CommsTelemetry },
+  { key: 'home', match: () => true, Component: JarvisHUD },
+];
+
+function HUDBackground() {
+  const { pathname } = useLocation();
+  const { key, Component } = backgrounds.find((b) => b.match(pathname));
+
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
-      <Canvas
-        camera={{ position: [0, 0, 5], fov: 75 }}
-        gl={{ antialias: true, alpha: true }}
-        dpr={[1, 2]}
-      >
-        <ArcReactorScene />
-      </Canvas>
+      <AnimatePresence>
+        <motion.div
+          key={key}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Component />
+        </motion.div>
+      </AnimatePresence>
       <div className="app-noise" />
     </div>
   );
@@ -95,19 +184,15 @@ export default function App() {
     document.documentElement.style.colorScheme = 'dark';
   }, []);
 
-  useEffect(() => {
-    // Simulate initial load
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <div className="app-shell">
-      <ThreeBackground />
+      <AnimatePresence>
+        {isLoading && <BootScreen onDone={() => setIsLoading(false)} />}
+      </AnimatePresence>
+      <HUDCursor />
+      <HUDBackground />
+      {!isLoading && (
+        <>
       <Navbar />
       <main className="content-stack relative z-10">
         <AnimatePresence mode="wait">
@@ -183,6 +268,8 @@ export default function App() {
         </AnimatePresence>
       </main>
       <Footer />
+        </>
+      )}
     </div>
   );
 }
