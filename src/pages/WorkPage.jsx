@@ -134,6 +134,17 @@ function ProjectPreview({ project, onClose }) {
                 <FiExternalLink />
               </a>
             )}
+            {project.prd && (
+              <a
+                href={project.prd}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-secondary"
+              >
+                Read the PRD
+                <FiExternalLink />
+              </a>
+            )}
             <Link to="/contact" className="btn-secondary">
               Ask about this project
               <FiArrowUpRight />

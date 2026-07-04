@@ -138,9 +138,18 @@ export const projects = [
     ],
     tech: [
       'React', 'TypeScript', 'Tailwind CSS', 'Supabase',
-      'OpenAI GPT-4o', 'Lovable'
+      'Gemini 2.5 Flash', 'n8n', 'Lovable'
     ],
     link: 'https://github.com/dhruvladani04/recruitaiplatform',
+    prd: 'https://docs.google.com/document/d/1TO486UWCW7NqxEYCm3LrTeva7EdhocAIfpf9Cg470jg/edit?usp=sharing',
+    caseStudy: {
+      problem:
+        'Recruiters at SMBs spend 20+ hours a week screening resumes by hand. The persona behind the product — "Sarah", a solo talent-acquisition manager at a 50–150 person company — gets 500+ applications within 24 hours of posting a remote role, driven by one-click apply and AI resume spam. She burns 3–4 hours a day reviewing PDFs; by the 50th resume, decision fatigue sets in and hidden gems get rejected. Screening 200 CVs takes ~5 days, while candidates wait 14 days for a response — or get ghosted.',
+      approach:
+        'An event-driven serverless agent (n8n + Gemini 2.5 Flash) replicates recruiter decision-making: webhook ingestion, OCR perception of the resume, then a gap analysis against the job description under a "Senior Talent Acquisition" persona, producing a weighted 0–100 score (40% skills, 30% experience, 30% soft skills) as schema-enforced JSON with summary, pros, and cons. The scoring prompt took three documented iterations — a chain-of-thought rubric finally caught nuances like "used React for 1 year" vs "Senior React Developer". When CORS and 15–20s AI latency broke the synchronous flow, the architecture pivoted to fire-and-forget: upload to Supabase Storage, process in the background, and push scores to the Kanban UI over Supabase Realtime, so the app feels instant. The split-screen candidate view came from user research: recruiters will not trust a black-box score unless the evidence sits beside it.',
+      outcome:
+        'Shipped as the Phase-1 "Screener" agent with a live demo and a full product paper trail — PRD, metrics & roadmap doc, and a process/decision log. Defined KPI targets: time-to-shortlist cut from 5 days to under 1 hour, interview conversion lifted from 15% to 40%+, and cost-per-hire pushed from the $4,700 industry average toward $500. The roadmap scales the same agent core into Coordinator (auto-scheduling), Hunter (autonomous sourcing), and Compliance (bias-audit) phases.',
+    },
     features: [
       'Agentic Resume Parsing',
       'Candidate Ranking',
