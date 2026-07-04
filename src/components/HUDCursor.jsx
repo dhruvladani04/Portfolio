@@ -24,6 +24,9 @@ export default function HUDCursor() {
     const onMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
+      // stay hidden until the mouse actually moves (no phantom cursor at center)
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
     };
 
@@ -58,8 +61,8 @@ export default function HUDCursor() {
 
   return (
     <>
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" style={{ opacity: 0 }} aria-hidden="true" />
+      <div ref={dotRef} className="cursor-dot" style={{ opacity: 0 }} aria-hidden="true" />
     </>
   );
 }
