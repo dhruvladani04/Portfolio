@@ -373,8 +373,8 @@ export default function HomePage() {
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--arc-blue)', letterSpacing: '0.2em' }}>Target Lock</span>
-                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Agentic AI products and intelligent tooling</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--arc-blue)', letterSpacing: '0.2em' }}>Target Lock</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Agentic AI products and intelligent tooling</span>
               </motion.div>
 
               <motion.div
@@ -383,8 +383,8 @@ export default function HomePage() {
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--accent-gold)', letterSpacing: '0.2em' }}>Build Protocol</span>
-                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Prototype fast, measure clearly, polish intentionally</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-gold)', letterSpacing: '0.2em' }}>Build Protocol</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Prototype fast, measure clearly, polish intentionally</span>
               </motion.div>
 
               <motion.div
@@ -393,8 +393,8 @@ export default function HomePage() {
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[9.5px] uppercase" style={{ color: 'var(--accent-red-bright)', letterSpacing: '0.2em' }}>LLM Stack</span>
-                <span className="block font-display text-[13px] font-semibold leading-tight text-white">Multi-agent systems &amp; RAG pipelines</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-red-bright)', letterSpacing: '0.2em' }}>LLM Stack</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Multi-agent systems &amp; RAG pipelines</span>
                 <span className="mt-0.5 block text-xs text-slate-400">LangGraph · LangChain · Gemini</span>
               </motion.div>
             </div>
@@ -634,6 +634,15 @@ export default function HomePage() {
                 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate(`/work/${project.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/work/${project.id}`);
+                  }
+                }}
+                role="link"
+                tabIndex={0}
+                aria-label={`View ${project.title} details`}
               >
                 {/* Animated background glow */}
                 <motion.div

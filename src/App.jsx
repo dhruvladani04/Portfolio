@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -199,7 +199,10 @@ export default function App() {
   };
 
   return (
+    // reducedMotion="user": framer-motion animations respect OS motion settings
+    <MotionConfig reducedMotion="user">
     <div className="app-shell">
+      <a href="#main" className="skip-link">Skip to content</a>
       <AnimatePresence>
         {isLoading && <BootScreen onDone={finishBoot} />}
       </AnimatePresence>
@@ -208,7 +211,7 @@ export default function App() {
       {!isLoading && (
         <>
       <Navbar />
-      <main className="content-stack relative z-10">
+      <main id="main" className="content-stack relative z-10">
         <AnimatePresence mode="wait">
           <Suspense fallback={<LoadingScreen />}>
             {/* Key by section so /work -> /work/:slug opens in place (no page remount) */}
@@ -286,5 +289,6 @@ export default function App() {
         </>
       )}
     </div>
+    </MotionConfig>
   );
 }

@@ -6,6 +6,23 @@ import { projects } from '../data/projects';
 import Seo from '../components/Seo';
 
 function ProjectPreview({ project, onClose }) {
+  const closeRef = React.useRef(null);
+
+  // dialog behavior: Escape to close, lock page scroll, focus the close button
+  React.useEffect(() => {
+    if (!project) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [project, onClose]);
+
   if (!project) return null;
 
   return (
@@ -19,6 +36,9 @@ function ProjectPreview({ project, onClose }) {
     >
       <motion.div
         className="panel panel-highlight w-full max-w-4xl max-h-[90vh] overflow-auto relative"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${project.title} — project details`}
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -33,7 +53,9 @@ function ProjectPreview({ project, onClose }) {
 
         {/* Close button */}
         <button
+          ref={closeRef}
           onClick={onClose}
+          aria-label="Close project details"
           className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center z-10"
           style={{ background: 'rgba(0, 217, 255, 0.1)', border: '1px solid var(--border)' }}
         >
@@ -220,6 +242,15 @@ export default function WorkPage() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               onClick={() => navigate(`/work/${project.id}`)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  navigate(`/work/${project.id}`);
+                }
+              }}
+              role="link"
+              tabIndex={0}
+              aria-label={`View ${project.title} details`}
             >
               {/* HUD corners */}
               <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />

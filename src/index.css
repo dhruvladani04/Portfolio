@@ -12,7 +12,7 @@
   --border: rgba(230, 57, 70, 0.12);
   --border-strong: rgba(255, 71, 87, 0.3);
   --text: #f0f0f2;
-  --muted: #8888a0;
+  --muted: #979db4; /* lifted from #8888a0 for WCAG-comfortable contrast on dark */
   --accent-red: #e63946;
   --accent-red-bright: #ff4757;
   --accent-gold: #ffa502;
@@ -128,7 +128,28 @@ a {
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Orbitron', sans-serif;
     font-weight: 600;
+  }
+
+  /* Display sizes read better slightly tightened; small headings slightly opened */
+  h1, h2 {
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  h3, h4, h5, h6 {
     letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible keyboard focus everywhere, in brand blue */
+  :focus-visible {
+    outline: 2px solid var(--arc-blue);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
@@ -186,14 +207,34 @@ a {
     gap: 6px;
     padding: 6px 12px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     border-radius: 999px;
     border: 1px solid rgba(230, 57, 70, 0.2);
     background: rgba(230, 57, 70, 0.08);
-    color: var(--accent-red);
+    color: var(--accent-red-bright); /* brighter red: readable at small sizes */
+  }
+
+  /* Keyboard-user escape hatch: hidden until focused */
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 200;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--arc-blue);
+    color: #04141a;
+    font-weight: 600;
+    font-size: 14px;
+    transform: translateY(-64px);
+    transition: transform 0.2s ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
   }
 
   /* Pills */

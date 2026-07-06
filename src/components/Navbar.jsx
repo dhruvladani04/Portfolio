@@ -74,6 +74,7 @@ export default function Navbar() {
                     key={link.path}
                     to={link.path}
                     className={`nav-link ${isActive ? 'nav-link-active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {link.label}
                   </Link>
@@ -127,6 +128,7 @@ export default function Navbar() {
                       className={`mobile-nav-link rounded-xl px-4 py-3 mb-2 flex justify-between items-center ${
                         isActive ? 'mobile-nav-link-active' : ''
                       }`}
+                      aria-current={isActive ? 'page' : undefined}
                     >
                       <div className="flex items-center gap-2">
                         <span
