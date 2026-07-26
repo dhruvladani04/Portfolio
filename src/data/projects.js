@@ -1,6 +1,105 @@
 // Projects — ordered to highlight AI/ML + Product Management intersection first
 export const projects = [
   {
+    id: 'agentic-compliance-auditor',
+    title: 'Agentic Compliance Auditor',
+    timeframe: 'July 2026',
+    summary: 'An autonomous compliance auditor that ingests policy documents and delivers grounded, multi-step answers through a self-correcting CRAG + Self-RAG workflow.',
+    bullets: [
+      'Orchestrates a four-node LangGraph workflow that retrieves, grades, rewrites, and generates compliance answers with configurable retry protection.',
+      'Supports policy ingestion from Markdown, text, PDF, and Word documents for flexible internal knowledge bases.',
+      'Uses Ragas evaluation with custom golden datasets, dynamic field mapping, and exportable benchmark reports.',
+      'Implements BYOK security in a Streamlit interface, keeping visitor Gemini API keys out of the server.',
+      'Adds grounded web-search fallback and LangSmith traces for resilient, observable audit workflows.'
+    ],
+    tech: [
+      'Python', 'LangGraph', 'Google Gemini', 'ChromaDB',
+      'Ragas', 'Streamlit', 'LangSmith', 'Tavily'
+    ],
+    link: 'https://github.com/dhruvladani04/agentic-compliance-auditor',
+    caseStudy: {
+      problem:
+        'Compliance teams need precise answers from dense, conflicting policy documents, but ordinary RAG systems can retrieve weak context or return ungrounded conclusions.',
+      approach:
+        'Built a corrective and self-reflective RAG workflow that grades retrieved context, rewrites weak queries, optionally searches the web, and checks every generated response for grounding and usefulness. The product also provides multi-format ingestion, BYOK access, and custom Ragas evaluation datasets.',
+      outcome:
+        'Creates an observable, evaluable compliance assistant with benchmarked retrieval and answer-quality metrics instead of a black-box document chatbot.',
+    },
+    features: [
+      'CRAG + Self-RAG Workflow',
+      'Multi-Format Policy Ingestion',
+      'Golden Dataset Evaluation',
+      'BYOK Security',
+      'Grounded Web Fallback'
+    ]
+  },
+  {
+    id: 'feedbackiq',
+    title: 'FeedbackIQ',
+    timeframe: 'June 2026',
+    summary: 'An AI feedback synthesizer that turns fragmented product feedback into citation-verified weekly briefs through a multi-agent LangGraph pipeline.',
+    bullets: [
+      'Verifies every brief quote against its source corpus, retrying synthesis or flagging a brief for human review when verification fails.',
+      'Coordinates preprocessing, classification, embedding-based deduplication, prioritization, and synthesis in a stateful five-agent workflow.',
+      'Ingests Slack feedback through MCP and CSV uploads while redacting PII before analysis.',
+      'Uses offline adapters so the full FastAPI, ChromaDB, SQLite, and scheduling workflow runs without credentials.',
+      'Schedules hourly ingestion and Monday-morning briefs with Celery and Redis.'
+    ],
+    tech: [
+      'Python', 'LangGraph', 'FastAPI', 'React',
+      'ChromaDB', 'SQLite', 'Celery', 'Model Context Protocol'
+    ],
+    link: 'https://github.com/dhruvladani04/feedbackIQ',
+    caseStudy: {
+      problem:
+        'Product feedback lives across tools and is expensive to triage. A useful stakeholder brief must preserve evidence, not invent it.',
+      approach:
+        'Designed a five-stage LangGraph pipeline that redacts and classifies source feedback, deduplicates themes with embeddings, prioritizes them, then synthesizes a brief whose quotes are copied from and independently verified against the source material.',
+      outcome:
+        'Produces weekly feedback briefs with an anti-hallucination verification loop, along with a production-shaped workflow that can run entirely offline for safe demos and testing.',
+    },
+    features: [
+      'Citation-Verified Briefs',
+      'Multi-Agent Feedback Pipeline',
+      'Slack MCP Ingestion',
+      'PII Redaction',
+      'Offline-First Adapters'
+    ]
+  },
+  {
+    id: 'docmind',
+    title: 'DocMind',
+    timeframe: 'May 2026',
+    summary: 'A production-grade multi-agent RAG system for PDF intelligence, delivering cited answers through LangGraph orchestration and a scalable cloud ingestion pipeline.',
+    bullets: [
+      'Routes queries through a LangGraph supervisor that coordinates retrieval and grounded web-search agents.',
+      'Builds a PDF ingestion pipeline from upload through GCS and Pub/Sub to chunking, embedding, and Qdrant storage.',
+      'Returns cited answers with source PDF names, page numbers, and relevance scores.',
+      'Adds end-to-end Langfuse tracing, session-level observability, health checks, retries, and dead-letter queues.',
+      'Ships a dark Next.js chat interface with drag-and-drop uploads and collapsible agent traces.'
+    ],
+    tech: [
+      'Python', 'LangGraph', 'FastAPI', 'Next.js',
+      'Google Gemini', 'Qdrant', 'Google Cloud', 'Langfuse'
+    ],
+    link: 'https://github.com/dhruvladani04/docmind',
+    caseStudy: {
+      problem:
+        'Teams need trustworthy answers from long PDFs, with a clear path from an answer back to its supporting source material.',
+      approach:
+        'Implemented a supervisor-led RAG architecture with Qdrant retrieval, web-grounding fallback, and an event-driven PDF ingestion pipeline using GCS and Pub/Sub. Responses surface source pages and relevance scores while Langfuse records each agent decision.',
+      outcome:
+        'Delivers a deployable document-intelligence workflow with cited answers, production hardening, and visibility across both query and ingestion paths.',
+    },
+    features: [
+      'Multi-Agent RAG',
+      'Cited PDF Answers',
+      'Cloud Ingestion Pipeline',
+      'Grounded Web Search',
+      'Langfuse Observability'
+    ]
+  },
+  {
     id: 'ai-pm-copilot',
     title: 'AI PM Co-pilot',
     timeframe: 'March 2026',
