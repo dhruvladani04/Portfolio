@@ -123,8 +123,9 @@ export default function ContactPage() {
             <span className="text-gradient">together</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            I'm actively looking for AI, software engineering, and product roles.
-            If you're working on something interesting, I'd love to chat.
+            Currently an Associate Application Engineer (AI/ML) at Impresa.ai, and open
+            to new opportunities in AI, software engineering, and product. If you're
+            building something interesting, I'd love to chat.
           </p>
         </motion.div>
 

@@ -91,7 +91,7 @@ export default function AboutPage() {
     <div className="section-shell pt-32 pb-20">
       <Seo
         title="About — Dhruv Ladani"
-        description="Computer Engineering student at PDEU. 500+ DSA problems, CodeChef 5-star, 2 published research papers, and internships across AI/ML and product."
+        description="Computer Engineering graduate from PDEU, now Associate Application Engineer (AI/ML) at Impresa.ai. 500+ DSA problems, CodeChef 5-star, 2 research papers."
       />
       <div className="max-w-6xl mx-auto">
         {/* Back link */}
@@ -118,7 +118,8 @@ export default function AboutPage() {
             </h1>
 
             <p className="text-lg text-slate-300 mb-6 leading-relaxed">
-              I'm a Computer Engineering student at Pandit Deendayal Energy University (PDEU)
+              I'm an Associate Application Engineer (AI/ML) at Impresa.ai Consulting and a
+              Computer Engineering graduate from Pandit Deendayal Energy University (PDEU),
               with a strong bias toward building products that actually help people.
             </p>
             <p className="text-lg text-slate-300 mb-6 leading-relaxed">

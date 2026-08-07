@@ -217,7 +217,7 @@ export default function HomePage() {
                 animate={{ opacity: [1, 0.5, 1], scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="relative z-10">AI PRODUCT MANAGER & PRODUCT BUILDER</span>
+              <span className="relative z-10">ASSOCIATE APPLICATION ENGINEER (AI/ML)</span>
             </motion.span>
             <motion.span
               className="pill"
@@ -229,7 +229,7 @@ export default function HomePage() {
                 animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              Open to 2026 opportunities
+              Currently @ Impresa.ai · Open to new opportunities
             </motion.span>
           </motion.div>
 
@@ -742,8 +742,9 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            I'm actively looking for AI, software engineering, and product roles.
-            If you're working on something interesting, I'd love to chat.
+            Currently an Associate Application Engineer (AI/ML) at Impresa.ai, and open
+            to new opportunities in AI, software engineering, and product. If you're
+            building something interesting, I'd love to chat.
           </motion.p>
 
           <MagneticButton className="inline-block">
