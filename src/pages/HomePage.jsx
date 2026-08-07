@@ -11,7 +11,7 @@ const stats = [
   { value: '15+', label: 'Projects', unit: 'built', icon: FiLayers },
   { value: '500+', label: 'Problems', unit: 'solved', icon: FiCode },
   { value: '2', label: 'Research', unit: 'papers', icon: FiTrendingUp },
-  { value: '2026', label: 'Graduating', unit: '', icon: FiStar },
+  { value: '2026', label: 'Graduated', unit: '', icon: FiStar },
 ];
 
 const capabilities = [

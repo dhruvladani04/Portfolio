@@ -1,9 +1,23 @@
 export const experience = [
   {
-    id: 'impresa',
+    id: 'impresa-associate',
+    company: 'Impresa.ai Consulting',
+    role: 'Associate Application Engineer (AI/ML)',
+    timeframe: 'July 2026 - Present',
+    location: 'Ahmedabad, India',
+    bullets: [
+      'Promoted from AI/ML Intern after delivering on client proposals, GenAI prompt workflows, and POC pipelines.',
+      'Owns application engineering for AI/ML features end-to-end, from design through delivery.',
+      'Partners with PMs and stakeholders to translate business problems into structured, shippable product approaches.',
+      'Designs and refines prompt workflows and metadata structures for a GenAI platform to improve output quality and consistency.',
+      'Builds Python automation scripts and SQL pipelines for data processing, validation, and reporting workflows.'
+    ]
+  },
+  {
+    id: 'impresa-intern',
     company: 'Impresa.ai Consulting',
     role: 'AI/ML Intern',
-    timeframe: 'January 2026 - Present',
+    timeframe: 'January 2026 - June 2026',
     location: 'Ahmedabad, India',
     bullets: [
       'Partnered with PMs to shape and deliver client proposals, translating business problems into structured product approaches.',

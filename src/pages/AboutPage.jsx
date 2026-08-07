@@ -62,14 +62,19 @@ const journeyPhases = [
     desc: 'Integrated Generative AI, Agentic AI, and LLM-based solutions into product workflows. Built prototypes and evaluated agentic AI feature feasibility.',
   },
   {
-    year: 'Jan 2026 – Present',
+    year: 'Jan–Jun 2026',
     title: 'AI/ML Intern — Impresa.ai Consulting',
-    desc: 'Shaping client proposals with PMs, designing GenAI prompt workflows, building Python automation scripts, and delivering POC demos for enterprise clients.',
+    desc: 'Shaped client proposals with PMs, designed GenAI prompt workflows, built Python automation scripts, and delivered POC demos for enterprise clients.',
   },
   {
     year: 'Jul 2026',
-    title: 'Graduating',
-    desc: 'Completing B.Tech in Computer Engineering. Ready for full-time roles in AI engineering, agentic systems, and product management.',
+    title: 'Graduated',
+    desc: 'Completed B.Tech in Computer Engineering. Ready for full-time roles in AI engineering, agentic systems, and product management.',
+  },
+  {
+    year: 'Jul 2026 – Present',
+    title: 'Promoted to Associate Application Engineer (AI/ML)',
+    desc: 'Promoted at Impresa.ai Consulting after the internship — now owns AI/ML application engineering end-to-end, from design through delivery.',
   },
 ];
 
