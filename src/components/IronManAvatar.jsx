@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCpu, FiZap, FiShield, FiRadio, FiVolume2, FiVolumeX } from 'react-icons/fi';
+import { FiCpu, FiZap, FiShield, FiRadio, FiVolume2, FiVolumeX, FiMousePointer } from 'react-icons/fi';
 
 // AI System configurations
 const AI_SYSTEMS = {
@@ -465,6 +465,7 @@ export default function IronManAvatar() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [revealedAI, setRevealedAI] = useState(null); // which AI's themed look is shown (null = base photo)
   const [failedImages, setFailedImages] = useState({}); // themed images that 404'd → fall back to base
+  const [hasInteracted, setHasInteracted] = useState(false); // hides the "Try me" nudge after first click
 
   const containerRef = useRef(null);
   const voicesRef = useRef([]);
@@ -611,6 +612,7 @@ export default function IronManAvatar() {
   //  - double click  → revert to the real photo
   // We briefly defer the single-click action so a following click can cancel it.
   const handleCardClick = () => {
+    setHasInteracted(true);
     if (clickTimerRef.current) {
       clearTimeout(clickTimerRef.current);
       clickTimerRef.current = null;
@@ -670,6 +672,29 @@ export default function IronManAvatar() {
         >
           {audioEnabled ? <FiVolume2 className="text-sm" /> : <FiVolumeX className="text-sm" />}
         </button>
+
+        {/* "Try me" nudge — visible up front (not just on hover) so first-time
+            visitors know the photo is interactive; disappears after first click */}
+        <AnimatePresence>
+          {!hasInteracted && (
+            <motion.div
+              className="absolute top-2 right-2 z-40 pointer-events-none flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wider"
+              style={{
+                background: 'rgba(2,6,23,0.72)',
+                border: `1px solid ${currentAI.color}80`,
+                color: currentAI.color,
+                boxShadow: `0 0 14px ${currentAI.color}40`,
+              }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: [1, 1.06, 1], y: [0, -3, 0] }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.3 } }}
+              transition={{ scale: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' }, y: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' } }}
+            >
+              <FiMousePointer className="text-[11px]" />
+              Try me
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* HUD Scanner */}
         <HUDScanner isHovered={isHovered} isActive={showAI} />
