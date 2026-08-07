@@ -1,6 +1,71 @@
 // Projects — ordered to highlight AI/ML + Product Management intersection first
 export const projects = [
   {
+    id: 'news-digest',
+    title: 'Daily News Digest',
+    timeframe: 'August 2026',
+    summary: 'A five-sector daily news dashboard that runs on zero infrastructure: a scheduled GitHub Action pulls ~71 RSS feeds, dedupes and ranks the survivors, and Netlify redeploys a static site on every commit.',
+    bullets: [
+      'Runs entirely inside a GitHub Actions cron job that fetches ~71 public RSS feeds across five sectors and commits the result as JSON — the repository is the database.',
+      'Deduplicates near-identical stories across outlets in two passes: exact canonical-URL matching, then fuzzy token-bucketed title comparison.',
+      'Ranks every story with a weighted score across source tier, recency (exponential decay), cross-outlet corroboration, and sector-specific keywords.',
+      'Ships a fully static dashboard with no server, no database, and no API keys — if a build fails, yesterday’s page keeps serving.',
+      'Includes a separate feed-validation workflow to prune sources that genuinely stop working.'
+    ],
+    tech: [
+      'Python', 'GitHub Actions', 'RSS', 'Netlify',
+      'Vanilla JS', 'JSON'
+    ],
+    link: 'https://github.com/dhruvladani04/news-digest',
+    caseStudy: {
+      problem:
+        'A useful news digest needs to survive duplicate coverage (the same wire story from ten outlets), stay cheap to run indefinitely, and keep working even when a build or a feed breaks.',
+      approach:
+        'Split the system into three independently-failing parts: a scheduled fetch job, a git-committed data layer, and a static CDN read layer. Deduplication runs in two passes — exact canonical-URL grouping after stripping tracking params, then fuzzy token-bucketed comparison for near-identical headlines. Ranking combines source tier, a recency half-life decay, corroboration count, and sector keyword rules into one score per story.',
+      outcome:
+        'A daily-refreshing five-sector dashboard (AI & Tech, Finance & Markets, Geopolitics & Defense, Startups/Science/Energy, Entertainment) with zero running cost — no server, database, or paid tier — and no single point of failure: a bad fetch or build still leaves the previous day’s digest live.',
+    },
+    features: [
+      'Zero-Cost Static Pipeline',
+      'Two-Pass Deduplication',
+      'Weighted Story Ranking',
+      'GitHub Actions Cron',
+      'Self-Healing Feed Validation'
+    ]
+  },
+  {
+    id: 'deep-work-timer',
+    title: 'Deep Work Timer',
+    timeframe: 'January 2026',
+    summary: 'A professional-grade Pomodoro timer built in Flutter with an AI coach: natural-language session input, Gemini-powered productivity insights, and ambient soundscapes for staying in flow.',
+    bullets: [
+      'Parses natural-language input like "Focus for 45m on Project X" into a configured session via smart NLP.',
+      'Generates personalized, context-aware coaching and motivation from actual work history using Gemini.',
+      'Automatically categorizes tasks (Work, Study, Health, Chores) for a statistics dashboard with bar-chart breakdowns.',
+      'Bundles ambient soundscapes (rain, forest, fireplace, cafe) to mask distractions during focus sessions.',
+      'Ships dynamic Material 3 theming with multiple color presets that adapt to the current timer phase.'
+    ],
+    tech: [
+      'Flutter', 'Dart', 'Google Gemini', 'Material 3'
+    ],
+    link: 'https://github.com/dhruvladani04/deep-work-timer',
+    caseStudy: {
+      problem:
+        'Most Pomodoro apps just count down a timer. Setting up a session is manual, and there is no feedback loop that helps someone understand or improve their actual focus patterns over time.',
+      approach:
+        'Built a Flutter app where session setup is a natural-language sentence rather than a form, and layered a Gemini-powered coach on top of session history to surface personalized insights instead of generic streak counts. Automatic categorization and a statistics dashboard turn raw session logs into a productivity breakdown by task type.',
+      outcome:
+        'A focus timer that reduces the friction of starting a session and closes the loop with AI-generated, history-aware coaching — paired with ambient soundscapes and adaptive theming for the session itself.',
+    },
+    features: [
+      'Smart NLP Session Input',
+      'Gemini AI Coach',
+      'Automatic Task Categorization',
+      'Ambient Soundscapes',
+      'Adaptive Material 3 Theming'
+    ]
+  },
+  {
     id: 'agentic-compliance-auditor',
     title: 'Agentic Compliance Auditor',
     timeframe: 'July 2026',
