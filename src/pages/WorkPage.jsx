@@ -178,9 +178,24 @@ function ProjectPreview({ project, onClose }) {
   );
 }
 
+const ROLE_VALUES = ['AI/ML', 'Product/PM', 'Full-Stack'];
+const STACK_VALUES = ['Agentic AI', 'Backend', 'Frontend', 'Mobile', 'Data/ML'];
+
 export default function WorkPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const [viewBy, setViewBy] = React.useState('role'); // 'role' | 'stack'
+  const [activeChip, setActiveChip] = React.useState('All');
+
+  const chipValues = viewBy === 'role' ? ROLE_VALUES : STACK_VALUES;
+  const filteredProjects = activeChip === 'All'
+    ? projects
+    : projects.filter((p) => p[viewBy].includes(activeChip));
+
+  const handleViewByChange = (next) => {
+    setViewBy(next);
+    setActiveChip('All');
+  };
 
   // Project selection is URL-driven so every project has a shareable link
   const selectedProject = slug
@@ -231,9 +246,65 @@ export default function WorkPage() {
           </p>
         </motion.div>
 
+        {/* Filter bar */}
+        <motion.div
+          className="mb-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <div
+            className="nav-links-shell inline-flex mb-4"
+            role="group"
+            aria-label="View projects by"
+          >
+            <button
+              type="button"
+              className={`nav-link ${viewBy === 'role' ? 'nav-link-active' : ''}`}
+              aria-pressed={viewBy === 'role'}
+              onClick={() => handleViewByChange('role')}
+            >
+              Role
+            </button>
+            <button
+              type="button"
+              className={`nav-link ${viewBy === 'stack' ? 'nav-link-active' : ''}`}
+              aria-pressed={viewBy === 'stack'}
+              onClick={() => handleViewByChange('stack')}
+            >
+              Tech Stack
+            </button>
+          </div>
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label={`Filter by ${viewBy === 'role' ? 'role' : 'tech stack'}`}
+          >
+            {['All', ...chipValues].map((value) => (
+              <button
+                key={value}
+                type="button"
+                className={`tag tag-filter ${activeChip === value ? 'tag-filter-active' : ''}`}
+                aria-pressed={activeChip === value}
+                onClick={() => setActiveChip(value)}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Projects grid */}
+        {filteredProjects.length === 0 ? (
+          <div className="panel p-10 text-center">
+            <p className="text-slate-400 mb-4">No projects match this filter yet.</p>
+            <button type="button" className="btn-secondary" onClick={() => setActiveChip('All')}>
+              Reset filter
+            </button>
+          </div>
+        ) : (
         <div className="grid gap-8">
-          {projects.map((project, i) => (
+          {filteredProjects.map((project, i) => (
             <motion.article
               key={project.id}
               className="panel panel-highlight p-6 md:p-8 group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
@@ -299,6 +370,7 @@ export default function WorkPage() {
             </motion.article>
           ))}
         </div>
+        )}
       </div>
 
       {/* Project preview modal */}

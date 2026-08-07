@@ -4,6 +4,9 @@ export const projects = [
     id: 'news-digest',
     title: 'Daily News Digest',
     timeframe: 'August 2026',
+    role: ['Full-Stack'],
+    stack: ['Backend', 'Frontend'],
+    featured: false,
     summary: 'A five-sector daily news dashboard that runs on zero infrastructure: a scheduled GitHub Action pulls ~71 RSS feeds, dedupes and ranks the survivors, and Netlify redeploys a static site on every commit.',
     bullets: [
       'Runs entirely inside a GitHub Actions cron job that fetches ~71 public RSS feeds across five sectors and commits the result as JSON — the repository is the database.',
@@ -37,6 +40,9 @@ export const projects = [
     id: 'deep-work-timer',
     title: 'Deep Work Timer',
     timeframe: 'January 2026',
+    role: ['AI/ML', 'Full-Stack'],
+    stack: ['Mobile'],
+    featured: false,
     summary: 'A professional-grade Pomodoro timer built in Flutter with an AI coach: natural-language session input, Gemini-powered productivity insights, and ambient soundscapes for staying in flow.',
     bullets: [
       'Parses natural-language input like "Focus for 45m on Project X" into a configured session via smart NLP.',
@@ -69,6 +75,9 @@ export const projects = [
     id: 'agentic-compliance-auditor',
     title: 'Agentic Compliance Auditor',
     timeframe: 'July 2026',
+    role: ['AI/ML'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: false,
     summary: 'An autonomous compliance auditor that ingests policy documents and delivers grounded, multi-step answers through a self-correcting CRAG + Self-RAG workflow.',
     bullets: [
       'Orchestrates a four-node LangGraph workflow that retrieves, grades, rewrites, and generates compliance answers with configurable retry protection.',
@@ -102,6 +111,9 @@ export const projects = [
     id: 'feedbackiq',
     title: 'FeedbackIQ',
     timeframe: 'June 2026',
+    role: ['AI/ML', 'Product/PM'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: false,
     summary: 'An AI feedback synthesizer that turns fragmented product feedback into citation-verified weekly briefs through a multi-agent LangGraph pipeline.',
     bullets: [
       'Verifies every brief quote against its source corpus, retrying synthesis or flagging a brief for human review when verification fails.',
@@ -135,6 +147,9 @@ export const projects = [
     id: 'docmind',
     title: 'DocMind',
     timeframe: 'May 2026',
+    role: ['AI/ML', 'Full-Stack'],
+    stack: ['Agentic AI', 'Frontend'],
+    featured: false,
     summary: 'A production-grade multi-agent RAG system for PDF intelligence, delivering cited answers through LangGraph orchestration and a scalable cloud ingestion pipeline.',
     bullets: [
       'Routes queries through a LangGraph supervisor that coordinates retrieval and grounded web-search agents.',
@@ -168,6 +183,9 @@ export const projects = [
     id: 'ai-pm-copilot',
     title: 'AI PM Co-pilot',
     timeframe: 'March 2026',
+    role: ['AI/ML', 'Product/PM'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: true,
     summary: 'A dynamic utility designed for Product Managers to manage probabilistic AI systems. Leverages background agents to automate the synthesis, prototyping, and testing of new product features.',
     bullets: [
       'Architects a three-phase workflow: Discovery Hub, Technical Drafting Studio, and Eval Dashboard — streamlining the entire product lifecycle from ideation to evaluation.',
@@ -201,6 +219,9 @@ export const projects = [
     id: 'smart-job-tracker',
     title: 'Smart Job Tracker',
     timeframe: 'April 2026',
+    role: ['AI/ML'],
+    stack: ['Backend'],
+    featured: true,
     summary: 'An AI-powered job search pipeline that automates lead generation and evaluation. Solves the fragmentation of job boards by aggregating sources, scoring leads via LLMs, and refining accuracy through feedback loops.',
     bullets: [
       'Aggregates 100+ job sources via Apify API — centralizing fragmented job market data into a single, reliable source of truth.',
@@ -234,6 +255,9 @@ export const projects = [
     id: 'agile-sprint-guardian',
     title: 'Agile Sprint Guardian',
     timeframe: 'December 2025',
+    role: ['AI/ML', 'Product/PM'],
+    stack: ['Agentic AI', 'Frontend'],
+    featured: true,
     summary: 'A multi-agent system that simulates an Agile squad to autonomously refine feature requests into comprehensive, estimated tickets — streamlining the product planning phase.',
     bullets: [
       'Orchestrates specialized AI agents (Product Owner, Tech Lead, SecOps, QA) simulating cross-functional collaboration to produce thoroughly vetted tickets.',
@@ -259,6 +283,9 @@ export const projects = [
     id: 'bugvision-ai',
     title: 'BugVision AI',
     timeframe: 'December 2025',
+    role: ['AI/ML', 'Full-Stack'],
+    stack: ['Frontend'],
+    featured: false,
     summary: 'An intelligent debugging assistant that leverages multimodal AI to accelerate root cause identification by analyzing screen recordings alongside source code. Award-winning Google DeepMind competition entry.',
     bullets: [
       'Correlates MP4/WEBM screen recordings with component code using multimodal analysis, drastically reducing time-to-resolution for visually-manifesting bugs.',
@@ -292,6 +319,9 @@ export const projects = [
     id: 'recruitai-platform',
     title: 'Recruit-AI Platform',
     timeframe: 'February 2026',
+    role: ['AI/ML', 'Product/PM'],
+    stack: ['Frontend', 'Agentic AI'],
+    featured: true,
     summary: 'An Agent-First recruitment platform for SMBs powered by Agentic Orchestration. Acts as a Mission Control coordinating Task-Specific Agents to autonomously parse, evaluate, and rank candidate profiles.',
     bullets: [
       'Implements an Agentic workflow for autonomous resume parsing and continuous semantic JD matching, automating top-of-funnel screening.',
@@ -326,6 +356,9 @@ export const projects = [
     id: 'edgesynth',
     title: 'EdgeSynth',
     timeframe: 'March 2026',
+    role: ['AI/ML'],
+    stack: ['Agentic AI', 'Data/ML'],
+    featured: false,
     summary: 'An autonomous, Agent-First pipeline that fabricates structurally sound, adversarially diverse datasets for stress-testing AI models. Uses Mission Control to orchestrate Task-Specific Agents for rigorous pre-production validation.',
     bullets: [
       'Orchestrates a Multi-agent DAG (Schema, Fabrication, Adversarial, Validator) via Mission Control, establishing a scalable autonomous pipeline.',
@@ -351,6 +384,9 @@ export const projects = [
     id: 'gateguru',
     title: 'GateGuru',
     timeframe: 'February 2026',
+    role: ['AI/ML'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: false,
     summary: 'An adaptive, AI-powered study mentor for GATE aspirants that personalizes the learning journey through real-time adjustments and proactive nudges.',
     bullets: [
       'Engineers a LangGraph-based orchestration engine for autonomous study plan generation with highly personalized, adaptive learning paths.',
@@ -375,6 +411,9 @@ export const projects = [
     id: 'nexus-ai',
     title: 'Nexus AI',
     timeframe: 'December 2025',
+    role: ['AI/ML'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: false,
     summary: 'A production-grade, modular RAG application designed to handle complex information retrieval across diverse data formats using intelligent query routing.',
     bullets: [
       'Deploys a smart routing system distinguishing between Resume, Technical, and Web queries, ensuring highly accurate context-appropriate responses.',
@@ -399,6 +438,9 @@ export const projects = [
     id: 'globetrotter',
     title: 'GlobeTrotter',
     timeframe: 'August 2025',
+    role: ['Full-Stack', 'AI/ML'],
+    stack: ['Frontend', 'Backend'],
+    featured: false,
     summary: 'A full-stack travel booking platform that streamlines trip planning with dynamic content management, secure payments, and AI-driven advisory.',
     bullets: [
       'Engineers a two-stage blueprint-to-live lifecycle for dynamic trip creation, allowing seamless drafting, review, and publishing.',
@@ -423,6 +465,9 @@ export const projects = [
     id: 'predictive-maintenance-dashboard',
     title: 'Predictive Maintenance Dashboard',
     timeframe: 'October 2025',
+    role: ['AI/ML', 'Full-Stack'],
+    stack: ['Backend', 'Data/ML'],
+    featured: false,
     summary: 'An end-to-end machine learning application that predicts critical machine failures in real-time, enabling proactive intervention in industrial settings.',
     bullets: [
       'Simulates live IoT sensor data (temperature, vibration) for real-time analysis, proving viability in dynamic real-world conditions.',
@@ -447,6 +492,9 @@ export const projects = [
     id: 'medical-ai-assistant',
     title: 'Medical AI Assistant',
     timeframe: 'September 2025',
+    role: ['AI/ML'],
+    stack: ['Backend'],
+    featured: false,
     summary: 'An AI-powered health assistant that democratizes access to complex medical information by analyzing reports and summarizing dense web articles.',
     bullets: [
       'Provides a multi-page interactive chat interface for health-related queries.',
@@ -471,6 +519,9 @@ export const projects = [
     id: 'smart-job-prep',
     title: 'Smart Job Prep Assistant',
     timeframe: 'May 2025',
+    role: ['Full-Stack', 'AI/ML'],
+    stack: ['Frontend', 'Backend'],
+    featured: false,
     summary: 'A comprehensive career optimization tool that maximizes candidate success by using AI to align resume bullet points directly with target job descriptions.',
     bullets: [
       'Powers resume rewriting with AI suggestions tailored to specific job postings, dramatically improving ATS pass rates.',
@@ -496,6 +547,9 @@ export const projects = [
     id: 'skill-sage-ai',
     title: 'Skill Sage AI Assistant',
     timeframe: 'July 2025',
+    role: ['AI/ML'],
+    stack: ['Frontend'],
+    featured: false,
     summary: 'An intelligent learning companion that accelerates professional development by creating personalized, actionable roadmaps based on user goals.',
     bullets: [
       'Conducts personalized skill assessments to generate tailored recommendations.',
@@ -518,6 +572,9 @@ export const projects = [
     id: 'mental-fitness-journal',
     title: 'Mental Fitness Journal',
     timeframe: 'June 2025',
+    role: ['Full-Stack', 'AI/ML'],
+    stack: ['Frontend', 'Backend'],
+    featured: false,
     summary: 'A secure, full-stack journaling application that helps users cultivate self-awareness by tracking mental health trends and analyzing emotional states.',
     bullets: [
       'Provides complete CRUD functionality with rich text support and mood tracking via visual Chart.js analytics.',
@@ -540,6 +597,9 @@ export const projects = [
     id: 'cp-report-automation',
     title: 'AI Diary: Weekly Report Generator',
     timeframe: 'January 2026',
+    role: ['AI/ML'],
+    stack: ['Backend'],
+    featured: false,
     summary: 'An AI-powered productivity tool that transforms unstructured daily logs and handwritten notes into formal, structured Weekly Progress Reports for university compliance.',
     bullets: [
       'Leverages Gemini Vision to digitize and structure handwritten diary photos, eliminating manual data entry.',

@@ -6,6 +6,9 @@ import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
 import Seo from '../components/Seo';
+import { projects } from '../data/projects';
+
+const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
 
 const stats = [
   { value: '15+', label: 'Projects', unit: 'built', icon: FiLayers },
@@ -617,14 +620,9 @@ export default function HomePage() {
             whileInView="show"
             viewport={{ once: true }}
           >
-            {[
-              { id: 'ai-pm-copilot', title: 'AI PM Co-pilot', desc: 'Dynamic utility for Product Managers to manage probabilistic AI systems with automated synthesis and testing', tag: 'AI/ML + PM', gradient: 'var(--arc-blue)' },
-              { id: 'smart-job-tracker', title: 'Smart Job Tracker', desc: 'AI-powered job search pipeline that aggregates 100+ sources and scores leads via LLMs', tag: 'AI/ML', gradient: 'var(--accent-gold)' },
-              { id: 'agile-sprint-guardian', title: 'Agile Sprint Guardian', desc: 'Multi-agent system simulating an Agile squad to autonomously refine feature requests', tag: 'Multi-Agent AI', gradient: 'var(--accent-red)' },
-              { id: 'recruitai-platform', title: 'Recruit-AI Platform', desc: 'Agent-first recruitment platform that autonomously parses, scores, and ranks candidates for SMB recruiters', tag: 'Agentic AI + PM', gradient: 'var(--arc-blue)' },
-            ].map((project, i) => (
+            {projects.filter((p) => p.featured).map((project, i) => (
               <motion.div
-                key={project.title}
+                key={project.id}
                 className="panel panel-highlight p-6 group cursor-pointer relative overflow-hidden"
                 variants={itemVariants}
                 whileHover={{
@@ -648,7 +646,7 @@ export default function HomePage() {
                 <motion.div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: `radial-gradient(circle at 50% 50%, ${project.gradient}10, transparent 70%)`,
+                    background: `radial-gradient(circle at 50% 50%, ${FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length]}10, transparent 70%)`,
                   }}
                 />
 
@@ -657,9 +655,9 @@ export default function HomePage() {
                     <motion.span
                       className="tag"
                       whileHover={{ scale: 1.1 }}
-                      style={{ borderColor: project.gradient }}
+                      style={{ borderColor: FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length] }}
                     >
-                      {project.tag}
+                      {project.role.join(' + ')}
                     </motion.span>
                     <span className="font-mono text-sm" style={{ color: 'var(--arc-blue)' }}>
                       0{i + 1}
@@ -671,7 +669,7 @@ export default function HomePage() {
                   >
                     {project.title}
                   </motion.h3>
-                  <p className="text-slate-400">{project.desc}</p>
+                  <p className="text-slate-400">{project.summary}</p>
                 </div>
 
                 {/* HUD corner */}
