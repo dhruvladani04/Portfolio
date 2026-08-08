@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 
 // About page background — repulsor energy field: soft drifting nebula glows,

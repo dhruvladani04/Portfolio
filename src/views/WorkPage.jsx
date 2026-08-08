@@ -1,9 +1,11 @@
+'use client';
+
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useParams, useRouter, notFound } from 'next/navigation';
 import { FiArrowUpRight, FiExternalLink, FiX, FiArrowLeft } from 'react-icons/fi';
 import { projects } from '../data/projects';
-import Seo from '../components/Seo';
 
 function ProjectPreview({ project, onClose }) {
   const closeRef = React.useRef(null);
@@ -167,7 +169,7 @@ function ProjectPreview({ project, onClose }) {
                 <FiExternalLink />
               </a>
             )}
-            <Link to="/contact" className="btn-secondary">
+            <Link href="/contact" className="btn-secondary">
               Ask about this project
               <FiArrowUpRight />
             </Link>
@@ -183,9 +185,30 @@ const STACK_VALUES = ['Agentic AI', 'Backend', 'Frontend', 'Mobile', 'Data/ML'];
 
 export default function WorkPage() {
   const { slug } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [viewBy, setViewBy] = React.useState('role'); // 'role' | 'stack'
   const [activeChip, setActiveChip] = React.useState('All');
+
+  // /work and /work/:slug are separate route segments under the App Router
+  // and remount WorkPage when navigating between them — restore the
+  // last-used filter from sessionStorage so it survives that remount within
+  // a session instead of silently resetting to the defaults above.
+  React.useLayoutEffect(() => {
+    try {
+      const storedViewBy = sessionStorage.getItem('work:viewBy');
+      const storedChip = sessionStorage.getItem('work:activeChip');
+      if (storedViewBy) setViewBy(storedViewBy);
+      if (storedChip) setActiveChip(storedChip);
+    } catch (_) { /* private mode: keep defaults */ }
+  }, []);
+
+  React.useEffect(() => {
+    try { sessionStorage.setItem('work:viewBy', viewBy); } catch (_) { /* private mode */ }
+  }, [viewBy]);
+
+  React.useEffect(() => {
+    try { sessionStorage.setItem('work:activeChip', activeChip); } catch (_) { /* private mode */ }
+  }, [activeChip]);
 
   const chipValues = viewBy === 'role' ? ROLE_VALUES : STACK_VALUES;
   const filteredProjects = activeChip === 'All'
@@ -197,31 +220,24 @@ export default function WorkPage() {
     setActiveChip('All');
   };
 
-  // Project selection is URL-driven so every project has a shareable link
-  const selectedProject = slug
-    ? projects.find((p) => p.id === slug || p.title.toLowerCase().replace(/\s+/g, '-') === slug) || null
-    : null;
+  // Project selection is URL-driven so every project has a shareable link.
+  // generateStaticParams only ever emits project ids, so a slug that
+  // doesn't match one is genuinely unreachable — send it to a real 404
+  // instead of silently falling back to the unfiltered grid.
+  const selectedProject = slug ? projects.find((p) => p.id === slug) || null : null;
+  if (slug && !selectedProject) {
+    notFound();
+  }
 
   const handleCloseProject = () => {
-    navigate('/work');
+    router.push('/work');
   };
 
   return (
     <div className="section-shell pt-32 pb-20">
-      {selectedProject ? (
-        <Seo
-          title={`${selectedProject.title} — Case Study | Dhruv Ladani`}
-          description={selectedProject.summary}
-        />
-      ) : (
-        <Seo
-          title="Projects — Dhruv Ladani"
-          description="15+ projects across AI agents, RAG systems, and full-stack products — including an award-winning Google DeepMind competition entry."
-        />
-      )}
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
-        <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
+        <Link href="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
           <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />
           Back to home
         </Link>
@@ -312,11 +328,11 @@ export default function WorkPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              onClick={() => navigate(`/work/${project.id}`)}
+              onClick={() => router.push(`/work/${project.id}`)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  navigate(`/work/${project.id}`);
+                  router.push(`/work/${project.id}`);
                 }
               }}
               role="link"

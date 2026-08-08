@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 
 // Custom HUD cursor: arc-blue dot + lerped ring that flares red over

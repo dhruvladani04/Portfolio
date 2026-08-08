@@ -1,7 +1,16 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { FiArrowUpRight, FiMenu, FiX } from 'react-icons/fi';
+
+// next.config.js sets trailingSlash: true, so usePathname() returns e.g.
+// '/work/' after navigation while navLinks below intentionally stays
+// slash-free (matches how routes are written elsewhere in the app) —
+// normalize before comparing so the active state still matches.
+const normalizePath = (path) => (path.length > 1 ? path.replace(/\/$/, '') : path);
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -10,10 +19,10 @@ const navLinks = [
   { path: '/contact', label: 'Contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ ready = true }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -24,7 +33,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <>
@@ -36,14 +45,14 @@ export default function Navbar() {
           opacity: scrolled ? 0.5 : 0.2,
         }}
         initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
+        animate={{ scaleX: ready ? 1 : 0 }}
         transition={{ duration: 1 }}
       />
 
       <motion.nav
         className="fixed inset-x-0 top-4 z-40"
         initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={ready ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -52,7 +61,7 @@ export default function Navbar() {
             style={{ width: '100%' }}
           >
             {/* Logo */}
-            <Link to="/" className="nav-brand flex items-center gap-3">
+            <Link href="/" className="nav-brand flex items-center gap-3">
               <motion.span
                 className="brand-mark"
                 animate={{ boxShadow: scrolled ? 'var(--arc-glow)' : 'var(--red-glow)' }}
@@ -68,11 +77,11 @@ export default function Navbar() {
             {/* Desktop nav */}
             <div className="nav-links-shell hidden md:flex items-center gap-1 px-2 py-1">
               {navLinks.map((link) => {
-                const isActive = location.pathname === link.path;
+                const isActive = normalizePath(pathname) === link.path;
                 return (
                   <Link
                     key={link.path}
-                    to={link.path}
+                    href={link.path}
                     className={`nav-link ${isActive ? 'nav-link-active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -84,7 +93,7 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="nav-actions flex items-center gap-2">
-              <Link to="/contact" className="btn-secondary hidden lg:inline-flex text-sm group">
+              <Link href="/contact" className="btn-secondary hidden lg:inline-flex text-sm group">
                 <span className="flex items-center gap-2">
                   <motion.span
                     className="w-1.5 h-1.5 rounded-full"
@@ -120,11 +129,11 @@ export default function Navbar() {
                 transition={{ duration: 0.2 }}
               >
                 {navLinks.map((link, i) => {
-                  const isActive = location.pathname === link.path;
+                  const isActive = normalizePath(pathname) === link.path;
                   return (
                     <Link
                       key={link.path}
-                      to={link.path}
+                      href={link.path}
                       className={`mobile-nav-link rounded-xl px-4 py-3 mb-2 flex justify-between items-center ${
                         isActive ? 'mobile-nav-link-active' : ''
                       }`}

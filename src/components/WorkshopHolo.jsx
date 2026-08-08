@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 
 // Work page background — Tony's workshop hologram: a perspective holo floor

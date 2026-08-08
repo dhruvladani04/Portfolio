@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FiArrowUpRight, FiMail } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
@@ -39,7 +41,7 @@ export default function Footer() {
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Left side */}
             <div className="flex items-center gap-4">
-              <Link to="/" className="brand-mark">
+              <Link href="/" className="brand-mark">
                 DL
               </Link>
               <div>
@@ -53,7 +55,7 @@ export default function Footer() {
               {footerLinks.map((link) => (
                 <Link
                   key={link.path}
-                  to={link.path}
+                  href={link.path}
                   className="font-mono text-xs uppercase tracking-wider hover:text-white transition-colors"
                   style={{ color: 'var(--arc-blue)' }}
                 >

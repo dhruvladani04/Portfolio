@@ -1,11 +1,12 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FiArrowLeft, FiArrowUpRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { SiCodeforces, SiLeetcode, SiCodechef } from 'react-icons/si';
 import { experience } from '../data/experience';
 import IronManAvatar from '../components/IronManAvatar';
-import Seo from '../components/Seo';
 
 const skills = [
   { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
@@ -89,13 +90,9 @@ const profiles = [
 export default function AboutPage() {
   return (
     <div className="section-shell pt-32 pb-20">
-      <Seo
-        title="About — Dhruv Ladani"
-        description="Computer Engineering graduate from PDEU, now Associate Application Engineer (AI/ML) at Impresa.ai. 500+ DSA problems, CodeChef 5-star, 2 research papers."
-      />
       <div className="max-w-6xl mx-auto">
         {/* Back link */}
-        <Link to="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
+        <Link href="/" className="link-inline inline-flex items-center gap-2 mb-12 group">
           <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />
           Back to home
         </Link>
@@ -143,7 +140,7 @@ export default function AboutPage() {
                 </span>
                 <FiDownload />
               </a>
-              <Link to="/contact" className="btn-secondary">
+              <Link href="/contact" className="btn-secondary">
                 Contact Me
                 <FiArrowUpRight />
               </Link>

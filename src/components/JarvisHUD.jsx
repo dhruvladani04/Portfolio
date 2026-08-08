@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 
 // J.A.R.V.I.S. helmet-HUD background (2D canvas, replaces the old 3D scene):

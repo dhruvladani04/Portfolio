@@ -1,11 +1,13 @@
+'use client';
+
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp, FiLayers, FiGitBranch } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
-import Seo from '../components/Seo';
 import { projects } from '../data/projects';
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
@@ -160,7 +162,14 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0.5]);
 
   const { rank: cfRank } = useCodeforces('dhruvcodes04');
-  const navigate = useNavigate();
+  const router = useRouter();
+
+  // The CTA particle field below uses Math.random() for position, which
+  // differs between the server-rendered pass and the client's first render —
+  // render it only after mount so there's nothing for React to hydration-
+  // mismatch against.
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
 
   // Stagger animation variants
   const containerVariants = {
@@ -178,10 +187,6 @@ export default function HomePage() {
 
   return (
     <div ref={ref} className="min-h-screen">
-      <Seo
-        title="Dhruv Ladani — AI Product Builder & Engineer"
-        description="A product manager who codes and an AI builder who ships. Agentic systems, RAG pipelines, and full-stack products — portfolio of Dhruv Ladani."
-      />
       {/* Hero Section */}
       <motion.section
         className="section-shell pt-32 md:pt-40 pb-20 relative overflow-hidden"
@@ -316,7 +321,7 @@ export default function HomePage() {
             animate="show"
           >
             <MagneticButton className="inline-block">
-              <Link to="/work" className="btn-primary group">
+              <Link href="/work" className="btn-primary group">
                 <span className="flex items-center gap-2">
                   <motion.span
                     animate={{ rotate: [0, 10, -10, 0] }}
@@ -331,7 +336,7 @@ export default function HomePage() {
             </MagneticButton>
 
             <MagneticButton className="inline-block">
-              <Link to="/about" className="btn-secondary group">
+              <Link href="/about" className="btn-secondary group">
                 About Me
                 <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
@@ -601,7 +606,7 @@ export default function HomePage() {
               </motion.span>
             </div>
             <MagneticButton>
-              <Link to="/work" className="link-inline group">
+              <Link href="/work" className="link-inline group">
                 View all projects
                 <motion.span
                   animate={{ x: [0, 3, 0], y: [0, -3, 0] }}
@@ -631,11 +636,11 @@ export default function HomePage() {
                   boxShadow: `0 10px 40px rgba(0, 217, 255, 0.2)`,
                 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => navigate(`/work/${project.id}`)}
+                onClick={() => router.push(`/work/${project.id}`)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    navigate(`/work/${project.id}`);
+                    router.push(`/work/${project.id}`);
                   }
                 }}
                 role="link"
@@ -693,7 +698,7 @@ export default function HomePage() {
       >
         {/* Floating particles background */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {mounted && [...Array(20)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 rounded-full"
@@ -746,7 +751,7 @@ export default function HomePage() {
           </motion.p>
 
           <MagneticButton className="inline-block">
-            <Link to="/contact" className="btn-primary group">
+            <Link href="/contact" className="btn-primary group">
               <span className="flex items-center gap-2">
                 <motion.span
                   className="w-2 h-2 rounded-full bg-white/30"

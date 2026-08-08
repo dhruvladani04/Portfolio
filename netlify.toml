@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "dist"
+  publish = "out"
 
 # Handle form submissions
 [[redirects]]
@@ -8,13 +8,9 @@
   to = "/form.html"
   status = 200
 
-# Required for SPA routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# SPA catch-all removed — every route now has a real static file/folder;
+# leaving it would mask genuine 404s as 200 index.html
 
-# Handle form submissions
 [[headers]]
   for = "/*"
   [headers.values]
