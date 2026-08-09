@@ -1,4 +1,10 @@
 // Projects — ordered to highlight AI/ML + Product Management intersection first
+// Optional fields: linkNote (string) — shown instead of a "Launch Project"
+// button when `link` is absent, so a missing link reads as an explained
+// choice rather than silence. pmArtifact ({ metrics, experiment?, cut? }) —
+// an optional "Product Process" block rendered after the case study/stack,
+// showing the success metrics chosen (and, where available, an experiment
+// run and what got cut). Both are real content only, never fabricated.
 export const projects = [
   {
     id: 'news-digest',
@@ -78,7 +84,7 @@ export const projects = [
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
     featured: false,
-    summary: 'An autonomous compliance auditor that ingests policy documents and delivers grounded, multi-step answers through a self-correcting CRAG + Self-RAG workflow.',
+    summary: 'Compliance analysts auditing dense policy documents get grounded, evaluable answers instead of a black-box chatbot — a self-correcting CRAG + Self-RAG pipeline measurably improved retrieval precision and answer faithfulness against a Ragas golden dataset.',
     bullets: [
       'Orchestrates a four-node LangGraph workflow that retrieves, grades, rewrites, and generates compliance answers with configurable retry protection.',
       'Supports policy ingestion from Markdown, text, PDF, and Word documents for flexible internal knowledge bases.',
@@ -93,11 +99,11 @@ export const projects = [
     link: 'https://github.com/dhruvladani04/agentic-compliance-auditor',
     caseStudy: {
       problem:
-        'Compliance teams need precise answers from dense, conflicting policy documents, but ordinary RAG systems can retrieve weak context or return ungrounded conclusions.',
+        'Compliance analysts need precise, defensible answers from dense policy documents — a standard RAG chatbot can retrieve weak context or generate an ungrounded conclusion, with no way to tell which one happened.',
       approach:
-        'Built a corrective and self-reflective RAG workflow that grades retrieved context, rewrites weak queries, optionally searches the web, and checks every generated response for grounding and usefulness. The product also provides multi-format ingestion, BYOK access, and custom Ragas evaluation datasets.',
+        'Built a self-correcting CRAG + Self-RAG workflow: a four-node LangGraph pipeline grades every retrieved document for relevance, rewrites the query when context is weak, falls back to web search once retries are exhausted, and grades its own generated answer for grounding before returning it. Added a Ragas evaluation harness with custom golden datasets and dynamic column mapping so retrieval and answer quality are measured, not assumed.',
       outcome:
-        'Creates an observable, evaluable compliance assistant with benchmarked retrieval and answer-quality metrics instead of a black-box document chatbot.',
+        'Against a golden evaluation set, the self-correction loop lifted Context Precision from 68.9% to 81.8% (+12.9%), Answer Relevancy from 68.9% to 81.4% (+12.5%), Context Recall from 79.5% to 83.6% (+4.1%), and Faithfulness from 70.3% to 75.9% (+5.6%) over an ungraded baseline.',
     },
     features: [
       'CRAG + Self-RAG Workflow',
@@ -114,7 +120,7 @@ export const projects = [
     role: ['AI/ML', 'Product/PM'],
     stack: ['Agentic AI', 'Backend'],
     featured: false,
-    summary: 'An AI feedback synthesizer that turns fragmented product feedback into citation-verified weekly briefs through a multi-agent LangGraph pipeline.',
+    summary: 'PMs who spend hours each week triaging feedback scattered across Slack, support exports, and documents get a weekly, citation-verified brief instead — a 5-agent LangGraph pipeline where every quote is copied verbatim from source and independently re-verified before it ships.',
     bullets: [
       'Verifies every brief quote against its source corpus, retrying synthesis or flagging a brief for human review when verification fails.',
       'Coordinates preprocessing, classification, embedding-based deduplication, prioritization, and synthesis in a stateful five-agent workflow.',
@@ -129,11 +135,11 @@ export const projects = [
     link: 'https://github.com/dhruvladani04/feedbackIQ',
     caseStudy: {
       problem:
-        'Product feedback lives across tools and is expensive to triage. A useful stakeholder brief must preserve evidence, not invent it.',
+        'PMs spend hours each week triaging product feedback scattered across Slack, support exports, and documents — and a synthesized brief is only useful if stakeholders can trust every quote in it.',
       approach:
-        'Designed a five-stage LangGraph pipeline that redacts and classifies source feedback, deduplicates themes with embeddings, prioritizes them, then synthesizes a brief whose quotes are copied from and independently verified against the source material.',
+        'Designed a 5-agent LangGraph state machine — preprocess (PII redaction), classify, deduplicate (embedding cosine similarity ≥0.92), prioritize, synthesize — with a self-looping retry edge on synthesis. The anti-hallucination guarantee is structural, not a prompt: every brief quote is copied verbatim from the source, then independently re-verified against the corpus (difflib similarity ≥0.95); a failed check retries with a stricter prompt or drops the quote and flags the brief for human review. Slack ingestion runs live over MCP; Google Drive ingestion was deliberately parked after research showed no available connector could scope to a single folder — indexing an entire Drive is a privacy problem, not just noise.',
       outcome:
-        'Produces weekly feedback briefs with an anti-hallucination verification loop, along with a production-shaped workflow that can run entirely offline for safe demos and testing.',
+        'Ships as a proof-of-concept with a production-shaped architecture — the real pipeline, persistence, scheduling, and quote-verification pass all run end-to-end; only the external model and connector calls fall back to deterministic mocks, so the whole system runs offline with zero credentials and flips to live calls with no code change once a key is added.',
     },
     features: [
       'Citation-Verified Briefs',
@@ -150,7 +156,7 @@ export const projects = [
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Agentic AI', 'Frontend'],
     featured: false,
-    summary: 'A production-grade multi-agent RAG system for PDF intelligence, delivering cited answers through LangGraph orchestration and a scalable cloud ingestion pipeline.',
+    summary: 'Knowledge workers who need trustworthy answers from long internal PDFs get every response with the source page number and a relevance score attached — a multi-agent RAG system built on LangGraph orchestration and an event-driven cloud ingestion pipeline.',
     bullets: [
       'Routes queries through a LangGraph supervisor that coordinates retrieval and grounded web-search agents.',
       'Builds a PDF ingestion pipeline from upload through GCS and Pub/Sub to chunking, embedding, and Qdrant storage.',
@@ -165,11 +171,11 @@ export const projects = [
     link: 'https://github.com/dhruvladani04/docmind',
     caseStudy: {
       problem:
-        'Teams need trustworthy answers from long PDFs, with a clear path from an answer back to its supporting source material.',
+        'Long internal PDFs bury the answer a knowledge worker needs, and a typical chatbot response gives no way to verify it — no page reference, no way back to the source.',
       approach:
-        'Implemented a supervisor-led RAG architecture with Qdrant retrieval, web-grounding fallback, and an event-driven PDF ingestion pipeline using GCS and Pub/Sub. Responses surface source pages and relevance scores while Langfuse records each agent decision.',
+        'Built a supervisor-led multi-agent architecture in LangGraph: a Retrieval agent queries Qdrant and reranks results, a Web Search agent grounds answers via Gemini when the documents don’t have it, and every response carries the source PDF name, page number, and a relevance score. Wired an event-driven ingestion pipeline (upload → GCS → Pub/Sub → chunk → embed → Qdrant) that splits documents into 512-token chunks with 50-token overlap and retrieves the top 5 highest-scoring chunks per query, with health checks, a 3-attempt dead-letter retry instead of a silent drop, and end-to-end Langfuse tracing so every agent decision is inspectable.',
       outcome:
-        'Delivers a deployable document-intelligence workflow with cited answers, production hardening, and visibility across both query and ingestion paths.',
+        'Every answer traces back to a specific page in a specific document — the citation is a first-class part of the response, not a bolt-on — backed by production-hardened ingestion and full request-level tracing.',
     },
     features: [
       'Multi-Agent RAG',
@@ -206,6 +212,14 @@ export const projects = [
         'Built a three-phase workflow that mirrors how PM work actually flows: a Discovery Hub for ideation, a Technical Drafting Studio for speccing, and an Eval Dashboard for governance. Background agents automate synthesis, prototyping, and testing along the way. LangGraph-powered persistence keeps shared state consistent across multi-step workflows, and Gemini is integrated via LangChain behind timeout and fallback protections. A dual UI — Streamlit for dashboards, Gradio for interactive drafting — matches the interface to each task.',
       outcome:
         'Synthetic dataset generation from 50 Commune transcripts removed manual data collection from the testing loop, so a feature can travel from ideation to evaluated prototype inside a single tool.',
+    },
+    pmArtifact: {
+      metrics:
+        'Every generated feature is gated by two automated checks before it\'s considered shippable: a mitigation-coverage check (does the spec address the risks the Red-Team agent raised?) and a latency/pass-fail gate — a feature is flagged "Warning" if its telemetry-simulated latency exceeds 2.0s, treated as a trigger for another revision pass rather than a silent ship.',
+      experiment:
+        'Tried gemini-2.5-flash — a "thinking" model that runs an internal reasoning budget before responding — for the Phase 2 multi-agent drafting loop (Drafter → Red-Team → Evaluator), on the assumption that more reasoning would mean better specs.',
+      cut:
+        'Reverted Phase 2 to gemini-2.0-flash after finding 2.5-flash added 30–90s of latency per call on the full-PRD-length prompts this loop uses, and triggered 504 DEADLINE_EXCEEDED errors from Google\'s servers under load — with no measurable quality gain for this kind of structured generation. Kept 2.5-flash in Phase 1 and Phase 3, where single, shorter calls still benefit from the extra reasoning budget.',
     },
     features: [
       'Discovery Hub',
@@ -286,13 +300,13 @@ export const projects = [
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Frontend'],
     featured: false,
-    summary: 'An intelligent debugging assistant that leverages multimodal AI to accelerate root cause identification by analyzing screen recordings alongside source code. Award-winning Google DeepMind competition entry.',
+    summary: 'Developers stuck turning "it looks broken in this recording" into a code fix get an assistant that watches the screen recording and reads the code at the same time — built end-to-end during Google DeepMind\'s one-week Vibe Code with Gemini 3 Pro sprint.',
     bullets: [
       'Correlates MP4/WEBM screen recordings with component code using multimodal analysis, drastically reducing time-to-resolution for visually-manifesting bugs.',
       'Features a Smart Code Editor for on-the-fly code inspection and live patching, creating a seamless integrated debugging environment.',
       'Includes a "Sherlock Mode" interactive chat for deep-dive contextual queries into complex codebases.',
       'Automatically identifies visual anomalies and traces them to underlying logic errors, bridging the gap between QA and engineering.',
-      'Recognized as an award-winning Google DeepMind Competition entry.'
+      'Built and shipped within a 7-day hackathon window, co-built with a teammate.'
     ],
     tech: [
       'TypeScript', 'React', 'Vite', 'Prismjs',
@@ -301,11 +315,11 @@ export const projects = [
     link: 'https://github.com/dhruvladani04/BugVision-AI',
     caseStudy: {
       problem:
-        'Visually-manifesting bugs are painful to trace: the symptom lives in a screen recording while the cause lives in the code, and nothing connects the two. QA hands engineering a video; engineering starts from zero.',
+        'When a bug only shows up visually, the symptom lives in a screen recording and the cause lives in the code — nothing connects the two, so QA hands engineering a video and engineering starts from zero.',
       approach:
-        'BugVision correlates MP4/WEBM screen recordings with component code using multimodal analysis (Gemini 3 Pro + Gemini 2.5 Flash). A Smart Code Editor enables on-the-fly inspection and live patching inside the tool, and "Sherlock Mode" adds an interactive chat for deep contextual queries into the codebase.',
+        'Co-built a multimodal analysis pipeline that correlates an uploaded screen recording (MP4/WEBM) with the relevant source code using Gemini 2.5 Flash, plus a "Sherlock Mode" interactive chat for follow-up questions and a side-by-side diff view for the suggested fix. Built with Gemini 3 Pro as the development/architecture assistant — a distinct role from the Gemini 2.5 Flash model doing the actual runtime analysis.',
       outcome:
-        'The system automatically identifies visual anomalies and traces them to the underlying logic errors — bridging QA and engineering and drastically reducing time-to-resolution. Recognized as an award-winning Google DeepMind competition entry.',
+        'A submitted entry to Google DeepMind\'s Vibe Code with Gemini 3 Pro competition — turns a screen recording plus an optional code snippet into a located root cause and a proposed fix in one pass, without needing to reproduce the bug from a written description alone.',
     },
     features: [
       'Multimodal Analysis',
@@ -322,7 +336,7 @@ export const projects = [
     role: ['AI/ML', 'Product/PM'],
     stack: ['Frontend', 'Agentic AI'],
     featured: true,
-    summary: 'An Agent-First recruitment platform for SMBs powered by Agentic Orchestration. Acts as a Mission Control coordinating Task-Specific Agents to autonomously parse, evaluate, and rank candidate profiles.',
+    summary: 'SMB recruiters who screen hundreds of resumes by hand — and lose good candidates to formatting, not fit — get autonomous parsing, scoring, and ranking with a reasoning trace behind every score. Shipped as the Phase-1 "Screener" agent in a roadmap that scales the same core into scheduling, sourcing, and bias-audit agents.',
     bullets: [
       'Implements an Agentic workflow for autonomous resume parsing and continuous semantic JD matching, automating top-of-funnel screening.',
       'Provides a real-time analytics dashboard tracking Time-to-Hire and Screening Accuracy with actionable KPIs.',
@@ -344,6 +358,14 @@ export const projects = [
       outcome:
         'Shipped as the Phase-1 "Screener" agent with a live demo and a full product paper trail — PRD, metrics & roadmap doc, and a process/decision log. Defined KPI targets: time-to-shortlist cut from 5 days to under 1 hour, interview conversion lifted from 15% to 40%+, and cost-per-hire pushed from the $4,700 industry average toward $500. The roadmap scales the same agent core into Coordinator (auto-scheduling), Hunter (autonomous sourcing), and Compliance (bias-audit) phases.',
     },
+    pmArtifact: {
+      metrics:
+        'As the product owner, defined and tracked three success metrics end-to-end: funnel analytics on the Job Post Creation flow to catch drop-off, a retention dashboard for daily recruiter activity and platform stickiness, and a North Star metric of reduction in average screening time per candidate.',
+      experiment:
+        'Started the resume-parsing pipeline on GPT-4o, then swapped to Gemini 2.0/2.5 Flash once the n8n workflow was underway — OCR-heavy resume parsing needs a large context window and low latency, and at the volume an SMB screening 500+ resumes actually sees, GPT-4o\'s per-call cost stops penciling out against Gemini Flash\'s price-to-performance.',
+      cut:
+        'Cut a custom Python backend in favor of building the agent workflow visually in n8n (Webhook → PDF parse → Gemini → JSON parse → Supabase) — as a solo founder, hand-building routing, auth, and state management would have consumed most of the build time; the visual graph made it possible to debug the agent\'s reasoning steps without restarting a server.',
+    },
     features: [
       'Agentic Resume Parsing',
       'Candidate Ranking',
@@ -359,7 +381,7 @@ export const projects = [
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Data/ML'],
     featured: false,
-    summary: 'An autonomous, Agent-First pipeline that fabricates structurally sound, adversarially diverse datasets for stress-testing AI models. Uses Mission Control to orchestrate Task-Specific Agents for rigorous pre-production validation.',
+    summary: 'Engineering teams that need to stress-test AI agents before real production data exists get an autonomous multi-agent pipeline that fabricates structurally valid, adversarially diverse synthetic datasets — cutting dev-cycle time 10–20x and infrastructure cost up to 80% versus hand-built test data.',
     bullets: [
       'Orchestrates a Multi-agent DAG (Schema, Fabrication, Adversarial, Validator) via Mission Control, establishing a scalable autonomous pipeline.',
       'Generates targeted adversarial scenarios including prompt injections and tool loops, proactively mitigating security vulnerabilities in AI products.',
@@ -372,6 +394,14 @@ export const projects = [
       'LangSmith', 'Streamlit', 'Pandas'
     ],
     link: 'https://github.com/dhruvladani04/EdgeSynth',
+    caseStudy: {
+      problem:
+        'Engineering teams building AI agents can\'t rigorously test against adversarial, edge-case scenarios before production data exists — real data is often restricted by GDPR/HIPAA/CCPA, too expensive to annotate at scale, and statistically sparse in the true edge cases that matter.',
+      approach:
+        'Built a multi-agent DAG (Schema → Fabrication → Adversarial → Validator) that generates adversarial scenarios — prompt injections, tool loops, boundary conditions, multi-turn confusion — alongside bias-audited outputs with disparity analysis. Every dataset must clear evaluation gates before acceptance: ≥95% structural validity, ≥95% foreign-key integrity, a diversity score of ≥0.75 (1 minus mean Jaccard similarity across record pairs), and a disparity ratio under 1.1 across groups. Datasets are versioned and CI-gated through LangSmith for regression testing against future agent releases.',
+      outcome:
+        'Accelerates dev cycles 10–20x and cuts infrastructure cost up to 80% versus hand-curating test data, with thousands of scenarios covered per CI eval gate — every agent call traced end-to-end for latency, tokens, and output.',
+    },
     features: [
       'Multi-agent DAG Pipeline',
       'Adversarial Data Generation',
@@ -585,6 +615,7 @@ export const projects = [
       'React', 'Material-UI', 'Chart.js', 'Node.js',
       'Express', 'MongoDB', 'Mongoose', 'JWT'
     ],
+    linkNote: 'Private repo — not yet public.',
     features: [
       'User Authentication',
       'Journal Entry Management',

@@ -3,12 +3,12 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp, FiLayers, FiGitBranch } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
 import { projects } from '../data/projects';
+import { credentials } from '../data/credentials';
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
 
@@ -162,7 +162,6 @@ export default function HomePage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0.5]);
 
   const { rank: cfRank } = useCodeforces('dhruvcodes04');
-  const router = useRouter();
 
   // The CTA particle field below uses Math.random() for position, which
   // differs between the server-rendered pass and the client's first render —
@@ -459,6 +458,40 @@ export default function HomePage() {
               );
             })}
           </motion.div>
+
+          {/* Named credentials — counts above are aggregate, these are specific proof points */}
+          <motion.div
+            className="flex flex-wrap gap-2 mb-20"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1 }}
+          >
+            {credentials.map((credential) => {
+              const Icon = credential.icon;
+              const content = (
+                <>
+                  <Icon className="text-sm" />
+                  {credential.label}
+                  {credential.detail && <span className="text-slate-400">· {credential.detail}</span>}
+                </>
+              );
+              return credential.href ? (
+                <a
+                  key={credential.label}
+                  href={credential.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="tag hover:scale-105 transition-transform"
+                >
+                  {content}
+                </a>
+              ) : (
+                <span key={credential.label} className="tag">
+                  {content}
+                </span>
+              );
+            })}
+          </motion.div>
         </motion.div>
       </motion.section>
 
@@ -626,64 +659,55 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             {projects.filter((p) => p.featured).map((project, i) => (
-              <motion.div
-                key={project.id}
-                className="panel panel-highlight p-6 group cursor-pointer relative overflow-hidden"
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.02,
-                  y: -5,
-                  boxShadow: `0 10px 40px rgba(0, 217, 255, 0.2)`,
-                }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => router.push(`/work/${project.id}`)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    router.push(`/work/${project.id}`);
-                  }
-                }}
-                role="link"
-                tabIndex={0}
-                aria-label={`View ${project.title} details`}
-              >
-                {/* Animated background glow */}
+              <Link key={project.id} href={`/work/${project.id}`} aria-label={`View ${project.title} details`}>
                 <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: `radial-gradient(circle at 50% 50%, ${FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length]}10, transparent 70%)`,
+                  className="panel panel-highlight p-6 group cursor-pointer relative overflow-hidden"
+                  variants={itemVariants}
+                  whileHover={{
+                    scale: 1.02,
+                    y: -5,
+                    boxShadow: `0 10px 40px rgba(0, 217, 255, 0.2)`,
                   }}
-                />
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Animated background glow */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: `radial-gradient(circle at 50% 50%, ${FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length]}10, transparent 70%)`,
+                    }}
+                  />
 
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-4">
-                    <motion.span
-                      className="tag"
-                      whileHover={{ scale: 1.1 }}
-                      style={{ borderColor: FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length] }}
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <motion.span
+                        className="tag"
+                        whileHover={{ scale: 1.1 }}
+                        style={{ borderColor: FEATURED_GRADIENTS[i % FEATURED_GRADIENTS.length] }}
+                      >
+                        {project.role.join(' + ')}
+                      </motion.span>
+                      <span className="font-mono text-sm" style={{ color: 'var(--arc-blue)' }}>
+                        0{i + 1}
+                      </span>
+                    </div>
+                    <motion.h3
+                      className="font-display text-2xl font-semibold text-white mb-2"
+                      whileHover={{ x: 5 }}
                     >
-                      {project.role.join(' + ')}
-                    </motion.span>
-                    <span className="font-mono text-sm" style={{ color: 'var(--arc-blue)' }}>
-                      0{i + 1}
-                    </span>
+                      {project.title}
+                    </motion.h3>
+                    <p className="text-slate-400">{project.summary}</p>
                   </div>
-                  <motion.h3
-                    className="font-display text-2xl font-semibold text-white mb-2"
-                    whileHover={{ x: 5 }}
-                  >
-                    {project.title}
-                  </motion.h3>
-                  <p className="text-slate-400">{project.summary}</p>
-                </div>
 
-                {/* HUD corner */}
-                <motion.div
-                  className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity"
-                  style={{ borderColor: 'var(--arc-blue)' }}
-                  whileHover={{ width: 80, height: 80 }}
-                />
-              </motion.div>
+                  {/* HUD corner */}
+                  <motion.div
+                    className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity"
+                    style={{ borderColor: 'var(--arc-blue)' }}
+                    whileHover={{ width: 80, height: 80 }}
+                  />
+                </motion.div>
+              </Link>
             ))}
           </motion.div>
         </div>

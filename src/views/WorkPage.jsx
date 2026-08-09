@@ -4,8 +4,15 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useParams, useRouter, notFound } from 'next/navigation';
-import { FiArrowUpRight, FiExternalLink, FiX, FiArrowLeft } from 'react-icons/fi';
+import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft } from 'react-icons/fi';
 import { projects } from '../data/projects';
+
+// 17 of 19 present project links are unambiguous GitHub URLs; the remaining
+// 2 are live demos (Streamlit/Vercel) — derive the label from the URL
+// instead of adding a field that's 100% redundant with it.
+function getLinkLabel(url) {
+  return url.includes('github.com') ? 'View on GitHub' : 'View Live Demo';
+}
 
 function ProjectPreview({ project, onClose }) {
   const closeRef = React.useRef(null);
@@ -26,6 +33,29 @@ function ProjectPreview({ project, onClose }) {
   }, [project, onClose]);
 
   if (!project) return null;
+
+  // Computed once so it can be placed in two different positions below
+  // (right after the case study, or in its original spot) without duplicating markup.
+  const techStackSection = (
+    <div className="mb-8">
+      <h3 className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--accent-gold)' }}>
+        Technology Stack
+      </h3>
+      <div className="flex flex-wrap gap-2">
+        {project.tech.map((t, i) => (
+          <motion.span
+            key={t}
+            className="tag"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 + i * 0.05 }}
+          >
+            {t}
+          </motion.span>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
@@ -83,12 +113,13 @@ function ProjectPreview({ project, onClose }) {
             {project.summary}
           </p>
 
-          {/* Case study (flagship projects) */}
+          {/* Case study (flagship projects): Problem -> My Role -> Outcome, */}
+          {/* then Stack immediately after so it reads as one continuous story */}
           {project.caseStudy && (
             <div className="mb-8 grid gap-6">
               {[
                 ['The Problem', project.caseStudy.problem, 'var(--accent-red-bright)'],
-                ['The Approach', project.caseStudy.approach, 'var(--arc-blue)'],
+                ['My Role', project.caseStudy.approach, 'var(--arc-blue)'],
                 ['The Outcome', project.caseStudy.outcome, 'var(--accent-gold)'],
               ].map(([label, text, color]) => (
                 <div key={label} className="relative pl-4" style={{ borderLeft: `2px solid ${color}` }}>
@@ -100,6 +131,8 @@ function ProjectPreview({ project, onClose }) {
               ))}
             </div>
           )}
+
+          {project.caseStudy && techStackSection}
 
           {/* Bullets */}
           <div className="mb-8">
@@ -122,28 +155,29 @@ function ProjectPreview({ project, onClose }) {
             </ul>
           </div>
 
-          {/* Tech stack */}
-          <div className="mb-8">
-            <h3 className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--accent-gold)' }}>
-              Technology Stack
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((t, i) => (
-                <motion.span
-                  key={t}
-                  className="tag"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.05 }}
-                >
-                  {t}
-                </motion.span>
+          {!project.caseStudy && techStackSection}
+
+          {/* Product Process: PM artifact — success metrics, an experiment, what got cut */}
+          {project.pmArtifact && (
+            <div className="mb-8 grid gap-6">
+              <h3 className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--accent-gold)' }}>
+                Product Process
+              </h3>
+              {[
+                ['Success Metrics', project.pmArtifact.metrics],
+                ['Experiment', project.pmArtifact.experiment],
+                ['What We Cut', project.pmArtifact.cut],
+              ].filter(([, text]) => text).map(([label, text]) => (
+                <div key={label} className="relative pl-4" style={{ borderLeft: '2px solid var(--accent-gold)' }}>
+                  <h4 className="font-mono text-xs uppercase tracking-widest mb-2 text-slate-400">{label}</h4>
+                  <p className="text-slate-300 leading-relaxed">{text}</p>
+                </div>
               ))}
             </div>
-          </div>
+          )}
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 items-center">
             {project.link && (
               <a
                 href={project.link}
@@ -152,11 +186,14 @@ function ProjectPreview({ project, onClose }) {
                 className="btn-primary"
               >
                 <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
-                  Launch Project
+                  {project.link.includes('github.com') ? <FiGithub /> : <span className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />}
+                  {getLinkLabel(project.link)}
                 </span>
                 <FiExternalLink />
               </a>
+            )}
+            {!project.link && project.linkNote && (
+              <p className="text-sm text-slate-400">{project.linkNote}</p>
             )}
             {project.prd && (
               <a
@@ -321,69 +358,69 @@ export default function WorkPage() {
         ) : (
         <div className="grid gap-8">
           {filteredProjects.map((project, i) => (
-            <motion.article
+            <Link
               key={project.id}
-              className="panel panel-highlight p-6 md:p-8 group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => router.push(`/work/${project.id}`)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  router.push(`/work/${project.id}`);
-                }
-              }}
-              role="link"
-              tabIndex={0}
+              href={`/work/${project.id}`}
+              className="block"
               aria-label={`View ${project.title} details`}
             >
-              {/* HUD corners */}
-              <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
-              <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
+              <motion.article
+                className="panel panel-highlight p-6 md:p-8 group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                {/* HUD corners */}
+                <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
+                <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
 
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="tag">{project.timeframe}</span>
-                    <motion.span
-                      className="font-mono text-sm"
-                      style={{ color: 'var(--arc-blue)' }}
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{ duration: 2, repeat: Infinity }}
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="tag">{project.timeframe}</span>
+                      <motion.span
+                        className="font-mono text-sm"
+                        style={{ color: 'var(--arc-blue)' }}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        {String(i + 1).padStart(2, '0')}
+                      </motion.span>
+                    </div>
+
+                    <h2 className="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
+                      {project.title}
+                    </h2>
+
+                    <p className="text-slate-300 mb-4">{project.summary}</p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.slice(0, 6).map((t) => (
+                        <span key={t} className="tag text-xs">{t}</span>
+                      ))}
+                      {project.tech.length > 6 && (
+                        <span className="tag text-xs">+{project.tech.length - 6}</span>
+                      )}
+                      {project.linkNote && (
+                        <span className="tag text-xs" style={{ opacity: 0.7 }}>{project.linkNote}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 mt-4 md:mt-0">
+                    <motion.div
+                      className="w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{ background: 'rgba(0, 217, 255, 0.1)' }}
+                      whileHover={{ scale: 1.1 }}
+                      aria-hidden="true"
                     >
-                      {String(i + 1).padStart(2, '0')}
-                    </motion.span>
-                  </div>
-
-                  <h2 className="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
-                    {project.title}
-                  </h2>
-
-                  <p className="text-slate-300 mb-4">{project.summary}</p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.slice(0, 6).map((t) => (
-                      <span key={t} className="tag text-xs">{t}</span>
-                    ))}
-                    {project.tech.length > 6 && (
-                      <span className="tag text-xs">+{project.tech.length - 6}</span>
-                    )}
+                      <FiArrowUpRight size={20} style={{ color: 'var(--arc-blue)' }} />
+                    </motion.div>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-4 mt-4 md:mt-0">
-                  <motion.div
-                    className="w-10 h-10 rounded-full flex items-center justify-center"
-                    style={{ background: 'rgba(0, 217, 255, 0.1)' }}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <FiArrowUpRight size={20} style={{ color: 'var(--arc-blue)' }} />
-                  </motion.div>
-                </div>
-              </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </div>
         )}
