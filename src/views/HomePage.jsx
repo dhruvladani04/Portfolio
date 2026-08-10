@@ -151,15 +151,28 @@ function ScanningLine() {
 }
 
 export default function HomePage() {
-  const { ref, scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
-  const y2 = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95]);
+  // Scoped to the hero's own scroll-out distance (top of hero hits viewport
+  // top → bottom of hero hits viewport top), not the whole document — an
+  // untargeted useScroll() defaults to tracking the entire page, which made
+  // this fade complete after ~15% of the *page's* scroll range rather than
+  // one hero-height, so the hero (and the stats/credentials still inside it)
+  // washed out to near-invisible while still fully on screen.
+  const heroRef = React.useRef(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const opacity = useTransform(heroProgress, [0, 1], [1, 0]);
+  const scale = useTransform(heroProgress, [0, 1], [1, 0.96]);
+  const heroY = useTransform(heroProgress, [0, 1], [0, -60]);
 
-  // Parallax effects
-  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0.5]);
+  const capsRef = React.useRef(null);
+  const { scrollYProgress: capsProgress } = useScroll({
+    target: capsRef,
+    offset: ['start end', 'end start'],
+  });
+  const y1 = useTransform(capsProgress, [0, 1], [30, -30]);
+  const y2 = useTransform(capsProgress, [0, 1], [-30, 30]);
 
   const { rank: cfRank } = useCodeforces('dhruvcodes04');
 
@@ -185,9 +198,10 @@ export default function HomePage() {
   };
 
   return (
-    <div ref={ref} className="min-h-screen">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <motion.section
+        ref={heroRef}
         className="section-shell pt-32 md:pt-40 pb-20 relative overflow-hidden"
         style={{ opacity, scale }}
       >
@@ -198,7 +212,7 @@ export default function HomePage() {
 
         <motion.div
           className="max-w-6xl mx-auto px-4 md:px-6 relative"
-          style={{ y: heroY, opacity: heroOpacity }}
+          style={{ y: heroY }}
         >
           <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
           <div>
@@ -410,7 +424,7 @@ export default function HomePage() {
 
           {/* Stats with counter animation */}
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10"
             variants={containerVariants}
             initial="hidden"
             animate="show"
@@ -461,7 +475,7 @@ export default function HomePage() {
 
           {/* Named credentials — counts above are aggregate, these are specific proof points */}
           <motion.div
-            className="flex flex-wrap gap-2 mb-20"
+            className="flex flex-wrap gap-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
@@ -497,6 +511,7 @@ export default function HomePage() {
 
       {/* Capabilities with scroll-driven parallax */}
       <motion.section
+        ref={capsRef}
         className="section-shell py-20 relative"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
