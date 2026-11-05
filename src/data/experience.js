@@ -1,3 +1,5 @@
+// Every bullet renders on the About page, so keep each role to its 2–3
+// strongest lines.
 export const experience = [
   {
     id: 'impresa-associate',
@@ -6,11 +8,9 @@ export const experience = [
     timeframe: 'July 2026 - Present',
     location: 'Ahmedabad, India',
     bullets: [
-      'Promoted from AI/ML Intern after delivering on client proposals, GenAI prompt workflows, and POC pipelines.',
-      'Owns application engineering for AI/ML features end-to-end, from design through delivery.',
-      'Partners with PMs and stakeholders to translate business problems into structured, shippable product approaches.',
-      'Designs and refines prompt workflows and metadata structures for a GenAI platform to improve output quality and consistency.',
-      'Builds Python automation scripts and SQL pipelines for data processing, validation, and reporting workflows.'
+      'Builds data pipelines in PySpark and Python, feature engineering, and ML/DL models on client data, alongside GenAI prompt and metadata workflows.',
+      'Turns that work into rapid prototypes with the product team for client pitches and internal demos.',
+      'Currently working on an agentic AI project.'
     ]
   },
   {
@@ -20,11 +20,9 @@ export const experience = [
     timeframe: 'January 2026 - June 2026',
     location: 'Ahmedabad, India',
     bullets: [
-      'Partnered with PMs to shape and deliver client proposals, translating business problems into structured product approaches.',
-      'Worked closely with stakeholders to define KPIs and scope POCs, leading efforts from problem definition to POC demo delivery.',
-      'Designed and refined prompt workflows and metadata structures for a GenAI platform to improve output quality and consistency.',
-      'Built Python automation scripts and SQL pipelines for data processing, validation, and reporting workflows.',
-      'Contributed to ML and data preprocessing tasks, supporting model readiness and experimentation pipelines.'
+      'Built GenAI proofs of concept: prompt and metadata pipelines for a GenAI platform, plus Python and SQL automation for data processing, validation, and reporting.',
+      'Scoped POCs and KPIs with PMs and stakeholders, from problem definition to demo delivery, and supported ML preprocessing for model experiments.',
+      'Converted to a full-time role in July 2026.'
     ]
   },
   {
@@ -33,9 +31,9 @@ export const experience = [
     role: 'AI/ML Intern (Remote)',
     timeframe: 'May 2025 - August 2025',
     bullets: [
-      'Collaborated on integrating Generative AI and LLMs into product workflows.',
-      'Built prototypes to demonstrate agentic AI features and evaluated feasibility.',
-      'Worked on ML and recommendation system projects',
+      'Integrated Generative AI and LLMs into product workflows.',
+      'Built prototypes to demonstrate agentic AI features and evaluate their feasibility.',
+      'Worked on ML and recommendation-system projects.'
     ]
   },
   {
@@ -44,9 +42,9 @@ export const experience = [
     role: 'Mobile App Development Intern (Remote)',
     timeframe: 'Oct 2024 - Dec 2024',
     bullets: [
-      'Managed alpha phase of a healthcare management app',
-      'Built a Flutter app from scratch and worked on low-level design',
-      'Designed the app UI using Figma',
+      'Managed the alpha phase of a healthcare management app.',
+      'Built the Flutter app from scratch and worked on its low-level design.',
+      'Designed the app UI in Figma.'
     ]
   }
 ]

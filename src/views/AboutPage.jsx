@@ -9,7 +9,7 @@ import { experience } from '../data/experience';
 import IronManAvatar from '../components/IronManAvatar';
 
 const skills = [
-  { category: 'AI & Machine Learning', items: ['LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
+  { category: 'AI, ML & Data', items: ['PySpark', 'Pandas', 'scikit-learn', 'SQL', 'LangGraph', 'LangChain', 'Gemini & GPT APIs', 'RAG Systems', 'Ragas & Evals', 'MCP', 'Prompt Engineering', 'Multi-Agent Systems', 'CrewAI', 'pgvector'] },
   { category: 'Product Management', items: ['JIRA', 'Agile/Scrum', 'KPI Definition', 'POC Scoping', 'Feature Prioritization', 'Stakeholder Management', 'Product Documentation', 'Proposal Writing'] },
   { category: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Streamlit', 'Gradio'] },
   { category: 'Backend', items: ['Python', 'FastAPI', 'Node.js', 'PostgreSQL', 'MongoDB', 'Supabase', 'Prisma', 'SQLAlchemy'] },
@@ -33,7 +33,7 @@ const journeyPhases = [
     desc: 'Joined ACM PDEU Student Chapter (Core Committee), CSI PDEU (Technical Sub-Committee), GeeksForGeeks PDEU, Encode PDEU, and Symmetry PDEU simultaneously.',
   },
   {
-    year: 'Aug 2024 — Aug 2024',
+    year: 'Aug 2024',
     title: 'First Research Published',
     desc: '"Advanced Water Quality Assessment through Integrated Machine Learning Models" published at IEEE ICCUBEA 2024. First step into academic research.',
   },
@@ -75,7 +75,7 @@ const journeyPhases = [
   {
     year: 'Jul 2026 – Present',
     title: 'Promoted to Associate Application Engineer (AI/ML)',
-    desc: 'Promoted at Impresa.ai Consulting after the internship — now owns AI/ML application engineering end-to-end, from design through delivery.',
+    desc: 'Converted to full-time at Impresa.ai Consulting after the internship — data pipelines, ML models, and GenAI prototypes for client work, and currently an agentic AI project.',
   },
 ];
 
@@ -151,6 +151,46 @@ export default function AboutPage() {
           <IronManAvatar />
         </motion.div>
 
+        {/* Experience — first after the intro: it's what recruiters scan for */}
+        <motion.section
+          className="mb-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
+            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>EXPERIENCE</span>
+          </div>
+
+          <div className="grid gap-4">
+            {experience.map((item, i) => (
+              <motion.div
+                key={item.id}
+                className="panel p-6 relative overflow-hidden group hover:scale-[1.01] transition-transform"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <div className="absolute top-0 left-0 w-10 h-10 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                  <div>
+                    <span className="tag mb-2 inline-block">{item.timeframe}</span>
+                    <h3 className="font-display text-xl font-semibold text-white">{item.role}</h3>
+                    <p className="mt-1" style={{ color: 'var(--arc-blue)' }}>{item.company}</p>
+                  </div>
+                  <ul className="feature-list md:w-2/3">
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet} className="feature-item">{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
         {/* Journey Timeline */}
         <motion.section
           className="mb-20"
@@ -216,46 +256,6 @@ export default function AboutPage() {
                   {skillSet.items.map((item) => (
                     <span key={item} className="tag text-xs py-1 px-2">{item}</span>
                   ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Experience */}
-        <motion.section
-          className="mb-20"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
-            <span className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>EXPERIENCE</span>
-          </div>
-
-          <div className="grid gap-4">
-            {experience.map((item, i) => (
-              <motion.div
-                key={item.id}
-                className="panel p-6 relative overflow-hidden group hover:scale-[1.01] transition-transform"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <div className="absolute top-0 left-0 w-10 h-10 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div>
-                    <span className="tag mb-2 inline-block">{item.timeframe}</span>
-                    <h3 className="font-display text-xl font-semibold text-white">{item.role}</h3>
-                    <p className="mt-1" style={{ color: 'var(--arc-blue)' }}>{item.company}</p>
-                  </div>
-                  <ul className="feature-list md:w-2/3">
-                    {item.bullets.slice(0, 2).map((bullet) => (
-                      <li key={bullet} className="feature-item">{bullet}</li>
-                    ))}
-                  </ul>
                 </div>
               </motion.div>
             ))}
