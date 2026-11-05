@@ -91,9 +91,11 @@ function BootScreen({ onDone }) {
 // Home = J.A.R.V.I.S. HUD, Work = workshop holograms, About = repulsor
 // energy field, Contact = open comms channel.
 const backgrounds = [
-  { key: 'work', match: (p) => p.startsWith('/work'), Component: WorkshopHolo },
+  // /work and /work/:slug only — not /work-with-me, which shares the
+  // contact page's comms background below.
+  { key: 'work', match: (p) => /^\/work(\/|$)/.test(p), Component: WorkshopHolo },
   { key: 'about', match: (p) => p.startsWith('/about'), Component: RepulsorField },
-  { key: 'contact', match: (p) => p.startsWith('/contact'), Component: CommsTelemetry },
+  { key: 'contact', match: (p) => p.startsWith('/contact') || p.startsWith('/work-with-me'), Component: CommsTelemetry },
   { key: 'home', match: () => true, Component: JarvisHUD },
 ];
 

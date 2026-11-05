@@ -19,6 +19,7 @@ const socials = [
 const footerLinks = [
   { path: '/work', label: 'Work' },
   { path: '/about', label: 'About' },
+  { path: '/work-with-me', label: 'Work with me' },
   { path: '/contact', label: 'Contact' },
 ];
 
@@ -46,7 +47,7 @@ export default function Footer() {
               </Link>
               <div>
                 <p className="font-display text-sm font-semibold">Dhruv Ladani</p>
-                <p className="font-mono text-xs" style={{ color: 'var(--muted)' }}>AI | Full-Stack | Product</p>
+                <p className="font-mono text-xs" style={{ color: 'var(--muted)' }}>AI/ML | Data | Product</p>
               </div>
             </div>
 

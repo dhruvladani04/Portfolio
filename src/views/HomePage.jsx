@@ -319,8 +319,7 @@ export default function HomePage() {
             </MagneticButton>
 
             <MagneticButton className="inline-block">
-              {/* Points at /contact until /work-with-me ships */}
-              <Link href="/contact" className="btn-secondary group">
+              <Link href="/work-with-me" className="btn-secondary group">
                 Work with me
                 <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
