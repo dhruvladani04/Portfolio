@@ -5,8 +5,8 @@ import { SITE_URL, buildMetadata } from '../lib/metadata';
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   ...buildMetadata({
-    title: 'Dhruv Ladani — AI Product Builder & Engineer',
-    description: 'A product manager who codes and an AI builder who ships. Agentic systems, RAG pipelines, and full-stack products — portfolio of Dhruv Ladani.',
+    title: 'Dhruv Ladani — AI/ML Engineer · Data, models & AI prototypes',
+    description: 'AI/ML engineer at Impresa.ai building data pipelines, models and GenAI prototypes, and agent systems measured with evals. Projects, case studies and resume.',
     path: '',
   }),
   authors: [{ name: 'Dhruv Ladani' }],
@@ -23,8 +23,12 @@ const personSchema = {
   '@type': 'Person',
   name: 'Dhruv Ladani',
   url: `${SITE_URL}/`,
-  jobTitle: 'AI Product Builder',
-  description: 'AI Product Builder with hands-on experience designing and deploying Generative AI applications using multi-agent systems and RAG pipelines.',
+  jobTitle: 'Associate Application Engineer (AI/ML)',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Impresa.ai Consulting',
+  },
+  description: 'AI/ML engineer building data pipelines, models and GenAI prototypes, and agent systems measured with evals.',
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'Pandit Deendayal Energy University',

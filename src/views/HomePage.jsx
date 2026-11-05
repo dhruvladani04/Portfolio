@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
 import Link from 'next/link';
-import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiStar, FiTrendingUp, FiLayers, FiGitBranch } from 'react-icons/fi';
+import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiTrendingUp, FiLayers, FiDatabase } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
@@ -12,50 +12,20 @@ import { credentials } from '../data/credentials';
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
 
+// Real values render straight into the HTML — no count-up from 0, so the
+// right numbers show for crawlers, slow phones, and anyone who glances.
+// The project count is derived so it can't drift from the Work page.
 const stats = [
-  { value: '15+', label: 'Projects', unit: 'built', icon: FiLayers },
-  { value: '500+', label: 'Problems', unit: 'solved', icon: FiCode },
+  { value: String(projects.length), label: 'Projects', unit: 'built', icon: FiLayers },
+  { value: '500+', label: 'DSA problems', unit: 'solved', icon: FiCode },
   { value: '2', label: 'Research', unit: 'papers', icon: FiTrendingUp },
-  { value: '2026', label: 'Graduated', unit: '', icon: FiStar },
 ];
 
 const capabilities = [
-  { title: 'AI & Machine Learning', desc: 'Building intelligent systems, LLM workflows, and AI-powered applications', icon: FiCpu, color: 'var(--arc-blue)' },
-  { title: 'Full-Stack Development', desc: 'End-to-end product engineering from database to deployment', icon: FiZap, color: 'var(--accent-gold)' },
-  { title: 'Competitive Programming', desc: '500+ DSA problems solved across platforms', icon: FiCode, color: 'var(--accent-red)' },
+  { title: 'Data & ML', desc: 'PySpark ETL, feature engineering and ML/DL models on client data, plus Python pipelines that run unattended: validated, deduplicated and versioned in git.', icon: FiDatabase, color: 'var(--arc-blue)' },
+  { title: 'Prototype fast', desc: 'Client and internal demos built with product teams, from problem definition and KPIs to a working prototype, with a PRD and decision log when the product needs one.', icon: FiZap, color: 'var(--accent-gold)' },
+  { title: 'Agentic AI, measured', desc: 'LangGraph agents, RAG and MCP tooling with evaluation built in: held-out test sets, Ragas and per-stage metrics, so every system ships with numbers, not just a demo.', icon: FiCpu, color: 'var(--accent-red)' },
 ];
-
-// Animated counter: cubic-eased ramp for countable values ("15+", "500+", "2");
-// years like "2026" render statically.
-function AnimatedCounter({ value, duration = 1.3 }) {
-  const match = /^(\d+)(\+?)$/.exec(value);
-  const target = match ? parseInt(match[1], 10) : null;
-  const countable = target !== null && target < 2000;
-  const [display, setDisplay] = React.useState(countable ? '0' : value);
-
-  React.useEffect(() => {
-    if (!countable) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplay(value);
-      return undefined;
-    }
-    const suffix = match[2];
-    let rafId = 0;
-    let t0 = null;
-    const step = (ts) => {
-      if (t0 === null) t0 = ts;
-      const k = Math.min((ts - t0) / (duration * 1000), 1);
-      const eased = 1 - Math.pow(1 - k, 3);
-      setDisplay(k < 1 ? String(Math.round(target * eased)) : target + suffix);
-      if (k < 1) rafId = requestAnimationFrame(step);
-    };
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  return <span style={{ fontVariantNumeric: 'tabular-nums' }}>{display}</span>;
-}
 
 // Magnetic button effect
 function MagneticButton({ children, className, ...props }) {
@@ -218,7 +188,7 @@ export default function HomePage() {
           <div>
           {/* Status badge */}
           <motion.div
-            className="flex items-center gap-3 mb-8"
+            className="flex flex-wrap items-center gap-3 mb-8"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -250,7 +220,7 @@ export default function HomePage() {
                 animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              Currently @ Impresa.ai · Open to new opportunities
+              Impresa.ai · Open to roles &amp; freelance builds
             </motion.span>
           </motion.div>
 
@@ -310,8 +280,8 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
           >
-            <span style={{ color: 'var(--arc-blue)' }}>A product manager who codes.</span>{' '}
-            <span style={{ color: 'var(--accent-gold)' }}>An AI builder who ships.</span>
+            <span style={{ color: 'var(--arc-blue)' }}>Data → models → AI prototypes people say yes to.</span>{' '}
+            <span style={{ color: 'var(--accent-gold)' }}>Built with a PM&apos;s eye.</span>
           </motion.p>
 
           {/* Animated intro text */}
@@ -322,7 +292,7 @@ export default function HomePage() {
             transition={{ delay: 0.4 }}
           >
             <TextReveal delay={0.6}>
-              AI Product Builder with hands-on experience designing and deploying Generative AI applications using multi-agent systems and RAG pipelines. Skilled in translating user needs into product features, defining metrics, and collaborating across engineering and design teams to deliver impactful AI-driven products.
+              I'm an AI/ML engineer at Impresa.ai. I build the data pipelines, models and GenAI workflows behind client AI work, turn them into demos with the product team, and build agent systems that are measured with evals, not just shipped.
             </TextReveal>
           </motion.div>
 
@@ -342,22 +312,23 @@ export default function HomePage() {
                   >
                     <GiPunchBlast className="text-lg" />
                   </motion.span>
-                  View Projects
+                  View work
                 </span>
                 <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
             </MagneticButton>
 
             <MagneticButton className="inline-block">
-              <Link href="/about" className="btn-secondary group">
-                About Me
+              {/* Points at /contact until /work-with-me ships */}
+              <Link href="/contact" className="btn-secondary group">
+                Work with me
                 <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
             </MagneticButton>
 
             <MagneticButton className="inline-block">
               <a href="/Dhruv_Ladani_Resume_Tech.pdf" download className="btn-secondary group">
-                Download Resume
+                Download resume
                 <motion.span
                   animate={{ y: [0, 3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -394,8 +365,8 @@ export default function HomePage() {
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--arc-blue)', letterSpacing: '0.2em' }}>Target Lock</span>
-                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Agentic AI products and intelligent tooling</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--arc-blue)', letterSpacing: '0.2em' }}>Data &amp; ML</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">PySpark ETL, feature engineering, ML/DL models</span>
               </motion.div>
 
               <motion.div
@@ -404,8 +375,8 @@ export default function HomePage() {
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-gold)', letterSpacing: '0.2em' }}>Build Protocol</span>
-                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Prototype fast, measure clearly, polish intentionally</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-gold)', letterSpacing: '0.2em' }}>Prototype fast</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Client &amp; internal demos with product teams</span>
               </motion.div>
 
               <motion.div
@@ -414,9 +385,8 @@ export default function HomePage() {
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-red-bright)', letterSpacing: '0.2em' }}>LLM Stack</span>
-                <span className="block font-display text-[14px] font-semibold leading-snug text-white">Multi-agent systems &amp; RAG pipelines</span>
-                <span className="mt-0.5 block text-xs text-slate-400">LangGraph · LangChain · Gemini</span>
+                <span className="mb-1 block font-mono text-[10.5px] uppercase" style={{ color: 'var(--accent-red-bright)', letterSpacing: '0.2em' }}>Agentic AI, measured</span>
+                <span className="block font-display text-[14px] font-semibold leading-snug text-white">LangGraph · RAG · evals</span>
               </motion.div>
             </div>
           </motion.div>
@@ -424,12 +394,12 @@ export default function HomePage() {
 
           {/* Stats with counter animation */}
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10"
             variants={containerVariants}
             initial="hidden"
             animate="show"
           >
-            {stats.map((stat, i) => {
+            {stats.map((stat) => {
               const Icon = stat.icon;
               return (
                 <motion.div
@@ -450,14 +420,9 @@ export default function HomePage() {
                     <Icon className="text-sm" style={{ color: 'var(--arc-blue)', opacity: 0.5 }} />
                   </motion.div>
 
-                  <motion.span
-                    className="stat-value"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8 + i * 0.15 }}
-                  >
-                    <AnimatedCounter value={stat.value} />
-                  </motion.span>
+                  {/* No delayed fade of its own — the number appears with its
+                      card, so skimmers see it as early as possible. */}
+                  <span className="stat-value">{stat.value}</span>
                   <p className="text-sm text-slate-400">{stat.label} {stat.unit}</p>
 
                   {/* Pulse ring on hover */}
@@ -784,9 +749,9 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            Currently an Associate Application Engineer (AI/ML) at Impresa.ai, and open
-            to new opportunities in AI, software engineering, and product. If you're
-            building something interesting, I'd love to chat.
+            Currently an Associate Application Engineer (AI/ML) at Impresa.ai. Open to
+            full-time roles in AI/ML engineering, forward-deployed engineering and AI
+            product, and to a small number of freelance builds.
           </motion.p>
 
           <MagneticButton className="inline-block">

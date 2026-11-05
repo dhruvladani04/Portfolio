@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { usePathname } from 'next/navigation';
@@ -17,32 +17,36 @@ const WorkshopHolo = dynamic(() => import('../components/WorkshopHolo'), { ssr: 
 const RepulsorField = dynamic(() => import('../components/RepulsorField'), { ssr: false });
 const CommsTelemetry = dynamic(() => import('../components/CommsTelemetry'), { ssr: false });
 
-// Arc-reactor boot sequence: spinning reactor + progress bar + percentage,
-// then fades out to reveal the app.
+// Arc-reactor boot flash: a ~300 ms progress sweep, then a quick fade out to
+// reveal the app. Kept short on purpose — it gates content that's already
+// rendered underneath, so every extra millisecond is pure wait.
+const BOOT_MS = 300;
+
 function BootScreen({ onDone }) {
-  const [progress, setProgress] = useState(0);
+  const [filled, setFilled] = useState(false);
+  // Ref so a re-render of the parent (new onDone identity) can't restart
+  // the timer.
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let p = 0;
-    const tick = setInterval(() => {
-      p += Math.random() * 16 + 7;
-      if (p >= 100) {
-        p = 100;
-        clearInterval(tick);
-        setTimeout(onDone, 240);
-      }
-      setProgress(p);
-    }, reduce ? 30 : 110);
-    return () => clearInterval(tick);
-  }, [onDone]);
+    // The bar is a CSS width transition kicked off on the next frame; the
+    // dismissal is a plain timer, so the screen always clears even where
+    // rAF is paused (background tabs, headless capture).
+    const rafId = requestAnimationFrame(() => setFilled(true));
+    const timer = setTimeout(() => onDoneRef.current(), BOOT_MS);
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{ background: 'var(--bg)' }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="flex flex-col items-center gap-6" style={{ width: 'min(320px, 78vw)' }}>
         <motion.div
@@ -71,15 +75,13 @@ function BootScreen({ onDone }) {
           <div
             className="h-full"
             style={{
-              width: `${progress}%`,
+              width: filled ? '100%' : '0%',
+              transition: `width ${BOOT_MS}ms linear`,
               background: 'linear-gradient(90deg, var(--arc-blue), var(--accent-gold))',
               boxShadow: '0 0 12px var(--arc-blue)',
             }}
           />
         </div>
-        <p className="font-mono text-[10px]" style={{ color: 'var(--muted)', letterSpacing: '0.2em' }}>
-          {Math.floor(progress)}%
-        </p>
       </div>
     </motion.div>
   );
@@ -146,17 +148,18 @@ const pageVariants = {
 };
 
 export default function ClientShell({ children }) {
-  // Boot sequence plays once per session; repeat visits skip straight in.
-  // Always starts true (deterministic on both server and client — the
-  // sessionStorage check only runs after mount) to avoid a hydration
-  // mismatch between the prerendered HTML and the first client render.
+  // Boot flash plays once per browser (localStorage, not per tab); repeat
+  // visits skip straight in. Always starts true (deterministic on both
+  // server and client — the storage check only runs after mount) to avoid a
+  // hydration mismatch between the prerendered HTML and the first client
+  // render.
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
 
   useLayoutEffect(() => {
     try {
-      if (sessionStorage.getItem('dl:booted')) setIsLoading(false);
-    } catch (_) { /* private mode: keep boot screen */ }
+      if (localStorage.getItem('dl:booted')) setIsLoading(false);
+    } catch (_) { /* storage blocked: keep boot screen */ }
   }, []);
 
   useEffect(() => {
@@ -168,8 +171,8 @@ export default function ClientShell({ children }) {
   const finishBoot = () => {
     setIsLoading(false);
     try {
-      sessionStorage.setItem('dl:booted', '1');
-    } catch (_) { /* private mode */ }
+      localStorage.setItem('dl:booted', '1');
+    } catch (_) { /* storage blocked */ }
   };
 
   return (
