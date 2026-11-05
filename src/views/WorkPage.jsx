@@ -7,9 +7,9 @@ import { useParams, useRouter, notFound } from 'next/navigation';
 import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft } from 'react-icons/fi';
 import { projects } from '../data/projects';
 
-// 17 of 19 present project links are unambiguous GitHub URLs; the remaining
-// 2 are live demos (Streamlit/Vercel) — derive the label from the URL
-// instead of adding a field that's 100% redundant with it.
+// Most project links are GitHub URLs and the rest are live demos
+// (Streamlit/Vercel) — derive the label from the URL instead of adding a
+// field that's 100% redundant with it.
 function getLinkLabel(url) {
   return url.includes('github.com') ? 'View on GitHub' : 'View Live Demo';
 }

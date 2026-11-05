@@ -4,6 +4,13 @@
   <url><loc>https://dhruvladaniportfolio.netlify.app/work</loc><priority>0.9</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/about</loc><priority>0.8</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/contact</loc><priority>0.8</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/tollgate</loc><priority>0.7</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/llm-atlas</loc><priority>0.7</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/agentic-compliance-auditor</loc><priority>0.7</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/feedbackiq</loc><priority>0.7</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/news-digest</loc><priority>0.6</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/docmind</loc><priority>0.6</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/deep-work-timer</loc><priority>0.6</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/ai-pm-copilot</loc><priority>0.7</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/smart-job-tracker</loc><priority>0.7</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/agile-sprint-guardian</loc><priority>0.6</priority></url>
@@ -19,4 +26,5 @@
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/skill-sage-ai</loc><priority>0.6</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/mental-fitness-journal</loc><priority>0.6</priority></url>
   <url><loc>https://dhruvladaniportfolio.netlify.app/work/cp-report-automation</loc><priority>0.6</priority></url>
+  <url><loc>https://dhruvladaniportfolio.netlify.app/work/skill-swap-platform</loc><priority>0.6</priority></url>
 </urlset>

@@ -7,6 +7,92 @@
 // run and what got cut). Both are real content only, never fabricated.
 export const projects = [
   {
+    id: 'tollgate',
+    title: 'Tollgate',
+    timeframe: 'October 2026',
+    role: ['AI/ML'],
+    stack: ['Agentic AI', 'Backend'],
+    featured: false,
+    summary: 'Teams letting AI agents call real tools get a checkpoint in front of every call — an MCP proxy that allows, holds for a person, or blocks each tool call and scans what tools return for planted instructions. On 229 held-out calls it caught 96.3% of risky calls in a median 321 ms, about 12x faster and 60x cheaper than asking Gemini on every call.',
+    bullets: [
+      'Sits between any MCP client (Claude Code, Cursor, a LangGraph agent) and its upstream MCP servers, so gating needs no change to the agent itself.',
+      'Runs exact checks first — deny lists, secret patterns, out-of-sandbox paths — so a secret never reaches the model, then asks a small judgment model (Jev) up to four questions about risk, data loss, intent, and exfiltration.',
+      'Holds calls the user never asked for sooner than requested ones, by passing the user\'s request alongside each call.',
+      'Fails closed: if the model is slow or down, the call is held for a person — nothing runs by default.',
+      'Scans tool results for instructions aimed at the agent and withholds them, recording every decision in a local audit log with a dashboard for answering held calls.'
+    ],
+    tech: [
+      'Python', 'Model Context Protocol', 'Jev (TypeSafe)', 'LangGraph',
+      'Gemini', 'uv', 'pytest'
+    ],
+    link: 'https://github.com/dhruvladani04/tollgate',
+    caseStudy: {
+      problem:
+        'An agent with tool access can delete files, leak data, or follow instructions planted in a page it just read. Asking a person about every call defeats the point of an agent, and asking a general LLM to judge every call adds seconds and real cost to each step.',
+      approach:
+        'Built an MCP proxy that judges each call in three stages: deterministic exact checks, then a fast judgment model (Jev) answering up to four questions about the call, then thresholds in a policy file that map those answers to allow, ask, or block — with uncertain answers sent to a person, or optionally a second model. Framed the build as an experiment: can a small, fast judgment model gate tool calls as well as a general LLM, for much less? Thresholds were tuned on one set and measured on 229 labelled calls held back from tuning, plus a second set derived from the InjecAgent benchmark.',
+      outcome:
+        'Jev caught 96.3% of risky calls versus 91.1% for Gemini 3.8 Flash judging every call, at a median 321 ms versus 4.0 s, and $0.022 versus $1.31 per 1,000 calls. The trade-offs are documented rather than hidden: Jev is unsure more often, so a person is asked about roughly four calls in ten, and the test calls were written for the project, so the numbers are likely optimistic against real traffic.',
+    },
+    pmArtifact: {
+      metrics:
+        'Every configuration is scored on four numbers together — risky calls caught, benign calls held, calls a person is asked about, and median latency and cost per 1,000 calls — on 229 labelled calls kept out of tuning.',
+      experiment:
+        'Tried sending calls Jev was unsure about to a second model (Gemini 3.8 Flash or Gemma 4 31B) before asking a person. It cut the share of calls a person is asked about from 41.5% to about 31% — but fewer risky calls were caught, because some of the calls Jev was unsure about were risky and the second model let them through.',
+      cut:
+        'Shipped a policy with only the two "ask" thresholds tuned instead of the fully tuned set. The fully tuned set blocks more, but on the InjecAgent-derived set only 62.8% of the calls it blocked were truly malicious, against 100% for the shipped policy — and a blocked call cannot be approved by a person. Second-model escalation also ships off by default.',
+    },
+    features: [
+      'Allow / Ask / Block Gating',
+      'Fail-Closed by Default',
+      'Tool-Result Injection Scan',
+      'Audit Log + Dashboard',
+      'Held-Out Evaluation'
+    ]
+  },
+  {
+    id: 'llm-atlas',
+    title: 'LLM Atlas',
+    timeframe: 'September 2026',
+    role: ['Product/PM', 'Full-Stack'],
+    stack: ['Frontend', 'Data/ML'],
+    featured: false,
+    summary: 'Developers choosing a model get a leaderboard that says not just who scored highest, but whether the benchmark still means anything and who reported the number — every score joined to its benchmark\'s health and labelled vendor-reported or independent, refreshed daily from five sources.',
+    bullets: [
+      'Joins every score to the benchmark that produced it and computes health flags from that join — saturated, deprecated, high-contamination, vendor-reported-only, disputed — instead of curating them by hand.',
+      'Runs a daily GitHub Actions pipeline over five upstream sources that validates every payload with Zod and keeps the last good snapshot when a source fails or returns under half its previous records.',
+      'Resolves model and benchmark names by exact match, alias, then normalisation — never fuzzy matching — so a near-miss queues for review instead of crediting the wrong model.',
+      'Prices models from vendor pricing pages where the price is unambiguous, and labels OpenRouter\'s routed price as such everywhere else.',
+      'Replaced a 444KB per-row leaderboard payload with a normalised table-plus-lookup shape, lifting mobile Lighthouse performance from 65–83 to 81–100.'
+    ],
+    tech: [
+      'Next.js 16', 'TypeScript', 'React 19', 'Zod',
+      'Tailwind CSS', 'GitHub Actions', 'Vitest', 'Playwright'
+    ],
+    link: 'https://lllm-atlas.vercel.app/',
+    caseStudy: {
+      problem:
+        'Public LLM leaderboards mix scores from benchmarks that have quietly saturated or been contaminated, put vendor-reported numbers beside independent ones with no distinction, and mix list prices with router markups — with no way to tell which is which from the page.',
+      approach:
+        'Made a deliberately narrow product bet: not the most complete leaderboard, but the one that tells you when a number stops being trustworthy. Three rules are enforced in code, not prose — every score is joined to its benchmark, every row carries a provenance label, and a missing value never renders as a blank, dash, or zero. The site is static-first with no database: a scheduled job is the only thing that touches the internet, it commits dated snapshots to git, and that commit triggers the deploy, so every upstream change is a reviewable diff.',
+      outcome:
+        'A live leaderboard across text, agentic, and image-generation models, with a benchmark health matrix, side-by-side comparison restricted to benchmarks every compared model was measured on, an evals guide for application teams, and JSON/CSV exports that carry their own per-source licensing.',
+    },
+    pmArtifact: {
+      metrics:
+        'Success is defined as three rules checked against a written definition of done — every score joined to its benchmark, a provenance label on every row, and no missing value ever rendered as a blank, dash, or zero.',
+      cut:
+        'Excluded the most complete single data source (Artificial Analysis) because its free tier does not grant redistribution rights; left DeepSeek prices absent rather than picking one of its peak/off-peak and cache-hit/miss numbers; and dropped a planned "Biggest mover" card because no source provides a real score history to compute it from.',
+    },
+    features: [
+      'Benchmark Health Flags',
+      'Provenance on Every Score',
+      'Daily Static Data Pipeline',
+      'Model Compare',
+      'JSON / CSV Export'
+    ]
+  },
+  {
     id: 'news-digest',
     title: 'Daily News Digest',
     timeframe: 'August 2026',
@@ -84,11 +170,11 @@ export const projects = [
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
     featured: false,
-    summary: 'Compliance analysts auditing dense policy documents get grounded, evaluable answers instead of a black-box chatbot — a self-correcting CRAG + Self-RAG pipeline measurably improved retrieval precision and answer faithfulness against a Ragas golden dataset.',
+    summary: 'Compliance analysts auditing dense policy documents get cited answers they can check instead of a black-box chatbot — a self-correcting CRAG + Self-RAG pipeline backed by a four-layer evaluation harness, where 98.9% of citations are supported by their source on a 25-question golden set that includes adversarial and unanswerable questions.',
     bullets: [
       'Orchestrates a four-node LangGraph workflow that retrieves, grades, rewrites, and generates compliance answers with configurable retry protection.',
-      'Supports policy ingestion from Markdown, text, PDF, and Word documents for flexible internal knowledge bases.',
-      'Uses Ragas evaluation with custom golden datasets, dynamic field mapping, and exportable benchmark reports.',
+      'Retrieves with hybrid BM25 + dense search fused by Reciprocal Rank Fusion over parent-child chunks, from Markdown, text, PDF, and Word policies.',
+      'Scores four layers separately — retrieval (per retriever arm), generation (Ragas), citation trust, and latency/cost — with a CI regression gate, so a bad answer can be traced to the stage that caused it.',
       'Implements BYOK security in a Streamlit interface, keeping visitor Gemini API keys out of the server.',
       'Adds grounded web-search fallback and LangSmith traces for resilient, observable audit workflows.'
     ],
@@ -101,9 +187,9 @@ export const projects = [
       problem:
         'Compliance analysts need precise, defensible answers from dense policy documents — a standard RAG chatbot can retrieve weak context or generate an ungrounded conclusion, with no way to tell which one happened.',
       approach:
-        'Built a self-correcting CRAG + Self-RAG workflow: a four-node LangGraph pipeline grades every retrieved document for relevance, rewrites the query when context is weak, falls back to web search once retries are exhausted, and grades its own generated answer for grounding before returning it. Added a Ragas evaluation harness with custom golden datasets and dynamic column mapping so retrieval and answer quality are measured, not assumed.',
+        'Built a self-correcting CRAG + Self-RAG workflow: a four-node LangGraph pipeline grades every retrieved document for relevance, rewrites the query when context is weak, falls back to web search once retries are exhausted, and grades its own generated answer for grounding before returning it. Retrieval fuses BM25 and dense vectors with Reciprocal Rank Fusion. The evaluation harness scores retrieval, generation, citation trust, and system cost as separate layers over a golden set spanning eight question categories — including unanswerable and adversarial prompts — because a suite of easy lookups reports a healthy score for a system that fails in production.',
       outcome:
-        'Against a golden evaluation set, the self-correction loop lifted Context Precision from 68.9% to 81.8% (+12.9%), Answer Relevancy from 68.9% to 81.4% (+12.5%), Context Recall from 79.5% to 83.6% (+4.1%), and Faithfulness from 70.3% to 75.9% (+5.6%) over an ungraded baseline.',
+        'On the current 25-question golden set, 98.9% of citations are supported by their source, Context Precision is 0.93 and Precision@1 is 0.85, and no answer ships past its grader. The same harness surfaced what to fix next: a hard 3-document cap holding recall at 0.62, a FlashRank reranker that trades recall for almost no ranking gain, and a web-search fallback that can answer an out-of-scope question from the open internet.',
     },
     features: [
       'CRAG + Self-RAG Workflow',
@@ -255,7 +341,7 @@ export const projects = [
       approach:
         'An aggregation pipeline pulls 100+ job sources through the Apify API into a single source of truth. Every lead is scored by Gemini against a 9-factor weighted rubric, and a 3-tier deduplication system (URL, composite key, fuzzy match) keeps the dataset clean. Results are served two ways: CLI reports for quick scans and a FastAPI dashboard for deeper review.',
       outcome:
-        'A feedback-driven calibration loop raised scoring correlation from 62% to 87%, and the deduplication system holds data accuracy at ~98% — turning a fragmented job market into one ranked, trustworthy list.',
+        'In personal use it processed 1,247 jobs and led to 8 interviews and 2 offers. A feedback-driven calibration loop raised human–AI scoring correlation from 62% to 87%, and the deduplication system holds data accuracy at ~98% — turning a fragmented job market into one ranked, trustworthy list.',
     },
     features: [
       'Multi-source Aggregation',
@@ -381,7 +467,7 @@ export const projects = [
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Data/ML'],
     featured: false,
-    summary: 'Engineering teams that need to stress-test AI agents before real production data exists get an autonomous multi-agent pipeline that fabricates structurally valid, adversarially diverse synthetic datasets — cutting dev-cycle time 10–20x and infrastructure cost up to 80% versus hand-built test data.',
+    summary: 'Engineering teams that need to stress-test AI agents before real production data exists get an autonomous multi-agent pipeline that fabricates structurally valid, adversarially diverse synthetic datasets — cutting dev-cycle time 10–20x versus hand-built test data.',
     bullets: [
       'Orchestrates a Multi-agent DAG (Schema, Fabrication, Adversarial, Validator) via Mission Control, establishing a scalable autonomous pipeline.',
       'Generates targeted adversarial scenarios including prompt injections and tool loops, proactively mitigating security vulnerabilities in AI products.',
@@ -400,7 +486,7 @@ export const projects = [
       approach:
         'Built a multi-agent DAG (Schema → Fabrication → Adversarial → Validator) that generates adversarial scenarios — prompt injections, tool loops, boundary conditions, multi-turn confusion — alongside bias-audited outputs with disparity analysis. Every dataset must clear evaluation gates before acceptance: ≥95% structural validity, ≥95% foreign-key integrity, a diversity score of ≥0.75 (1 minus mean Jaccard similarity across record pairs), and a disparity ratio under 1.1 across groups. Datasets are versioned and CI-gated through LangSmith for regression testing against future agent releases.',
       outcome:
-        'Accelerates dev cycles 10–20x and cuts infrastructure cost up to 80% versus hand-curating test data, with thousands of scenarios covered per CI eval gate — every agent call traced end-to-end for latency, tokens, and output.',
+        'Accelerates dev cycles 10–20x versus hand-curating test data, with thousands of scenarios covered per CI eval gate — every agent call traced end-to-end for latency, tokens, and output.',
     },
     features: [
       'Multi-agent DAG Pipeline',
@@ -489,6 +575,32 @@ export const projects = [
       'Secure Payments',
       'AI Travel Chatbot',
       'User Dashboard'
+    ]
+  },
+  {
+    id: 'skill-swap-platform',
+    title: 'Skill Swap Platform',
+    timeframe: 'July 2025',
+    role: ['Full-Stack'],
+    stack: ['Frontend', 'Backend'],
+    featured: false,
+    summary: 'A team-built hackathon web app where people trade skills instead of paying for lessons — profiles that list skills offered and wanted, swap requests with status tracking, and ratings to build trust between partners.',
+    bullets: [
+      'Lets users list the skills they offer and want, then search and filter others by skill, location, or availability.',
+      'Tracks swap requests through Pending, Ongoing, and Completed states.',
+      'Adds chat and a review-and-rating system so partners can coordinate and build trust.',
+      'Built as a team hackathon project on Next.js with NextAuth.js authentication and a Prisma/PostgreSQL data layer.'
+    ],
+    tech: [
+      'Next.js', 'TypeScript', 'PostgreSQL', 'Prisma',
+      'NextAuth.js', 'Tailwind CSS'
+    ],
+    link: 'https://github.com/dhruvladani04/Skill-Swap-Platform',
+    features: [
+      'Skill Profiles',
+      'Swap Requests',
+      'Chat',
+      'Ratings & Reviews'
     ]
   },
   {
