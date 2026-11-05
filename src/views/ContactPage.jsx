@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { FiArrowLeft, FiArrowUpRight, FiDownload, FiGithub, FiLinkedin, FiMail, FiPhone } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowUpRight, FiBriefcase, FiDownload, FiGithub, FiLinkedin, FiMail, FiPhone, FiZap } from 'react-icons/fi';
 
 // Official Topmate logo mark (react-icons has no Topmate icon)
 function TopmateIcon(props) {
@@ -55,9 +55,36 @@ const contactMethods = [
   },
 ];
 
+// Two short forms so inbound arrives pre-sorted. Each `key` is also the
+// Netlify form name, and every field name here must match the hidden
+// registration in public/form.html or Netlify drops it.
+const ENQUIRY_FORMS = {
+  hiring: {
+    label: 'Hiring for a full-time role',
+    icon: FiBriefcase,
+    blurb: 'Tell me about the role and the team.',
+    fields: [
+      { name: 'company', label: 'Company', type: 'text', required: true, placeholder: 'Where you\'re hiring' },
+      { name: 'role', label: 'Role or job link', type: 'text', required: false, placeholder: 'e.g. ML Engineer, or a link to the JD' },
+      { name: 'message', label: 'Message', type: 'textarea', required: true, placeholder: 'Anything I should know about the role or the team...' },
+    ],
+  },
+  freelance: {
+    label: 'Freelance project',
+    icon: FiZap,
+    blurb: 'Describe what you want built and I\'ll reply to set up a 30-minute scoping call.',
+    fields: [
+      { name: 'company', label: 'Company (optional)', type: 'text', required: false, placeholder: 'Startup, agency, or just you' },
+      { name: 'timeline', label: 'Timeline (optional)', type: 'text', required: false, placeholder: 'e.g. demo needed by mid-December' },
+      { name: 'project', label: 'What do you want built?', type: 'textarea', required: true, placeholder: 'The idea, the data you have, and what a useful first version looks like...' },
+    ],
+  },
+};
+
 export default function ContactPage() {
+  const [formType, setFormType] = useState(null); // 'hiring' | 'freelance' | null
+  const [values, setValues] = useState({});
   const [status, setStatus] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -68,9 +95,14 @@ export default function ContactPage() {
     }
   }, []);
 
+  const chooseForm = (type) => {
+    setFormType(type);
+    setStatus(null);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((curr) => ({ ...curr, [name]: value }));
+    setValues((curr) => ({ ...curr, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -86,7 +118,7 @@ export default function ContactPage() {
       });
 
       if (!response.ok) throw new Error('Failed');
-      setFormData({ name: '', email: '', message: '' });
+      setValues({});
       setStatus({ type: 'success', message: 'Message sent. I\'ll get back to you soon.' });
     } catch {
       setStatus({ type: 'error', message: 'Failed. Please email me directly.' });
@@ -94,6 +126,8 @@ export default function ContactPage() {
       setIsSubmitting(false);
     }
   };
+
+  const activeForm = formType ? ENQUIRY_FORMS[formType] : null;
 
   return (
     <div className="section-shell pt-32 pb-20 min-h-screen">
@@ -120,9 +154,9 @@ export default function ContactPage() {
             <span className="text-gradient">together</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            Currently an Associate Application Engineer (AI/ML) at Impresa.ai, and open
-            to new opportunities in AI, software engineering, and product. If you're
-            building something interesting, I'd love to chat.
+            Currently an Associate Application Engineer (AI/ML) at Impresa.ai. Open to
+            full-time roles in AI/ML engineering, forward-deployed engineering and AI
+            product, and to a small number of freelance builds.
           </p>
         </motion.div>
 
@@ -195,9 +229,9 @@ export default function ContactPage() {
             </motion.div>
           </motion.div>
 
-          {/* Form */}
+          {/* Enquiry: pick a type, then a short form for it */}
           <motion.div
-            className="panel panel-highlight p-8 relative overflow-hidden"
+            className="panel panel-highlight p-8 relative overflow-hidden self-start"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
@@ -219,93 +253,158 @@ export default function ContactPage() {
 
             <div className="relative z-10">
               <p className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--accent-gold)' }}>SEND A MESSAGE</p>
-              <h2 className="font-display text-2xl font-semibold text-white mb-6">Get in touch</h2>
+              <h2 className="font-display text-2xl font-semibold text-white mb-6">What brings you here?</h2>
 
-              <form
-                name="contact"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
-                onSubmit={handleSubmit}
-                className="space-y-5"
-              >
-                <input type="hidden" name="form-name" value="contact" />
-                <div className="hidden">
-                  <label htmlFor="bot-field">
-                    <input id="bot-field" name="bot-field" />
-                  </label>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Name</label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="form-field"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Email</label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="form-field"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="form-field resize-none"
-                    placeholder="Tell me about the opportunity or project..."
-                  />
-                </div>
-
-                <div className="flex items-center justify-between gap-4">
-                  <motion.button
-                    type="submit"
-                    className="btn-primary"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="flex items-center gap-2">
-                      <GiPunchBlast className="text-lg" />
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                    </span>
-                    <FiArrowUpRight />
-                  </motion.button>
-
-                  {status && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-sm font-mono"
-                      style={{ color: status.type === 'success' ? 'var(--arc-blue)' : 'var(--accent-red)' }}
+              <div className="grid sm:grid-cols-2 gap-3 mb-6" role="group" aria-label="Type of enquiry">
+                {Object.entries(ENQUIRY_FORMS).map(([key, form]) => {
+                  const Icon = form.icon;
+                  const active = formType === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      aria-pressed={active}
+                      aria-controls="enquiry-form"
+                      onClick={() => chooseForm(key)}
+                      className="panel p-4 text-left flex items-center gap-3 transition-transform hover:scale-[1.02]"
+                      style={active ? { borderColor: 'var(--arc-blue)', boxShadow: '0 0 0 1px var(--arc-blue)' } : undefined}
                     >
-                      {status.message}
-                    </motion.span>
-                  )}
-                </div>
-              </form>
+                      <span
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                        style={{ background: active ? 'rgba(0, 217, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                      >
+                        <Icon style={{ color: active ? 'var(--arc-blue)' : 'var(--muted)' }} />
+                      </span>
+                      <span className="font-medium text-white leading-snug">{form.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <AnimatePresence mode="wait">
+                {!activeForm ? (
+                  <motion.p
+                    key="hint"
+                    className="text-slate-400"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    Pick one to open a short form, or email me directly at{' '}
+                    <a href="mailto:dhruvladani04@gmail.com" className="link-inline">dhruvladani04@gmail.com</a>.
+                  </motion.p>
+                ) : (
+                  <motion.form
+                    key={formType}
+                    id="enquiry-form"
+                    name={formType}
+                    method="POST"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    className="space-y-5"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <input type="hidden" name="form-name" value={formType} />
+                    <div className="hidden">
+                      <label htmlFor={`${formType}-bot-field`}>
+                        <input id={`${formType}-bot-field`} name="bot-field" />
+                      </label>
+                    </div>
+
+                    <p className="text-slate-400">
+                      {activeForm.blurb}
+                      {formType === 'freelance' && (
+                        <>
+                          {' '}
+                          <Link href="/work-with-me" className="link-inline">See packages and process</Link>.
+                        </>
+                      )}
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-5">
+                      {[
+                        { name: 'name', label: 'Name', type: 'text', placeholder: 'Your name' },
+                        { name: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com' },
+                      ].map((field) => (
+                        <div key={field.name}>
+                          <label htmlFor={`${formType}-${field.name}`} className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>{field.label}</label>
+                          <input
+                            id={`${formType}-${field.name}`}
+                            name={field.name}
+                            type={field.type}
+                            value={values[field.name] || ''}
+                            onChange={handleChange}
+                            required
+                            className="form-field"
+                            placeholder={field.placeholder}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {activeForm.fields.map((field) => (
+                      <div key={field.name}>
+                        <label htmlFor={`${formType}-${field.name}`} className="block font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--arc-blue)' }}>{field.label}</label>
+                        {field.type === 'textarea' ? (
+                          <textarea
+                            id={`${formType}-${field.name}`}
+                            name={field.name}
+                            value={values[field.name] || ''}
+                            onChange={handleChange}
+                            required={field.required}
+                            rows={4}
+                            className="form-field resize-none"
+                            placeholder={field.placeholder}
+                          />
+                        ) : (
+                          <input
+                            id={`${formType}-${field.name}`}
+                            name={field.name}
+                            type={field.type}
+                            value={values[field.name] || ''}
+                            onChange={handleChange}
+                            required={field.required}
+                            className="form-field"
+                            placeholder={field.placeholder}
+                          />
+                        )}
+                      </div>
+                    ))}
+
+                    <div className="flex items-center justify-between gap-4">
+                      <motion.button
+                        type="submit"
+                        className="btn-primary"
+                        disabled={isSubmitting}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span className="flex items-center gap-2">
+                          <GiPunchBlast className="text-lg" />
+                          {isSubmitting ? 'Sending...' : 'Send Message'}
+                        </span>
+                        <FiArrowUpRight />
+                      </motion.button>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+
+              {status && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-sm font-mono mt-4"
+                  role="status"
+                  style={{ color: status.type === 'error' ? 'var(--accent-red)' : 'var(--arc-blue)' }}
+                >
+                  {status.message}
+                </motion.p>
+              )}
             </div>
           </motion.div>
         </div>

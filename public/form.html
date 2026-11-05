@@ -6,10 +6,22 @@
     <title>Form Submission</title>
   </head>
   <body>
-    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <!-- Netlify detects forms from static HTML at deploy time. The contact
+         page only renders a form after the visitor picks one, so both are
+         registered here; field names must match ContactPage.jsx exactly. -->
+    <form name="hiring" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
+      <input type="text" name="company" />
+      <input type="text" name="role" />
       <textarea name="message"></textarea>
+    </form>
+    <form name="freelance" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <input type="text" name="timeline" />
+      <textarea name="project"></textarea>
     </form>
   </body>
 </html>
