@@ -1,5 +1,7 @@
-// Projects — ordered to highlight AI/ML + Product Management intersection first
-// Optional fields: linkNote (string) — shown instead of a "Launch Project"
+// Projects — the order here is the Work page's order below the featured six.
+// Optional fields: result (string) — one-line "so what?" shown on featured
+// cards; set on every project in FEATURED_IDS.
+// Also optional: linkNote (string) — shown instead of a "Launch Project"
 // button when `link` is absent, so a missing link reads as an explained
 // choice rather than silence. pmArtifact ({ metrics, experiment?, cut? }) —
 // an optional "Product Process" block rendered after the case study/stack,
@@ -12,7 +14,7 @@ export const projects = [
     timeframe: 'October 2026',
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
-    featured: false,
+    result: '96.3% of risky tool calls caught in 321 ms — 12x faster and 60x cheaper than Gemini judging every call (229-call held-out eval).',
     summary: 'Teams letting AI agents call real tools get a checkpoint in front of every call — an MCP proxy that allows, holds for a person, or blocks each tool call and scans what tools return for planted instructions. On 229 held-out calls it caught 96.3% of risky calls in a median 321 ms, about 12x faster and 60x cheaper than asking Gemini on every call.',
     bullets: [
       'Sits between any MCP client (Claude Code, Cursor, a LangGraph agent) and its upstream MCP servers, so gating needs no change to the agent itself.',
@@ -56,7 +58,7 @@ export const projects = [
     timeframe: 'September 2026',
     role: ['Product/PM', 'Full-Stack'],
     stack: ['Frontend', 'Data/ML'],
-    featured: false,
+    result: 'Flags saturated and contaminated benchmarks and labels every score vendor-reported or independent — refreshed daily from 5 sources.',
     summary: 'Developers choosing a model get a leaderboard that says not just who scored highest, but whether the benchmark still means anything and who reported the number — every score joined to its benchmark\'s health and labelled vendor-reported or independent, refreshed daily from five sources.',
     bullets: [
       'Joins every score to the benchmark that produced it and computes health flags from that join — saturated, deprecated, high-contamination, vendor-reported-only, disputed — instead of curating them by hand.',
@@ -98,7 +100,6 @@ export const projects = [
     timeframe: 'August 2026',
     role: ['Full-Stack'],
     stack: ['Backend', 'Frontend'],
-    featured: false,
     summary: 'A five-sector daily news dashboard that runs on zero infrastructure: a scheduled GitHub Action pulls ~71 RSS feeds, dedupes and ranks the survivors, and Netlify redeploys a static site on every commit.',
     bullets: [
       'Runs entirely inside a GitHub Actions cron job that fetches ~71 public RSS feeds across five sectors and commits the result as JSON — the repository is the database.',
@@ -134,7 +135,6 @@ export const projects = [
     timeframe: 'January 2026',
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Mobile'],
-    featured: false,
     summary: 'A professional-grade Pomodoro timer built in Flutter with an AI coach: natural-language session input, Gemini-powered productivity insights, and ambient soundscapes for staying in flow.',
     bullets: [
       'Parses natural-language input like "Focus for 45m on Project X" into a configured session via smart NLP.',
@@ -169,7 +169,7 @@ export const projects = [
     timeframe: 'July 2026',
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
-    featured: false,
+    result: '99% of citations backed by their source on a 25-question golden set with adversarial cases — and the evals caught its own reranker hurting recall.',
     summary: 'Compliance analysts auditing dense policy documents get cited answers they can check instead of a black-box chatbot — a self-correcting CRAG + Self-RAG pipeline backed by a four-layer evaluation harness, where 98.9% of citations are supported by their source on a 25-question golden set that includes adversarial and unanswerable questions.',
     bullets: [
       'Orchestrates a four-node LangGraph workflow that retrieves, grades, rewrites, and generates compliance answers with configurable retry protection.',
@@ -205,7 +205,7 @@ export const projects = [
     timeframe: 'June 2026',
     role: ['AI/ML', 'Product/PM'],
     stack: ['Agentic AI', 'Backend'],
-    featured: false,
+    result: 'Every quote in the brief is re-checked against its source (≥0.95 match), or the brief is flagged for human review.',
     summary: 'PMs who spend hours each week triaging feedback scattered across Slack, support exports, and documents get a weekly, citation-verified brief instead — a 5-agent LangGraph pipeline where every quote is copied verbatim from source and independently re-verified before it ships.',
     bullets: [
       'Verifies every brief quote against its source corpus, retrying synthesis or flagging a brief for human review when verification fails.',
@@ -241,7 +241,6 @@ export const projects = [
     timeframe: 'May 2026',
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Agentic AI', 'Frontend'],
-    featured: false,
     summary: 'Knowledge workers who need trustworthy answers from long internal PDFs get every response with the source page number and a relevance score attached — a multi-agent RAG system built on LangGraph orchestration and an event-driven cloud ingestion pipeline.',
     bullets: [
       'Routes queries through a LangGraph supervisor that coordinates retrieval and grounded web-search agents.',
@@ -277,7 +276,6 @@ export const projects = [
     timeframe: 'March 2026',
     role: ['AI/ML', 'Product/PM'],
     stack: ['Agentic AI', 'Backend'],
-    featured: true,
     summary: 'A dynamic utility designed for Product Managers to manage probabilistic AI systems. Leverages background agents to automate the synthesis, prototyping, and testing of new product features.',
     bullets: [
       'Architects a three-phase workflow: Discovery Hub, Technical Drafting Studio, and Eval Dashboard — streamlining the entire product lifecycle from ideation to evaluation.',
@@ -321,7 +319,7 @@ export const projects = [
     timeframe: 'April 2026',
     role: ['AI/ML'],
     stack: ['Backend'],
-    featured: true,
+    result: '1,247 jobs processed at 87% human–AI scoring correlation → 8 interviews and 2 offers.',
     summary: 'An AI-powered job search pipeline that automates lead generation and evaluation. Solves the fragmentation of job boards by aggregating sources, scoring leads via LLMs, and refining accuracy through feedback loops.',
     bullets: [
       'Aggregates 100+ job sources via Apify API — centralizing fragmented job market data into a single, reliable source of truth.',
@@ -357,7 +355,6 @@ export const projects = [
     timeframe: 'December 2025',
     role: ['AI/ML', 'Product/PM'],
     stack: ['Agentic AI', 'Frontend'],
-    featured: true,
     summary: 'A multi-agent system that simulates an Agile squad to autonomously refine feature requests into comprehensive, estimated tickets — streamlining the product planning phase.',
     bullets: [
       'Orchestrates specialized AI agents (Product Owner, Tech Lead, SecOps, QA) simulating cross-functional collaboration to produce thoroughly vetted tickets.',
@@ -385,7 +382,6 @@ export const projects = [
     timeframe: 'December 2025',
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Frontend'],
-    featured: false,
     summary: 'Developers stuck turning "it looks broken in this recording" into a code fix get an assistant that watches the screen recording and reads the code at the same time — built end-to-end during Google DeepMind\'s one-week Vibe Code with Gemini 3 Pro sprint.',
     bullets: [
       'Correlates MP4/WEBM screen recordings with component code using multimodal analysis, drastically reducing time-to-resolution for visually-manifesting bugs.',
@@ -421,7 +417,7 @@ export const projects = [
     timeframe: 'February 2026',
     role: ['AI/ML', 'Product/PM'],
     stack: ['Frontend', 'Agentic AI'],
-    featured: true,
+    result: 'A shipped Phase-1 screening agent with the full product paper trail behind it: PRD, metrics doc, and decision log.',
     summary: 'SMB recruiters who screen hundreds of resumes by hand — and lose good candidates to formatting, not fit — get autonomous parsing, scoring, and ranking with a reasoning trace behind every score. Shipped as the Phase-1 "Screener" agent in a roadmap that scales the same core into scheduling, sourcing, and bias-audit agents.',
     bullets: [
       'Implements an Agentic workflow for autonomous resume parsing and continuous semantic JD matching, automating top-of-funnel screening.',
@@ -466,7 +462,6 @@ export const projects = [
     timeframe: 'March 2026',
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Data/ML'],
-    featured: false,
     summary: 'Engineering teams that need to stress-test AI agents before real production data exists get an autonomous multi-agent pipeline that fabricates structurally valid, adversarially diverse synthetic datasets — cutting dev-cycle time 10–20x versus hand-built test data.',
     bullets: [
       'Orchestrates a Multi-agent DAG (Schema, Fabrication, Adversarial, Validator) via Mission Control, establishing a scalable autonomous pipeline.',
@@ -502,7 +497,6 @@ export const projects = [
     timeframe: 'February 2026',
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
-    featured: false,
     summary: 'An adaptive, AI-powered study mentor for GATE aspirants that personalizes the learning journey through real-time adjustments and proactive nudges.',
     bullets: [
       'Engineers a LangGraph-based orchestration engine for autonomous study plan generation with highly personalized, adaptive learning paths.',
@@ -529,7 +523,6 @@ export const projects = [
     timeframe: 'December 2025',
     role: ['AI/ML'],
     stack: ['Agentic AI', 'Backend'],
-    featured: false,
     summary: 'A production-grade, modular RAG application designed to handle complex information retrieval across diverse data formats using intelligent query routing.',
     bullets: [
       'Deploys a smart routing system distinguishing between Resume, Technical, and Web queries, ensuring highly accurate context-appropriate responses.',
@@ -556,7 +549,6 @@ export const projects = [
     timeframe: 'August 2025',
     role: ['Full-Stack', 'AI/ML'],
     stack: ['Frontend', 'Backend'],
-    featured: false,
     summary: 'A full-stack travel booking platform that streamlines trip planning with dynamic content management, secure payments, and AI-driven advisory.',
     bullets: [
       'Engineers a two-stage blueprint-to-live lifecycle for dynamic trip creation, allowing seamless drafting, review, and publishing.',
@@ -583,7 +575,6 @@ export const projects = [
     timeframe: 'July 2025',
     role: ['Full-Stack'],
     stack: ['Frontend', 'Backend'],
-    featured: false,
     summary: 'A team-built hackathon web app where people trade skills instead of paying for lessons — profiles that list skills offered and wanted, swap requests with status tracking, and ratings to build trust between partners.',
     bullets: [
       'Lets users list the skills they offer and want, then search and filter others by skill, location, or availability.',
@@ -609,7 +600,6 @@ export const projects = [
     timeframe: 'October 2025',
     role: ['AI/ML', 'Full-Stack'],
     stack: ['Backend', 'Data/ML'],
-    featured: false,
     summary: 'An end-to-end machine learning application that predicts critical machine failures in real-time, enabling proactive intervention in industrial settings.',
     bullets: [
       'Simulates live IoT sensor data (temperature, vibration) for real-time analysis, proving viability in dynamic real-world conditions.',
@@ -636,7 +626,6 @@ export const projects = [
     timeframe: 'September 2025',
     role: ['AI/ML'],
     stack: ['Backend'],
-    featured: false,
     summary: 'An AI-powered health assistant that democratizes access to complex medical information by analyzing reports and summarizing dense web articles.',
     bullets: [
       'Provides a multi-page interactive chat interface for health-related queries.',
@@ -663,7 +652,6 @@ export const projects = [
     timeframe: 'May 2025',
     role: ['Full-Stack', 'AI/ML'],
     stack: ['Frontend', 'Backend'],
-    featured: false,
     summary: 'A comprehensive career optimization tool that maximizes candidate success by using AI to align resume bullet points directly with target job descriptions.',
     bullets: [
       'Powers resume rewriting with AI suggestions tailored to specific job postings, dramatically improving ATS pass rates.',
@@ -691,7 +679,6 @@ export const projects = [
     timeframe: 'July 2025',
     role: ['AI/ML'],
     stack: ['Frontend'],
-    featured: false,
     summary: 'An intelligent learning companion that accelerates professional development by creating personalized, actionable roadmaps based on user goals.',
     bullets: [
       'Conducts personalized skill assessments to generate tailored recommendations.',
@@ -716,7 +703,6 @@ export const projects = [
     timeframe: 'June 2025',
     role: ['Full-Stack', 'AI/ML'],
     stack: ['Frontend', 'Backend'],
-    featured: false,
     summary: 'A secure, full-stack journaling application that helps users cultivate self-awareness by tracking mental health trends and analyzing emotional states.',
     bullets: [
       'Provides complete CRUD functionality with rich text support and mood tracking via visual Chart.js analytics.',
@@ -742,7 +728,6 @@ export const projects = [
     timeframe: 'January 2026',
     role: ['AI/ML'],
     stack: ['Backend'],
-    featured: false,
     summary: 'An AI-powered productivity tool that transforms unstructured daily logs and handwritten notes into formal, structured Weekly Progress Reports for university compliance.',
     bullets: [
       'Leverages Gemini Vision to digitize and structure handwritten diary photos, eliminating manual data entry.',
@@ -763,3 +748,23 @@ export const projects = [
     ]
   }
 ];
+
+// Order matters: the first HOME_FEATURED_COUNT are the home page's Featured
+// Work, and all of them lead the Work page. Each needs a `result` line.
+export const FEATURED_IDS = [
+  'tollgate',
+  'llm-atlas',
+  'smart-job-tracker',
+  'agentic-compliance-auditor',
+  'feedbackiq',
+  'recruitai-platform',
+];
+export const HOME_FEATURED_COUNT = 4;
+
+export const featuredProjects = FEATURED_IDS.map((id) => {
+  const project = projects.find((p) => p.id === id);
+  if (!project || !project.result) {
+    throw new Error(`Featured project "${id}" is missing or has no result line`);
+  }
+  return project;
+});

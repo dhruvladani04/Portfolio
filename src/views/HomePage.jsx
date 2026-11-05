@@ -7,7 +7,7 @@ import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiTrendingUp, FiLayer
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
-import { projects } from '../data/projects';
+import { projects, featuredProjects, HOME_FEATURED_COUNT } from '../data/projects';
 import { credentials } from '../data/credentials';
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
@@ -638,10 +638,10 @@ export default function HomePage() {
             whileInView="show"
             viewport={{ once: true }}
           >
-            {projects.filter((p) => p.featured).map((project, i) => (
-              <Link key={project.id} href={`/work/${project.id}`} aria-label={`View ${project.title} details`}>
+            {featuredProjects.slice(0, HOME_FEATURED_COUNT).map((project, i) => (
+              <Link key={project.id} href={`/work/${project.id}`} aria-label={`View ${project.title} details`} className="block h-full">
                 <motion.div
-                  className="panel panel-highlight p-6 group cursor-pointer relative overflow-hidden"
+                  className="panel panel-highlight p-6 group cursor-pointer relative overflow-hidden h-full"
                   variants={itemVariants}
                   whileHover={{
                     scale: 1.02,
@@ -677,7 +677,12 @@ export default function HomePage() {
                     >
                       {project.title}
                     </motion.h3>
-                    <p className="text-slate-400">{project.summary}</p>
+                    <p className="text-slate-400 line-clamp-3 mb-4">{project.summary}</p>
+                    {/* The "so what?" — one measured or shipped result per card */}
+                    <p className="flex gap-2 text-[15px] leading-snug text-white">
+                      <FiTrendingUp className="mt-1 shrink-0" style={{ color: 'var(--accent-gold)' }} aria-hidden />
+                      <span>{project.result}</span>
+                    </p>
                   </div>
 
                   {/* HUD corner */}
