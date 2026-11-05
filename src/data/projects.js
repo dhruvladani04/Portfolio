@@ -99,7 +99,7 @@ export const projects = [
     title: 'Daily News Digest',
     timeframe: 'August 2026',
     role: ['Full-Stack'],
-    stack: ['Backend', 'Frontend'],
+    stack: ['Backend', 'Frontend', 'Data/ML'],
     summary: 'A five-sector daily news dashboard that runs on zero infrastructure: a scheduled GitHub Action pulls ~71 RSS feeds, dedupes and ranks the survivors, and Netlify redeploys a static site on every commit.',
     bullets: [
       'Runs entirely inside a GitHub Actions cron job that fetches ~71 public RSS feeds across five sectors and commits the result as JSON — the repository is the database.',
@@ -766,5 +766,20 @@ export const featuredProjects = FEATURED_IDS.map((id) => {
   if (!project || !project.result) {
     throw new Error(`Featured project "${id}" is missing or has no result line`);
   }
+  return project;
+});
+
+// Small or early builds, listed last on the Work page under "Smaller builds".
+export const SMALLER_BUILD_IDS = [
+  'skill-swap-platform',
+  'deep-work-timer',
+  'cp-report-automation',
+  'skill-sage-ai',
+  'mental-fitness-journal',
+];
+
+export const smallerBuilds = SMALLER_BUILD_IDS.map((id) => {
+  const project = projects.find((p) => p.id === id);
+  if (!project) throw new Error(`Smaller build "${id}" is missing`);
   return project;
 });

@@ -4,8 +4,32 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useParams, useRouter, notFound } from 'next/navigation';
-import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft } from 'react-icons/fi';
-import { projects } from '../data/projects';
+import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft, FiTrendingUp } from 'react-icons/fi';
+import { projects, featuredProjects, smallerBuilds } from '../data/projects';
+
+// Featured six first (in their curated order), then everything else in file
+// order, then the smaller builds. A role/stack filter applies inside each
+// section, and a section the filter empties is hidden.
+const FEATURED_ID_SET = new Set(featuredProjects.map((p) => p.id));
+const SMALLER_ID_SET = new Set(smallerBuilds.map((p) => p.id));
+const SECTIONS = [
+  { key: 'featured', title: 'Featured', projects: featuredProjects },
+  {
+    key: 'more',
+    title: 'More projects',
+    projects: projects.filter((p) => !FEATURED_ID_SET.has(p.id) && !SMALLER_ID_SET.has(p.id)),
+  },
+  { key: 'smaller', title: 'Smaller builds', projects: smallerBuilds },
+];
+
+function ResultLine({ result, className = '' }) {
+  return (
+    <p className={`flex gap-2 text-white leading-snug ${className}`}>
+      <FiTrendingUp className="mt-1 shrink-0" style={{ color: 'var(--accent-gold)' }} aria-hidden />
+      <span>{result}</span>
+    </p>
+  );
+}
 
 // Most project links are GitHub URLs and the rest are live demos
 // (Streamlit/Vercel) — derive the label from the URL instead of adding a
@@ -112,6 +136,16 @@ function ProjectPreview({ project, onClose }) {
           <p className="text-lg text-slate-300 mb-8 leading-relaxed">
             {project.summary}
           </p>
+
+          {/* Headline result (featured projects) */}
+          {project.result && (
+            <div className="relative pl-4 mb-8" style={{ borderLeft: '2px solid var(--accent-gold)' }}>
+              <h3 className="font-mono text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--accent-gold)' }}>
+                Result
+              </h3>
+              <p className="text-white leading-relaxed">{project.result}</p>
+            </div>
+          )}
 
           {/* Case study (flagship projects): Problem -> My Role -> Outcome, */}
           {/* then Stack immediately after so it reads as one continuous story */}
@@ -248,9 +282,10 @@ export default function WorkPage() {
   }, [activeChip]);
 
   const chipValues = viewBy === 'role' ? ROLE_VALUES : STACK_VALUES;
-  const filteredProjects = activeChip === 'All'
-    ? projects
-    : projects.filter((p) => p[viewBy].includes(activeChip));
+  const matchesFilter = (p) => activeChip === 'All' || p[viewBy].includes(activeChip);
+  const visibleSections = SECTIONS
+    .map((section) => ({ ...section, projects: section.projects.filter(matchesFilter) }))
+    .filter((section) => section.projects.length > 0);
 
   const handleViewByChange = (next) => {
     setViewBy(next);
@@ -347,8 +382,8 @@ export default function WorkPage() {
           </div>
         </motion.div>
 
-        {/* Projects grid */}
-        {filteredProjects.length === 0 ? (
+        {/* Projects, in sections */}
+        {visibleSections.length === 0 ? (
           <div className="panel p-10 text-center">
             <p className="text-slate-400 mb-4">No projects match this filter yet.</p>
             <button type="button" className="btn-secondary" onClick={() => setActiveChip('All')}>
@@ -356,73 +391,29 @@ export default function WorkPage() {
             </button>
           </div>
         ) : (
-        <div className="grid gap-8">
-          {filteredProjects.map((project, i) => (
-            <Link
-              key={project.id}
-              href={`/work/${project.id}`}
-              className="block"
-              aria-label={`View ${project.title} details`}
-            >
-              <motion.article
-                className="panel panel-highlight p-6 md:p-8 group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                {/* HUD corners */}
-                <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
-                <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
-
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="tag">{project.timeframe}</span>
-                      <motion.span
-                        className="font-mono text-sm"
-                        style={{ color: 'var(--arc-blue)' }}
-                        animate={{ opacity: [0.5, 1, 0.5] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        {String(i + 1).padStart(2, '0')}
-                      </motion.span>
-                    </div>
-
-                    <h2 className="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
-                      {project.title}
-                    </h2>
-
-                    <p className="text-slate-300 mb-4">{project.summary}</p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.slice(0, 6).map((t) => (
-                        <span key={t} className="tag text-xs">{t}</span>
-                      ))}
-                      {project.tech.length > 6 && (
-                        <span className="tag text-xs">+{project.tech.length - 6}</span>
-                      )}
-                      {project.linkNote && (
-                        <span className="tag text-xs" style={{ opacity: 0.7 }}>{project.linkNote}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 mt-4 md:mt-0">
-                    <motion.div
-                      className="w-10 h-10 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(0, 217, 255, 0.1)' }}
-                      whileHover={{ scale: 1.1 }}
-                      aria-hidden="true"
-                    >
-                      <FiArrowUpRight size={20} style={{ color: 'var(--arc-blue)' }} />
-                    </motion.div>
-                  </div>
+          visibleSections.map((section) => (
+            <section key={section.key} className="mb-16 last:mb-0" aria-labelledby={`work-${section.key}`}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--arc-blue))' }} />
+                <h2 id={`work-${section.key}`} className="font-mono text-xs tracking-widest uppercase" style={{ color: 'var(--arc-blue)' }}>
+                  {section.title} <span className="text-slate-500">· {section.projects.length}</span>
+                </h2>
+              </div>
+              {section.key === 'featured' ? (
+                <div className="grid gap-8">
+                  {section.projects.map((project, i) => (
+                    <FeaturedCard key={project.id} project={project} index={i} />
+                  ))}
                 </div>
-              </motion.article>
-            </Link>
-          ))}
-        </div>
+              ) : (
+                <div className="grid md:grid-cols-2 gap-6">
+                  {section.projects.map((project) => (
+                    <CompactCard key={project.id} project={project} />
+                  ))}
+                </div>
+              )}
+            </section>
+          ))
         )}
       </div>
 
@@ -433,5 +424,115 @@ export default function WorkPage() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+// Large card for the featured six: full summary, headline result, tech.
+function FeaturedCard({ project, index }) {
+  return (
+    <Link
+      href={`/work/${project.id}`}
+      className="block"
+      aria-label={`View ${project.title} details`}
+    >
+      <motion.article
+        className="panel panel-highlight p-6 md:p-8 group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.1 }}
+      >
+        {/* HUD corners */}
+        <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
+        <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 opacity-20 group-hover:opacity-50 transition-opacity" style={{ borderColor: 'var(--arc-blue)' }} />
+
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="tag">{project.timeframe}</span>
+              <motion.span
+                className="font-mono text-sm"
+                style={{ color: 'var(--arc-blue)' }}
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </motion.span>
+            </div>
+
+            <h3 className="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
+              {project.title}
+            </h3>
+
+            <p className="text-slate-300 mb-4">{project.summary}</p>
+
+            {project.result && <ResultLine result={project.result} className="mb-5" />}
+
+            <div className="flex flex-wrap gap-2">
+              {project.tech.slice(0, 6).map((t) => (
+                <span key={t} className="tag text-xs">{t}</span>
+              ))}
+              {project.tech.length > 6 && (
+                <span className="tag text-xs">+{project.tech.length - 6}</span>
+              )}
+              {project.linkNote && (
+                <span className="tag text-xs" style={{ opacity: 0.7 }}>{project.linkNote}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 mt-4 md:mt-0">
+            <motion.div
+              className="w-10 h-10 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(0, 217, 255, 0.1)' }}
+              whileHover={{ scale: 1.1 }}
+              aria-hidden="true"
+            >
+              <FiArrowUpRight size={20} style={{ color: 'var(--arc-blue)' }} />
+            </motion.div>
+          </div>
+        </div>
+      </motion.article>
+    </Link>
+  );
+}
+
+// Denser two-column card for "More projects" and "Smaller builds".
+function CompactCard({ project }) {
+  return (
+    <Link
+      href={`/work/${project.id}`}
+      className="block h-full"
+      aria-label={`View ${project.title} details`}
+    >
+      <motion.article
+        className="panel p-6 h-full flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <span className="tag text-xs">{project.timeframe}</span>
+          <FiArrowUpRight
+            className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+            style={{ color: 'var(--arc-blue)' }}
+            aria-hidden
+          />
+        </div>
+        <h3 className="font-display text-xl font-semibold text-white mb-2">{project.title}</h3>
+        <p className="text-sm text-slate-400 line-clamp-3 mb-4">{project.summary}</p>
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {project.tech.slice(0, 4).map((t) => (
+            <span key={t} className="tag text-xs">{t}</span>
+          ))}
+          {project.tech.length > 4 && (
+            <span className="tag text-xs">+{project.tech.length - 4}</span>
+          )}
+          {project.linkNote && (
+            <span className="tag text-xs" style={{ opacity: 0.7 }}>{project.linkNote}</span>
+          )}
+        </div>
+      </motion.article>
+    </Link>
   );
 }
