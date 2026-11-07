@@ -4,8 +4,11 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useParams, useRouter, notFound } from 'next/navigation';
-import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft, FiTrendingUp } from 'react-icons/fi';
+import { FiArrowUpRight, FiExternalLink, FiGithub, FiX, FiArrowLeft, FiTrendingUp, FiMessageSquare } from 'react-icons/fi';
 import { projects, featuredProjects, smallerBuilds } from '../data/projects';
+import { briefForProject } from '../data/briefs';
+import BriefPlayer, { hasBriefAudio } from '../components/jarvis/BriefPlayer';
+import { useJarvis } from '../components/jarvis/JarvisProvider';
 
 // Featured six first (in their curated order), then everything else in file
 // order, then the smaller builds. A role/stack filter applies inside each
@@ -36,6 +39,27 @@ function ResultLine({ result, className = '' }) {
 // field that's 100% redundant with it.
 function getLinkLabel(url) {
   return url.includes('github.com') ? 'View on GitHub' : 'View Live Demo';
+}
+
+// Featured projects have a short recorded brief (static MP3); any other
+// project can ask J.A.R.V.I.S. for one in chat.
+function ProjectBrief({ project }) {
+  const jarvis = useJarvis();
+  const briefId = briefForProject(project.id);
+  if (briefId && hasBriefAudio(briefId)) {
+    return <BriefPlayer id={briefId} label="Quick audio brief" className="mb-8 max-w-md" />;
+  }
+  if (!jarvis) return null;
+  return (
+    <button
+      type="button"
+      className="btn-secondary mb-8"
+      onClick={() => jarvis.open({ mode: 'chat', prompt: `Explain ${project.title} in 30 seconds.` })}
+    >
+      <FiMessageSquare aria-hidden />
+      Ask J.A.R.V.I.S. for a 30-second brief
+    </button>
+  );
 }
 
 function ProjectPreview({ project, onClose }) {
@@ -131,6 +155,8 @@ function ProjectPreview({ project, onClose }) {
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
             {project.title}
           </h2>
+
+          <ProjectBrief project={project} />
 
           {/* Summary */}
           <p className="text-lg text-slate-300 mb-8 leading-relaxed">
