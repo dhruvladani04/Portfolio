@@ -3,44 +3,14 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiArrowLeft, FiArrowUpRight, FiCalendar, FiMail, FiClock } from 'react-icons/fi';
-
-const TOPMATE_URL = 'https://topmate.io/dhruv_ladani04/';
-const EMAIL_URL = 'mailto:dhruvladani04@gmail.com?subject=Freelance%20project';
-
-// Each package points at shipped work that shows the same kind of build.
-const packages = [
-  {
-    title: 'AI prototype for a pitch',
-    duration: '1–2 weeks',
-    desc: 'You bring the idea and sample data. I deliver a clickable demo, the core model or LLM workflow behind it, and a one-page note on what it would take to put it into production.',
-    proof: [{ label: 'Recruit-AI Platform', href: '/work/recruitai-platform' }],
-    color: 'var(--arc-blue)',
-  },
-  {
-    title: 'Data pipeline + model + demo',
-    duration: '2–3 weeks',
-    desc: 'A Python/PySpark pipeline over your data, engineered features, a baseline model with honest evaluation, and a dashboard your team can use.',
-    proof: [{ label: 'Smart Job Tracker', href: '/work/smart-job-tracker' }],
-    color: 'var(--accent-gold)',
-  },
-  {
-    title: 'RAG or agent pilot with evals',
-    duration: '2–3 weeks',
-    desc: 'Retrieval over your documents, an agent workflow, and a test set that measures accuracy, so you see numbers, not just a demo.',
-    proof: [
-      { label: 'Agentic Compliance Auditor', href: '/work/agentic-compliance-auditor' },
-      { label: 'Tollgate', href: '/work/tollgate' },
-    ],
-    color: 'var(--accent-red-bright)',
-  },
-];
-
-const steps = [
-  '30-minute call to understand the problem.',
-  'One-page scope with a fixed price.',
-  'A working demo every week.',
-  'Handover: code, README, and a walkthrough video.',
-];
+import {
+  TOPMATE_URL,
+  FREELANCE_EMAIL_URL as EMAIL_URL,
+  packages,
+  pricingNote,
+  steps,
+  availability,
+} from '../data/freelance';
 
 export default function WorkWithMePage() {
   return (
@@ -106,9 +76,7 @@ export default function WorkWithMePage() {
               </motion.article>
             ))}
           </div>
-          <p className="text-slate-400 mt-6">
-            Every package is a fixed price, agreed after a 30-minute scoping call.
-          </p>
+          <p className="text-slate-400 mt-6">{pricingNote}</p>
         </section>
 
         {/* Process */}
@@ -141,10 +109,7 @@ export default function WorkWithMePage() {
                 <FiClock style={{ color: 'var(--arc-blue)' }} aria-hidden />
                 Availability
               </h2>
-              <p className="text-slate-300 leading-relaxed">
-                About 10 hours a week, IST (UTC+5:30). My evenings overlap with Europe
-                afternoons and US East Coast mornings.
-              </p>
+              <p className="text-slate-300 leading-relaxed">{availability}</p>
             </div>
             <div className="flex flex-wrap gap-4">
               <a href={TOPMATE_URL} target="_blank" rel="noreferrer" className="btn-primary group">

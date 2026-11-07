@@ -7,7 +7,7 @@ import { SiCodechef } from 'react-icons/si';
 // in the hero's status badge and pill.
 export const credentials = [
   {
-    label: 'GATE 2026 Qualified',
+    label: 'GATE 2025 & 2026 Qualified',
     detail: 'CS/IT',
     href: null,
     icon: FiCheckCircle,
