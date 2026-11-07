@@ -1,0 +1,30 @@
+{
+  "overview": {
+    "src": "/audio/briefs/overview.mp3",
+    "hash": "5b82ee0ac354"
+  },
+  "tollgate": {
+    "src": "/audio/briefs/tollgate.mp3",
+    "hash": "ffb572b4ba3e"
+  },
+  "llm-atlas": {
+    "src": "/audio/briefs/llm-atlas.mp3",
+    "hash": "fc642f0796df"
+  },
+  "smart-job-tracker": {
+    "src": "/audio/briefs/smart-job-tracker.mp3",
+    "hash": "4f60be9e097e"
+  },
+  "agentic-compliance-auditor": {
+    "src": "/audio/briefs/agentic-compliance-auditor.mp3",
+    "hash": "fb0fc063e1e0"
+  },
+  "feedbackiq": {
+    "src": "/audio/briefs/feedbackiq.mp3",
+    "hash": "784b004f35dc"
+  },
+  "recruitai-platform": {
+    "src": "/audio/briefs/recruitai-platform.mp3",
+    "hash": "1c1d0c01fe9e"
+  }
+}

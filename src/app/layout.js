@@ -1,4 +1,5 @@
 import '../index.css';
+import '../jarvis.css';
 import ClientShell from './ClientShell';
 import { SITE_URL, buildMetadata } from '../lib/metadata';
 
@@ -45,7 +46,7 @@ const personSchema = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

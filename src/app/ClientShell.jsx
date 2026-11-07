@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import HUDCursor from '../components/HUDCursor';
+import JarvisProvider from '../components/jarvis/JarvisProvider';
 
 // Route-matched ambient backgrounds are pure client-side canvas animations
 // (never render anything server-side worth keeping) and only one ever
@@ -192,27 +193,31 @@ export default function ClientShell({ children }) {
             screen. Visually unchanged: the opaque BootScreen fully covers
             this while isLoading, and `inert` keeps it out of the tab order
             and accessibility tree until boot finishes. */}
-        <div inert={isLoading}>
-          <Navbar ready={!isLoading} />
-          <main id="main" className="content-stack relative z-10">
-            <AnimatePresence mode="wait">
-              {/* /work and /work/:slug are separate route segments under the
-                  App Router and do remount on navigation between them —
-                  WorkPage restores its role/stack filter from sessionStorage
-                  across that remount instead of relying on this key. */}
-              <motion.div
-                key={pathname.split('/')[1] || 'home'}
-                variants={pageVariants}
-                initial="initial"
-                animate={isLoading ? 'initial' : 'enter'}
-                exit="exit"
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
-          </main>
-          <Footer />
-        </div>
+        {/* Lives here, outside the route-keyed transition, so a J.A.R.V.I.S.
+            conversation survives page navigation (the agent can navigate). */}
+        <JarvisProvider>
+          <div inert={isLoading}>
+            <Navbar ready={!isLoading} />
+            <main id="main" className="content-stack relative z-10">
+              <AnimatePresence mode="wait">
+                {/* /work and /work/:slug are separate route segments under the
+                    App Router and do remount on navigation between them —
+                    WorkPage restores its role/stack filter from sessionStorage
+                    across that remount instead of relying on this key. */}
+                <motion.div
+                  key={pathname.split('/')[1] || 'home'}
+                  variants={pageVariants}
+                  initial="initial"
+                  animate={isLoading ? 'initial' : 'enter'}
+                  exit="exit"
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
+            </main>
+            <Footer />
+          </div>
+        </JarvisProvider>
       </div>
     </MotionConfig>
   );
