@@ -1,6 +1,14 @@
 [build]
-  command = "npm run build"
+  # agent:kb builds the J.A.R.V.I.S. knowledge base (.agent-kb/kb.json) from
+  # src/data and the project READMEs; the functions below bundle it.
+  command = "npm run agent:kb && npm run build"
   publish = "out"
+
+# J.A.R.V.I.S. chat, voice-token and project-README endpoints (/api/jarvis/*).
+# They need GEMINI_API_KEY with the Functions scope.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 # Handle form submissions
 [[redirects]]
@@ -18,3 +26,5 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    # Only this site's own pages may use the mic (J.A.R.V.I.S. voice mode).
+    Permissions-Policy = "microphone=(self), camera=(), geolocation=()"
