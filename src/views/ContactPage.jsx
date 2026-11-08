@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { FiArrowLeft, FiArrowUpRight, FiBriefcase, FiDownload, FiGithub, FiLinkedin, FiMail, FiPhone, FiZap } from 'react-icons/fi';
 
 // Official Topmate logo mark (react-icons has no Topmate icon)
@@ -81,6 +82,18 @@ const ENQUIRY_FORMS = {
   },
 };
 
+// `/contact?form=hiring|freelance` (J.A.R.V.I.S. links here) preselects a
+// form. It reads the query in its own Suspense boundary so the rest of the
+// page still prerenders into the static export, and it re-runs when the
+// query changes while already on /contact.
+function FormFromQuery({ onForm }) {
+  const form = useSearchParams().get('form');
+  useEffect(() => {
+    if (form && ENQUIRY_FORMS[form]) onForm(form);
+  }, [form, onForm]);
+  return null;
+}
+
 export default function ContactPage() {
   const [formType, setFormType] = useState(null); // 'hiring' | 'freelance' | null
   const [values, setValues] = useState({});
@@ -131,6 +144,9 @@ export default function ContactPage() {
 
   return (
     <div className="section-shell pt-32 pb-20 min-h-screen">
+      <Suspense fallback={null}>
+        <FormFromQuery onForm={setFormType} />
+      </Suspense>
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Back link */}
         <Link href="/" className="link-inline inline-flex items-center gap-2 mb-12 group">

@@ -1,0 +1,469 @@
+/* ---------------------------------------------------------------------------
+   J.A.R.V.I.S. assistant — floating orb + HUD panel (src/components/jarvis).
+   Built on the brand tokens in index.css. The orb sits under page modals
+   (z 45); the panel sits above them (z 60) so it stays usable when the agent
+   opens a project case study.
+--------------------------------------------------------------------------- */
+.jarvis-orb {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 45;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 217, 255, 0.35);
+  background: radial-gradient(circle, rgba(12, 16, 26, 0.96) 55%, rgba(5, 5, 8, 0.96));
+  box-shadow: var(--arc-glow);
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+.jarvis-orb:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 36px rgba(0, 217, 255, 0.5), 0 0 70px rgba(0, 217, 255, 0.2);
+}
+.jarvis-orb[data-hidden='true'] {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+.jarvis-orb-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 999px;
+  border: 1.5px dashed rgba(0, 217, 255, 0.55);
+  animation: jarvis-spin 10s linear infinite;
+}
+.jarvis-orb-ring--gold {
+  inset: 13px;
+  border: 1.5px solid rgba(255, 165, 2, 0.6);
+  border-right-color: transparent;
+  animation-duration: 5s;
+  animation-direction: reverse;
+}
+.jarvis-orb-core {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, #eafcff, var(--arc-blue) 70%);
+  box-shadow: 0 0 14px var(--arc-blue), 0 0 28px rgba(0, 217, 255, 0.5);
+  animation: arc-pulse 2.4s ease-in-out infinite;
+}
+.jarvis-orb[data-live='true']::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 999px;
+  border: 2px solid var(--accent-red-bright);
+  animation: jarvis-ping 1.6s ease-out infinite;
+}
+.jarvis-orb-label {
+  position: absolute;
+  right: calc(100% + 12px);
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  background: var(--panel-bg);
+  color: var(--arc-blue);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.jarvis-orb:hover .jarvis-orb-label,
+.jarvis-orb:focus-visible .jarvis-orb-label,
+.jarvis-orb[data-hint='true'] .jarvis-orb-label {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes jarvis-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes jarvis-ping {
+  from { transform: scale(0.92); opacity: 0.9; }
+  to { transform: scale(1.35); opacity: 0; }
+}
+@keyframes jarvis-blink {
+  0%, 80%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
+}
+
+/* Panel ------------------------------------------------------------------ */
+.jarvis-panel {
+  position: fixed;
+  z-index: 60;
+  right: 24px;
+  bottom: 24px;
+  width: min(400px, calc(100vw - 32px));
+  height: min(640px, calc(100dvh - 112px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  /* Fully opaque: the hero heading's glow shows through even 98% alpha. */
+  background: linear-gradient(160deg, #0a0c14, #060609);
+  box-shadow: var(--shadow), 0 0 40px rgba(0, 217, 255, 0.12);
+  color: var(--text);
+}
+@media (max-width: 640px) {
+  .jarvis-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: min(86dvh, 720px);
+    border-radius: 20px 20px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+.jarvis-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  color: var(--arc-blue);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.jarvis-corner--tl {
+  top: 8px;
+  left: 8px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+}
+.jarvis-corner--br {
+  bottom: 8px;
+  right: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.jarvis-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+}
+.jarvis-status-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--muted);
+}
+.jarvis-status-dot[data-status='live'] { background: var(--arc-blue); box-shadow: 0 0 10px var(--arc-blue); }
+.jarvis-status-dot[data-status='speaking'] { background: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold); }
+.jarvis-status-dot[data-status='connecting'] { background: var(--arc-blue); animation: jarvis-blink 1.2s ease-in-out infinite; }
+.jarvis-status-dot[data-status='error'] { background: var(--accent-red-bright); }
+
+.jarvis-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 217, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.jarvis-icon-btn:hover { border-color: var(--arc-blue); background: rgba(0, 217, 255, 0.06); }
+
+.jarvis-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 16px 4px;
+}
+.jarvis-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.jarvis-tab:hover { color: var(--text); }
+.jarvis-tab[aria-selected='true'] {
+  color: var(--text);
+  border-color: rgba(0, 217, 255, 0.35);
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.jarvis-audience {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px 2px;
+}
+.jarvis-audience-label {
+  margin-right: 2px;
+  color: var(--muted);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.jarvis-audience-btn {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  font-size: 12px;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.jarvis-audience-btn:hover { color: var(--text); border-color: rgba(0, 217, 255, 0.4); }
+.jarvis-audience-btn[aria-pressed='true'] {
+  color: #050508;
+  border-color: var(--accent-gold);
+  background: var(--accent-gold);
+}
+
+.jarvis-notice {
+  margin: 8px 16px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(230, 57, 70, 0.35);
+  background: rgba(230, 57, 70, 0.08);
+  color: #f3dadd;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Voice tab */
+.jarvis-voice {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px 16px;
+}
+.jarvis-reactor { width: 180px; height: 180px; flex-shrink: 0; }
+@media (max-height: 640px) {
+  .jarvis-reactor { width: 120px; height: 120px; }
+}
+.jarvis-caption {
+  min-height: 4.6em;
+  max-height: 9em;
+  overflow-y: auto;
+  text-align: center;
+  color: #d8e4ef;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.jarvis-panel .btn-primary:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+/* Chat tab */
+.jarvis-chat { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.jarvis-log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+}
+.jarvis-msg {
+  max-width: 88%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  list-style: none;
+}
+.jarvis-msg--user {
+  align-self: flex-end;
+  border: 1px solid rgba(0, 217, 255, 0.25);
+  border-bottom-right-radius: 4px;
+  background: rgba(0, 217, 255, 0.1);
+}
+.jarvis-msg--agent {
+  align-self: flex-start;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom-left-radius: 4px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #dfe7f1;
+}
+.jarvis-msg-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--arc-blue);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.jarvis-msg--user .jarvis-msg-label { color: var(--accent-gold); }
+.jarvis-rich { display: grid; gap: 8px; }
+.jarvis-ul,
+.jarvis-ol { display: grid; gap: 4px; padding-left: 18px; }
+.jarvis-ul { list-style: disc; }
+.jarvis-ol { list-style: decimal; }
+.jarvis-link {
+  color: var(--arc-blue);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 217, 255, 0.4);
+  text-underline-offset: 3px;
+}
+.jarvis-link:hover { text-decoration-color: var(--arc-blue); }
+
+.jarvis-typing { display: inline-flex; gap: 4px; padding: 2px 0; }
+.jarvis-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--arc-blue);
+  animation: jarvis-blink 1.2s ease-in-out infinite;
+}
+.jarvis-typing span:nth-child(2) { animation-delay: 0.15s; }
+.jarvis-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+.jarvis-action {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 165, 2, 0.45);
+  background: rgba(255, 165, 2, 0.05);
+  font-size: 13px;
+  list-style: none;
+}
+
+.jarvis-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 10px; }
+.jarvis-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--stat-border);
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 12px;
+  text-align: left;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.jarvis-chip:hover { border-color: var(--arc-blue); background: rgba(0, 217, 255, 0.12); }
+.jarvis-chip--gold { border-color: rgba(255, 165, 2, 0.4); background: rgba(255, 165, 2, 0.06); }
+.jarvis-chip--gold:hover { border-color: var(--accent-gold); background: rgba(255, 165, 2, 0.12); }
+
+.jarvis-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(0, 217, 255, 0.1);
+}
+.jarvis-input textarea {
+  flex: 1;
+  min-width: 0;
+  max-height: 180px;
+  resize: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: var(--form-bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.jarvis-input textarea:focus { border-color: var(--arc-blue); }
+.jarvis-input textarea:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.15); }
+@media (max-width: 640px) {
+  /* 16px stops iOS Safari zooming into the field on focus */
+  .jarvis-input textarea { font-size: 16px; }
+}
+.jarvis-send {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-red), var(--accent-red-bright));
+  color: #fff;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.jarvis-send:not(:disabled):hover { transform: translateY(-1px); }
+.jarvis-send:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.jarvis-foot { padding: 6px 16px 12px; color: var(--muted); font-size: 11px; text-align: center; }
+
+/* Recorded brief player (panel + case studies) ----------------------------- */
+.brief-player { display: grid; gap: 6px; }
+.brief-player-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 165, 2, 0.35);
+  background: rgba(255, 165, 2, 0.05);
+  color: var(--text);
+  text-align: left;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.brief-player-btn:hover:not(:disabled) { border-color: var(--accent-gold); background: rgba(255, 165, 2, 0.1); }
+.brief-player-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.brief-player-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent-gold);
+  color: #050508;
+}
+.brief-player-label { font-size: 13px; font-weight: 600; }
+.brief-player-bar {
+  display: block;
+  width: 140px;
+  max-width: 100%;
+  height: 3px;
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.brief-player-bar span { display: block; height: 100%; background: var(--accent-gold); transition: width 0.25s linear; }
+.brief-player-time { margin-left: auto; color: var(--muted); font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+.brief-player-transcript summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+.brief-player-transcript p { margin-top: 6px; color: #cfd8e3; font-size: 13px; line-height: 1.6; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jarvis-orb-ring,
+  .jarvis-orb-core,
+  .jarvis-orb[data-live='true']::after,
+  .jarvis-status-dot[data-status='connecting'],
+  .jarvis-typing span {
+    animation: none;
+  }
+}

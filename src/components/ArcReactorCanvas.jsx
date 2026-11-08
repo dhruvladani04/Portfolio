@@ -7,8 +7,13 @@ const COILS = 10;
 
 // Canvas arc reactor: rotating tick ring, counter-rotating copper coils,
 // inward-spiralling energy particles, gold + blue accent rings, breathing core.
-export default function ArcReactorCanvas({ resolution = 960, className = '', label = 'Animated arc reactor' }) {
+// Optional `getLevel()` (0–1, e.g. live voice volume) is sampled every frame
+// — through a ref, so a changing callback never restarts the animation — and
+// swells the core, glow and particle speed.
+export default function ArcReactorCanvas({ resolution = 960, className = '', label = 'Animated arc reactor', getLevel }) {
   const canvasRef = useRef(null);
+  const getLevelRef = useRef(getLevel);
+  getLevelRef.current = getLevel;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -45,6 +50,19 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
     let t = 0;
     let rafId = 0;
     let visible = true;
+    let level = 0; // smoothed 0–1
+
+    function sampleLevel() {
+      const fn = getLevelRef.current;
+      if (!fn || reduce) return 0;
+      let raw = 0;
+      try {
+        raw = Number(fn()) || 0;
+      } catch (_) { /* source not ready yet */ }
+      raw = Math.min(1, Math.max(0, raw));
+      level += (raw - level) * (raw > level ? 0.35 : 0.12); // fast attack, slow release
+      return level;
+    }
 
     function roundedRect(c, x, y, w, h, r) {
       c.beginPath();
@@ -61,11 +79,12 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       ctx.clearRect(0, 0, CW, CH);
       ctx.save();
       ctx.translate(cx, cy);
-      const breathe = 1 + Math.sin(t * 1.6) * 0.02;
+      const lvl = sampleLevel();
+      const breathe = 1 + Math.sin(t * 1.6) * 0.02 + lvl * 0.2;
 
       // ambient glow
       const amb = ctx.createRadialGradient(0, 0, 0, 0, 0, R * 1.3);
-      amb.addColorStop(0, 'rgba(0,217,255,0.16)');
+      amb.addColorStop(0, `rgba(0,217,255,${0.16 + lvl * 0.3})`);
       amb.addColorStop(0.5, 'rgba(0,217,255,0.05)');
       amb.addColorStop(1, 'rgba(0,217,255,0)');
       ctx.fillStyle = amb;
@@ -98,7 +117,7 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       const coilR = R * 0.72;
       for (let c = 0; c < COILS; c++) {
         const ca = (c / COILS) * Math.PI * 2;
-        const glow = 0.55 + 0.45 * Math.sin(t * 3 + c * 0.9);
+        const glow = Math.min(1, 0.55 + 0.45 * Math.sin(t * 3 + c * 0.9) + lvl * 0.6);
         ctx.save();
         ctx.rotate(ca);
         ctx.translate(coilR, 0);
@@ -124,7 +143,7 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       ctx.save();
       for (const pt of particles) {
         if (!reduce) {
-          pt.r -= pt.speed;
+          pt.r -= pt.speed * (1 + lvl * 3);
           pt.a += 0.01;
         }
         if (pt.r < R * 0.3) {
