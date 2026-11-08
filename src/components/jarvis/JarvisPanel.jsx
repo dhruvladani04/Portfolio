@@ -87,6 +87,7 @@ export default function JarvisPanel({ view, request, onClose, onMinimize, onLive
   const [speaking, setSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
   const [caption, setCaption] = useState('');
+  const [briefPlay, setBriefPlay] = useState(null); // nonce of a "play the 60-second brief" request
 
   const itemsRef = useRef(items);
   itemsRef.current = items;
@@ -227,6 +228,7 @@ export default function JarvisPanel({ view, request, onClose, onMinimize, onLive
     if (!request || handledRequestRef.current === request.nonce) return;
     handledRequestRef.current = request.nonce;
     setTab(request.mode === 'voice' ? 'voice' : 'chat');
+    if (request.brief === 'overview') setBriefPlay(request.nonce);
     if (request.prompt) send(request.prompt);
     // a new request is identified by its nonce
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -428,7 +430,7 @@ export default function JarvisPanel({ view, request, onClose, onMinimize, onLive
             </ul>
           )}
 
-          <BriefPlayer id="overview" disabled={voiceBusy} className="w-full" />
+          <BriefPlayer id="overview" disabled={voiceBusy} autoPlay={briefPlay} className="w-full" />
         </div>
       ) : (
         <div role="tabpanel" id={`${titleId}-chat-panel`} aria-labelledby={`${titleId}-chat`} className="jarvis-chat">

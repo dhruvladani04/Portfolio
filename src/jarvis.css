@@ -44,12 +44,138 @@
   animation-direction: reverse;
 }
 .jarvis-orb-core {
-  width: 16px;
-  height: 16px;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
   border-radius: 999px;
+  color: #04202b; /* dark glyph on the glowing core */
   background: radial-gradient(circle at 40% 40%, #eafcff, var(--arc-blue) 70%);
   box-shadow: 0 0 14px var(--arc-blue), 0 0 28px rgba(0, 217, 255, 0.5);
   animation: arc-pulse 2.4s ease-in-out infinite;
+}
+.jarvis-orb-mic {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.6;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+/* Every half-minute the mic briefly becomes a sound wave (data-shimmer). */
+.jarvis-orb-wave {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.jarvis-orb-wave i {
+  width: 2px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+}
+.jarvis-orb[data-shimmer='true'] .jarvis-orb-mic {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.jarvis-orb[data-shimmer='true'] .jarvis-orb-wave {
+  opacity: 1;
+}
+.jarvis-orb[data-shimmer='true'] .jarvis-orb-wave i {
+  animation: jarvis-wave 0.5s ease-in-out infinite alternate;
+}
+.jarvis-orb[data-shimmer='true'] .jarvis-orb-wave i:nth-child(2) { animation-delay: -0.2s; }
+.jarvis-orb[data-shimmer='true'] .jarvis-orb-wave i:nth-child(3) { animation-delay: -0.35s; }
+@keyframes jarvis-wave {
+  from { height: 3px; }
+  to { height: 11px; }
+}
+
+/* Once-per-visit offer of the 60-second brief, above the orb. */
+.jarvis-nudge {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 72px);
+  z-index: 45;
+  display: flex;
+  align-items: flex-start;
+  max-width: min(272px, calc(100vw - 32px));
+  border-radius: 14px;
+  border: 1px solid rgba(0, 217, 255, 0.28);
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 217, 255, 0.12);
+  animation: jarvis-nudge-in 0.35s ease-out both;
+}
+.jarvis-nudge::after {
+  /* small tail pointing at the orb */
+  content: '';
+  position: absolute;
+  right: 24px;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border-right: 1px solid rgba(0, 217, 255, 0.28);
+  border-bottom: 1px solid rgba(0, 217, 255, 0.28);
+  background: var(--panel-bg);
+}
+.jarvis-nudge-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 4px 12px 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.jarvis-nudge-eyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--arc-blue);
+}
+.jarvis-nudge-text {
+  color: #e6edf5;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.jarvis-nudge-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  color: var(--accent-gold);
+  font-size: 12px;
+  font-weight: 600;
+}
+.jarvis-nudge-main:hover .jarvis-nudge-cta,
+.jarvis-nudge-main:focus-visible .jarvis-nudge-cta {
+  text-decoration: underline;
+}
+.jarvis-nudge-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 6px 6px 0 0;
+  border-radius: 999px;
+  color: #9aa7b6;
+  cursor: pointer;
+}
+.jarvis-nudge-close:hover,
+.jarvis-nudge-close:focus-visible {
+  color: #e6edf5;
+  background: rgba(255, 255, 255, 0.06);
+}
+@keyframes jarvis-nudge-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 .jarvis-orb[data-live='true']::after {
   content: '';
@@ -462,6 +588,8 @@
   .jarvis-orb-ring,
   .jarvis-orb-core,
   .jarvis-orb[data-live='true']::after,
+  .jarvis-orb-wave i,
+  .jarvis-nudge,
   .jarvis-status-dot[data-status='connecting'],
   .jarvis-typing span {
     animation: none;

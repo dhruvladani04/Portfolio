@@ -46,7 +46,14 @@ export default function JarvisProvider({ children }) {
       {children}
       {JARVIS_ENABLED && (
         <>
-          <JarvisLauncher ref={launcherRef} hidden={view === 'open'} live={live} onClick={() => open()} />
+          <JarvisLauncher
+            ref={launcherRef}
+            hidden={view === 'open'}
+            live={live}
+            engaged={loaded}
+            onClick={() => open()}
+            onBrief={() => open({ mode: 'voice', brief: 'overview' })}
+          />
           {loaded && (
             <JarvisPanel
               view={view}

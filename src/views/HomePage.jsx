@@ -3,12 +3,13 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
 import Link from 'next/link';
-import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiTrendingUp, FiLayers, FiDatabase } from 'react-icons/fi';
+import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiTrendingUp, FiLayers, FiDatabase, FiMic } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
 import ArcReactorCanvas from '../components/ArcReactorCanvas';
 import { projects, featuredProjects, HOME_FEATURED_COUNT } from '../data/projects';
 import { credentials } from '../data/credentials';
+import { useJarvis } from '../components/jarvis/JarvisProvider';
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
 
@@ -121,6 +122,7 @@ function ScanningLine() {
 }
 
 export default function HomePage() {
+  const jarvis = useJarvis(); // null when the assistant is switched off
   // Scoped to the hero's own scroll-out distance (top of hero hits viewport
   // top → bottom of hero hits viewport top), not the whole document — an
   // untargeted useScroll() defaults to tracking the entire page, which made
@@ -336,6 +338,15 @@ export default function HomePage() {
                 </motion.span>
               </a>
             </MagneticButton>
+
+            {jarvis && (
+              <MagneticButton className="inline-block">
+                <button type="button" className="btn-secondary group" onClick={() => jarvis.open({ mode: 'voice' })}>
+                  <FiMic aria-hidden />
+                  Talk to J.A.R.V.I.S.
+                </button>
+              </MagneticButton>
+            )}
           </motion.div>
           </div>
 

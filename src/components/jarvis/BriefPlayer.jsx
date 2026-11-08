@@ -8,6 +8,12 @@ import briefAudio from '../../data/brief-audio.json';
 // Only one brief plays at a time across the whole site.
 let activeAudio = null;
 
+function startAudio(audio, onFail) {
+  if (activeAudio && activeAudio !== audio) activeAudio.pause();
+  activeAudio = audio;
+  audio.play().catch(onFail);
+}
+
 export function hasBriefAudio(id) {
   return Boolean(id && briefAudio[id]?.src);
 }
@@ -19,8 +25,10 @@ function fmt(sec) {
 }
 
 // Plays a pre-recorded brief (static MP3, zero runtime cost) with a readable
-// transcript for anyone who can't or won't play audio.
-export default function BriefPlayer({ id, label, disabled = false, className = '' }) {
+// transcript for anyone who can't or won't play audio. A new autoPlay value
+// (e.g. a request nonce) starts playback once; if the browser blocks it, the
+// player simply waits for a tap.
+export default function BriefPlayer({ id, label, disabled = false, autoPlay = null, className = '' }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -40,15 +48,22 @@ export default function BriefPlayer({ id, label, disabled = false, className = '
     if (disabled && playing) audioRef.current?.pause();
   }, [disabled, playing]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!autoPlay || disabled || !audio?.paused) return;
+    audio.parentElement?.scrollIntoView({ block: 'nearest' }); // keep the playing brief in sight
+    startAudio(audio, () => setPlaying(false));
+    // only a new autoPlay value starts playback
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoPlay]);
+
   if (!brief || !src) return null;
 
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
-      if (activeAudio && activeAudio !== audio) activeAudio.pause();
-      activeAudio = audio;
-      audio.play().catch(() => setPlaying(false));
+      startAudio(audio, () => setPlaying(false));
     } else {
       audio.pause();
     }
