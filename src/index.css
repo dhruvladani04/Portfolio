@@ -627,6 +627,19 @@ body.hud-cursor-active * {
   background: rgba(230, 57, 70, 0.08);
 }
 
+/* Point-cloud hologram floating in the hero arc reactor's core */
+.reactor-holo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;
+  height: 70%;
+  transform: translate(-50%, -53%);
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle, #000 58%, transparent 72%);
+          mask-image: radial-gradient(circle, #000 58%, transparent 72%);
+}
+
 @keyframes arc-pulse {
   0%, 100% {
     opacity: 1;

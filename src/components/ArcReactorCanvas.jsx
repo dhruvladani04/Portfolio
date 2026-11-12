@@ -10,7 +10,9 @@ const COILS = 10;
 // Optional `getLevel()` (0–1, e.g. live voice volume) is sampled every frame
 // — through a ref, so a changing callback never restarts the animation — and
 // swells the core, glow and particle speed.
-export default function ArcReactorCanvas({ resolution = 960, className = '', label = 'Animated arc reactor', getLevel }) {
+// `subtleCore` swaps the solid triangle for a soft halo and faint outline, so
+// something layered over the centre (the hero hologram) stays readable.
+export default function ArcReactorCanvas({ resolution = 960, className = '', label = 'Animated arc reactor', getLevel, subtleCore = false }) {
   const canvasRef = useRef(null);
   const getLevelRef = useRef(getLevel);
   getLevelRef.current = getLevel;
@@ -190,41 +192,62 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       ctx.save();
       ctx.scale(breathe, breathe);
       const coreR = R * 0.3;
-      const cg = ctx.createRadialGradient(0, 0, 0, 0, 0, coreR * 1.4);
-      cg.addColorStop(0, 'rgba(220,250,255,0.95)');
-      cg.addColorStop(0.35, 'rgba(0,217,255,0.7)');
-      cg.addColorStop(1, 'rgba(0,217,255,0)');
-      ctx.fillStyle = cg;
-      ctx.beginPath();
-      ctx.arc(0, 0, coreR * 1.4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.rotate(t * 0.1);
-      ctx.beginPath();
-      for (let v = 0; v < 3; v++) {
-        const va = -Math.PI / 2 + v * ((Math.PI * 2) / 3);
-        const vx = Math.cos(va) * coreR;
-        const vy = Math.sin(va) * coreR;
-        if (v === 0) ctx.moveTo(vx, vy);
-        else ctx.lineTo(vx, vy);
+      if (subtleCore) {
+        // backlight behind the hologram's head, plus a faint outline of the core
+        const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, coreR * 1.7);
+        halo.addColorStop(0, `rgba(0,217,255,${0.2 + lvl * 0.2})`);
+        halo.addColorStop(1, 'rgba(0,217,255,0)');
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(0, 0, coreR * 1.7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.rotate(t * 0.1);
+        ctx.beginPath();
+        for (let v = 0; v < 3; v++) {
+          const va = -Math.PI / 2 + v * ((Math.PI * 2) / 3);
+          ctx.lineTo(Math.cos(va) * coreR * 1.25, Math.sin(va) * coreR * 1.25);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(0,217,255,0.22)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else {
+        const cg = ctx.createRadialGradient(0, 0, 0, 0, 0, coreR * 1.4);
+        cg.addColorStop(0, 'rgba(220,250,255,0.95)');
+        cg.addColorStop(0.35, 'rgba(0,217,255,0.7)');
+        cg.addColorStop(1, 'rgba(0,217,255,0)');
+        ctx.fillStyle = cg;
+        ctx.beginPath();
+        ctx.arc(0, 0, coreR * 1.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.rotate(t * 0.1);
+        ctx.beginPath();
+        for (let v = 0; v < 3; v++) {
+          const va = -Math.PI / 2 + v * ((Math.PI * 2) / 3);
+          const vx = Math.cos(va) * coreR;
+          const vy = Math.sin(va) * coreR;
+          if (v === 0) ctx.moveTo(vx, vy);
+          else ctx.lineTo(vx, vy);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+        ctx.lineWidth = 4;
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = BLUE;
+        ctx.stroke();
+        const tg = ctx.createLinearGradient(-coreR, -coreR, coreR, coreR);
+        tg.addColorStop(0, 'rgba(180,240,255,0.9)');
+        tg.addColorStop(1, 'rgba(0,180,220,0.85)');
+        ctx.fillStyle = tg;
+        ctx.fill();
+        ctx.shadowBlur = 30;
+        ctx.shadowColor = '#fff';
+        ctx.fillStyle = '#eafcff';
+        ctx.beginPath();
+        ctx.arc(0, 0, coreR * 0.34, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
       }
-      ctx.closePath();
-      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-      ctx.lineWidth = 4;
-      ctx.shadowBlur = 24;
-      ctx.shadowColor = BLUE;
-      ctx.stroke();
-      const tg = ctx.createLinearGradient(-coreR, -coreR, coreR, coreR);
-      tg.addColorStop(0, 'rgba(180,240,255,0.9)');
-      tg.addColorStop(1, 'rgba(0,180,220,0.85)');
-      ctx.fillStyle = tg;
-      ctx.fill();
-      ctx.shadowBlur = 30;
-      ctx.shadowColor = '#fff';
-      ctx.fillStyle = '#eafcff';
-      ctx.beginPath();
-      ctx.arc(0, 0, coreR * 0.34, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
       ctx.restore();
       ctx.restore();
 
@@ -244,7 +267,7 @@ export default function ArcReactorCanvas({ resolution = 960, className = '', lab
       io.disconnect();
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [subtleCore]);
 
   return (
     <canvas

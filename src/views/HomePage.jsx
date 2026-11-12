@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useVelocity } from 'framer-motion';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { FiArrowUpRight, FiDownload, FiCode, FiCpu, FiZap, FiTrendingUp, FiLayers, FiDatabase, FiMic } from 'react-icons/fi';
 import { GiPunchBlast } from 'react-icons/gi';
 import { useCodeforces } from '../utils/useCodeforces';
@@ -10,6 +11,10 @@ import ArcReactorCanvas from '../components/ArcReactorCanvas';
 import { projects, featuredProjects, HOME_FEATURED_COUNT } from '../data/projects';
 import { credentials } from '../data/credentials';
 import { useJarvis } from '../components/jarvis/JarvisProvider';
+
+// WebGL needs the browser, and loading it separately keeps three.js out of
+// the hero's first-load bundle: the reactor paints first, the face follows.
+const HologramAvatar = dynamic(() => import('../components/hologram/HologramAvatar'), { ssr: false });
 
 const FEATURED_GRADIENTS = ['var(--arc-blue)', 'var(--accent-gold)', 'var(--accent-red)'];
 
@@ -358,7 +363,10 @@ export default function HomePage() {
             transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative aspect-square">
-              <ArcReactorCanvas />
+              <ArcReactorCanvas subtleCore />
+              <div className="reactor-holo">
+                <HologramAvatar />
+              </div>
 
               {/* crosshair frame */}
               <div
